@@ -16,12 +16,35 @@ const Contact = () => {
     message: '',
   });
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Mock form submission
+  //   toast.success('Message sent successfully! We\'ll get back to you soon.');
+  //   setFormData({ name: '', email: '', phone: '', message: '' });
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Mock form submission
-    toast.success('Message sent successfully! We\'ll get back to you soon.');
+
+    const message = `
+New Contact Enquiry 🚀
+
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+
+Message:
+${formData.message}
+  `;
+
+    const whatsappNumber = "918446920420"; // your number
+    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    window.open(whatsappURL, "_blank");
+
+    toast.success("Redirecting to WhatsApp...");
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
