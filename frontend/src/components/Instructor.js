@@ -7,21 +7,57 @@ import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 
 const Instructor = () => {
-  const achievements = [
-    '7+ years in Data Engineering & Cloud',
-    'Production ETL pipelines (Fortune 500)',
-    'Expert in Python, SQL, PySpark, Airflow',
-    'Mentored 200+ students successfully',
-    'Real-world pipeline architecture focus',
+  const instructors = [
+    {
+      name: "Akshay Mehta",
+      title: "Lead Instructor & Founder",
+      location: "Hinjewadi, Pune",
+      achievements: [
+        "7+ years in Data Engineering & Cloud",
+        "Production ETL pipelines (Fortune 500)",
+        "Expert in Python, SQL, PySpark, Airflow",
+      ],
+      skills: [
+        { name: "Python & PySpark", value: 95 },
+        { name: "Airflow & ETL", value: 92 },
+      ],
+    },
+    {
+      name: "Rohit Sharma",
+      title: "Senior Cloud Architect",
+      location: "Bangalore, India",
+      achievements: [
+        "10+ years in Cloud & DevOps",
+        "Designed multi-region AWS systems",
+        "Mentored 300+ engineers",
+      ],
+      skills: [
+        { name: "AWS & GCP", value: 94 },
+        { name: "Terraform", value: 90 },
+      ],
+    },
+    {
+      name: "Neha Verma",
+      title: "Data Analytics Lead",
+      location: "Hyderabad, India",
+      achievements: [
+        "8+ years in Data Analytics",
+        "Built BI dashboards for MNCs",
+        "Expert in SQL & Power BI",
+      ],
+      skills: [
+        { name: "SQL", value: 96 },
+        { name: "Power BI", value: 93 },
+      ],
+    },
   ];
+  const scrollToSection = (href) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
-  const skills = [
-    { name: 'Python & PySpark', value: 95 },
-    { name: 'SQL & Warehousing', value: 93 },
-    { name: 'Airflow & ETL', value: 92 },
-    { name: 'AWS / GCP', value: 90 },
-    { name: 'CI/CD & Jenkins', value: 88 },
-  ];
 
   return (
     <section id="instructor" className="py-20 bg-muted/30 relative overflow-hidden">
@@ -65,136 +101,77 @@ const Instructor = () => {
           >
             <Card className="overflow-hidden border-2 hover:border-primary/50 transition-all duration-300 shadow-2xl bg-card/90 backdrop-blur-sm">
               <CardContent className="p-0">
-                <div className="grid lg:grid-cols-2 gap-0">
-                  {/* Left - Image Section */}
+                <div className="max-w-7xl mx-auto p-6">
                   <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="relative bg-gradient-to-br from-primary/20 to-secondary/20 p-8 lg:p-12 flex items-center justify-center"
+                    transition={{ duration: 0.8 }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                   >
-                    <div className="relative">
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                        className="relative z-10"
+                    {instructors.map((person, idx) => (
+                      <Card
+                        key={idx}
+                        className="border-2 hover:border-primary/50 transition-all duration-300 shadow-xl bg-card/90"
                       >
-                        <div className="w-64 h-64 lg:w-80 lg:h-80 rounded-2xl overflow-hidden border-4 border-background shadow-2xl">
-                          <img
-                            src="/images/instructor.avif"
-                            alt="Akshay Mehta"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </motion.div>
+                        <CardContent className="p-6">
 
-                      {/* Floating Badge */}
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.6, type: 'spring' }}
-                        className="absolute -bottom-4 -right-4 bg-background rounded-xl p-4 shadow-xl border-2 border-primary/50 z-10"
-                      >
-                        <div className="flex items-center gap-2">
-                          <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
-                          <div>
-                            <div className="text-2xl font-bold">5.0</div>
-                            <div className="text-xs text-muted-foreground">200+ Students</div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-
-                  {/* Right - Info Section */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    className="p-8 lg:p-12"
-                  >
-                    {/* Name & Title */}
-                    <div className="mb-6">
-                      <h3 className="text-3xl font-bold mb-2">Akshay Mehta</h3>
-                      <p className="text-lg text-primary font-medium mb-2">
-                        Lead Instructor & Founder
-                      </p>
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <MapPin className="w-4 h-4" />
-                        <span>Hinjewadi, Pune</span>
-                      </div>
-                    </div>
-
-                    {/* Achievements */}
-                    <div className="mb-8">
-                      <h4 className="text-lg font-bold mb-4">Professional Achievements</h4>
-                      <div className="space-y-3">
-                        {achievements.map((achievement, index) => (
-                          <motion.div
-                            key={achievement}
-                            initial={{ opacity: 0, x: 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.4 + index * 0.1 }}
-                            className="flex items-start gap-3"
-                          >
-                            <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                            <span className="text-sm text-muted-foreground">{achievement}</span>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Skills */}
-                    <div className="mb-8">
-                      <h4 className="text-lg font-bold mb-4">Technical Expertise</h4>
-                      <div className="space-y-4">
-                        {skills.map((skill, index) => (
-                          <motion.div
-                            key={skill.name}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.6 + index * 0.1 }}
-                          >
-                            <div className="flex justify-between text-sm mb-2">
-                              <span className="font-medium">{skill.name}</span>
-                              <span className="text-muted-foreground">{skill.value}%</span>
+                          {/* Name */}
+                          <div className="mb-4">
+                            <h3 className="text-2xl font-bold">{person.name}</h3>
+                            <p className="text-primary font-medium">{person.title}</p>
+                            <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                              <MapPin className="w-4 h-4" />
+                              {person.location}
                             </div>
-                            <Progress value={skill.value} className="h-2" />
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
+                          </div>
 
-                    {/* CTA Section */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 1 }}
-                      className="bg-primary/10 rounded-xl p-6 border border-primary/30"
-                    >
-                      <h4 className="font-bold mb-2">Ready to Become a Data Engineer?</h4>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Contact Akshay to discuss curriculum, career roadmap & placement support.
-                      </p>
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <Button size="sm" className="bg-gradient-to-r from-primary to-secondary">
-                          <Phone className="w-4 h-4 mr-2" />
-                          Contact Instructor
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          <Mail className="w-4 h-4 mr-2" />
-                          Schedule a Call
-                        </Button>
-                      </div>
-                    </motion.div>
+                          {/* Achievements */}
+                          <div className="mb-6">
+                            <h4 className="font-semibold mb-3">Achievements</h4>
+                            <div className="space-y-2">
+                              {person.achievements.map((item, i) => (
+                                <div key={i} className="flex gap-2 text-sm">
+                                  <CheckCircle className="w-4 h-4 text-primary mt-0.5" />
+                                  <span>{item}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Skills */}
+                          <div className="mb-6">
+                            <h4 className="font-semibold mb-3">Skills</h4>
+                            <div className="space-y-3">
+                              {person.skills.map((skill, i) => (
+                                <div key={i}>
+                                  <div className="flex justify-between text-xs mb-1">
+                                    <span>{skill.name}</span>
+                                    <span>{skill.value}%</span>
+                                  </div>
+                                  <Progress value={skill.value} className="h-2" />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row gap-3">
+                            <Button size="sm" onClick={() => scrollToSection('#contact')} className="bg-gradient-to-r from-primary to-secondary">
+                              <Phone className="w-4 h-4 mr-2" />
+                              Contact
+                            </Button>
+                            <Button onClick={() => scrollToSection('#contact')} size="sm" variant="outline">
+                              <Mail className="w-4 h-4 mr-2" />
+                              Schedule a Call
+                            </Button>
+                          </div>
+
+                        </CardContent>
+                      </Card>
+                    ))}
                   </motion.div>
                 </div>
+
               </CardContent>
             </Card>
           </motion.div>

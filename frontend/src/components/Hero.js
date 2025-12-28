@@ -25,7 +25,7 @@ const Hero = () => {
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-20">
       {/* Animated Background */}
       <div className="absolute inset-0 animated-gradient"></div>
-      
+
       {/* Background Decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -72,7 +72,7 @@ const Hero = () => {
             >
               <Badge className="px-4 py-2 text-sm bg-gradient-to-r from-primary/20 to-secondary/20 border-primary/50 backdrop-blur-sm">
                 <Calendar className="w-4 h-4 mr-2 inline" />
-                🔥 New Batch Starting August 15th, 2025
+                🔥 New Batch Starting March 2nd, 2026
               </Badge>
             </motion.div>
 
@@ -96,9 +96,7 @@ const Hero = () => {
               transition={{ delay: 0.4 }}
               className="text-base sm:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0"
             >
-              Master the full data engineering ecosystem — from building data pipelines to
-              deploying them in real-world environments. We guide you step-by-step and support
-              you until you get placed.
+              Master the full data engineering ecosystem—from building robust data pipelines to deploying them in real-world production environments. Our program guides you step by step with hands-on projects, industry-relevant tools, and continuous mentorship, featuring expert faculty from IIT who bring strong academic foundations and real-world problem-solving experience, and we support you end-to-end until you successfully get placed.
             </motion.p>
 
             {/* Tech Badges */}
@@ -193,7 +191,7 @@ const Hero = () => {
               >
                 <div className="flex items-center justify-center gap-2 text-primary mb-2">
                   <Calendar className="w-5 h-5" />
-                  <span className="font-semibold">Next Batch: August 15, 2025</span>
+                  <span className="font-semibold">Next Batch: March 2nd, 2026</span>
                 </div>
                 <p className="text-center text-sm text-muted-foreground">
                   Limited seats • Small batch size

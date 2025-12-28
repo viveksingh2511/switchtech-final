@@ -38,8 +38,8 @@ const Contact = () => {
     {
       icon: Mail,
       label: 'Email us anytime',
-      value: 'switchtech55@gmail.com',
-      href: 'mailto:switchtech55@gmail.com',
+      value: 'classroom@switchtech.co.in',
+      href: 'mailto:classroom@switchtech.co.in',
       color: 'from-blue-500 to-cyan-500',
     },
     {
@@ -95,7 +95,7 @@ const Contact = () => {
             Ready to Transform Your Career?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Next cohort starts <span className="font-bold text-primary">15 Jan 2026, 09:00</span> · Enroll before seats fill.
+            Next cohort starts <span className="font-bold text-primary">2nd March 2026, 09:00</span> · Enroll before seats fill.
           </p>
         </motion.div>
 

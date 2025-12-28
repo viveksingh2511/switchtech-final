@@ -128,10 +128,10 @@ const Footer = () => {
               >
                 <Mail className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                 <a
-                  href="mailto:switchtech55@gmail.com"
+                  href="mailto:classroom@switchtech.co.in"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors break-all"
                 >
-                  switchtech55@gmail.com
+                  classroom@switchtech.co.in
                 </a>
               </motion.li>
               <motion.li
@@ -160,7 +160,7 @@ const Footer = () => {
           >
             <h4 className="text-lg font-bold mb-4">Next Batch</h4>
             <div className="bg-primary/10 backdrop-blur-sm rounded-xl p-4 border border-primary/30">
-              <div className="text-2xl font-bold text-gradient mb-2">15 Jan 2026</div>
+              <div className="text-2xl font-bold text-gradient mb-2">2nd March 2026</div>
               <p className="text-sm text-muted-foreground mb-3">Start your journey today!</p>
               <button
                 onClick={() => scrollToSection('#contact')}

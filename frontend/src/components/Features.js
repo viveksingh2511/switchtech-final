@@ -8,7 +8,7 @@ const Features = () => {
   const features = [
     {
       icon: Code,
-      title: 'Python & PySpark',
+      title: 'Python',
       subtitle: 'Data Processing',
       description: 'Build strong Python foundations for ETL, automation, and data workflows.',
       color: 'from-blue-500 to-cyan-500',
@@ -21,6 +21,14 @@ const Features = () => {
       description: 'Query, clean, transform, and optimize large-scale datasets.',
       color: 'from-purple-500 to-pink-500',
       link: '/sql_guide.html',
+    },
+    {
+      icon: Code,
+      title: 'PySpark',
+      subtitle: 'Data Processing',
+      description: 'Build strong Python foundations for ETL, automation, and data workflows.',
+      color: 'from-blue-500 to-cyan-500',
+      link: '/1_Introduction_to_Python.html',
     },
     {
       icon: Workflow,
@@ -52,7 +60,7 @@ const Features = () => {
       subtitle: 'Cloud & Big Data',
       description: 'Build and manage scalable data pipelines using BigQuery, Cloud Storage, Dataflow, and Pub/Sub on Google Cloud.',
       color: 'from-indigo-500 to-blue-500',
-      link: '/Git_Gitlab.html',
+      link: '/GCP.html',
     },
     {
       icon: Shield,
