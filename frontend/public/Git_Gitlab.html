@@ -1,0 +1,2202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitLab for Data Engineers - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --gitlab-orange: #fc6d26;
+            --gitlab-purple: #6e49cb;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+            --gradient-gitlab: linear-gradient(135deg, #fc6d26 0%, #fca326 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 70px;
+            height: 70px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+
+        .badge-red {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+        }
+
+        .badge-yellow {
+            background: linear-gradient(135deg, #fbbf24, #fcd34d);
+        }
+
+        .badge-gitlab {
+            background: linear-gradient(135deg, #fc6d26, #fca326);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .best-practice-header {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice-header::before {
+            content: '💎';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .architecture-diagram {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .architecture-title {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .component-card {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .component-card h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.75rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .component-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .use-case-box {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .use-case-header {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .use-case-header::before {
+            content: '🎯';
+        }
+
+        .git-workflow {
+            background: rgba(6, 182, 212, 0.1);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .git-workflow-header {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pipeline-stage {
+            background: rgba(251, 191, 36, 0.1);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .pipeline-stage-header {
+            color: var(--accent-yellow);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="gitlabGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fc6d26;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#fca326;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="gitlabGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#e24329;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#fc6d26;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- GitLab fox/tanuki logo inspired -->
+                <!-- Left ear -->
+                <path d="M 70 80 L 85 50 L 100 80 Z" fill="url(#gitlabGrad1)"/>
+                <!-- Right ear -->
+                <path d="M 100 80 L 115 50 L 130 80 Z" fill="url(#gitlabGrad1)"/>
+                <!-- Left cheek -->
+                <path d="M 50 110 L 70 80 L 100 80 L 85 140 Z" fill="url(#gitlabGrad2)"/>
+                <!-- Right cheek -->
+                <path d="M 150 110 L 130 80 L 100 80 L 115 140 Z" fill="url(#gitlabGrad2)"/>
+                <!-- Center face -->
+                <path d="M 100 80 L 85 140 L 100 160 L 115 140 Z" fill="url(#gitlabGrad1)"/>
+                <!-- Bottom left -->
+                <path d="M 85 140 L 50 110 L 75 150 L 100 160 Z" fill="#e24329"/>
+                <!-- Bottom right -->
+                <path d="M 115 140 L 150 110 L 125 150 L 100 160 Z" fill="#e24329"/>
+            </svg>
+        </div>
+        <h1>GitLab for Data Engineers</h1>
+        <p class="subtitle">Complete Classroom Notes — DevOps Lifecycle & CI/CD Platform</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🦊</div>
+                <h2>What is GitLab?</h2>
+            </div>
+
+            <p>GitLab is an <strong>end-to-end DevOps lifecycle platform</strong> that provides version control, CI/CD automation, security, and collaboration in a single application. Built on top of Git, GitLab enables teams to manage their entire software or data project — from code creation to deployment — within one integrated environment.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-gitlab">DevOps Platform</span>
+                <span class="badge badge-cyan">Version Control</span>
+                <span class="badge badge-purple">CI/CD</span>
+                <span class="badge badge-green">Collaboration</span>
+            </div>
+
+            <h3>Why GitLab?</h3>
+            <p>GitLab eliminates the need for multiple tools like GitHub, Jenkins, or Jira by offering all capabilities under one roof:</p>
+
+            <div class="key-points">
+                <h4>🎯 Unified Platform Benefits</h4>
+                <ul>
+                    <li><strong>Single Application:</strong> Version control, CI/CD, security, and project management</li>
+                    <li><strong>Built-in CI/CD:</strong> No need for Jenkins or separate automation tools</li>
+                    <li><strong>Git-Based:</strong> Standard Git workflow with enhanced features</li>
+                    <li><strong>Self-Hosted or Cloud:</strong> Deploy on-premises or use GitLab SaaS</li>
+                    <li><strong>Complete Traceability:</strong> Track every change from code to deployment</li>
+                    <li><strong>Security Integrated:</strong> SAST, DAST, secret detection built-in</li>
+                    <li><strong>Container Registry:</strong> Store Docker images alongside code</li>
+                    <li><strong>Wiki & Documentation:</strong> Built-in knowledge base</li>
+                </ul>
+            </div>
+
+            <h3>Core Concepts</h3>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>📁 Repository</h4>
+                    <p><strong>Version Control</strong></p>
+                    <p>Git-based source code management with branches and history</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🔀 Merge Request</h4>
+                    <p><strong>Code Review</strong></p>
+                    <p>Collaborative review and approval before merging changes</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>⚙️ CI/CD Pipeline</h4>
+                    <p><strong>Automation</strong></p>
+                    <p>YAML-based build, test, and deploy automation</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>🏃 Runner</h4>
+                    <p><strong>Executor</strong></p>
+                    <p>Agent that executes CI/CD jobs on various platforms</p>
+                </div>
+            </div>
+
+            <h3>How GitLab Works</h3>
+            
+            <div class="git-workflow">
+                <div class="git-workflow-header">🔄 GitLab Workflow</div>
+                <ol>
+                    <li><strong>Create/Clone Repository:</strong> Initialize project with Git</li>
+                    <li><strong>Create Branch:</strong> Work on features in isolation</li>
+                    <li><strong>Commit Changes:</strong> Track modifications with messages</li>
+                    <li><strong>Push to GitLab:</strong> Upload changes to remote repository</li>
+                    <li><strong>Create Merge Request:</strong> Request code review</li>
+                    <li><strong>CI/CD Pipeline Runs:</strong> Automated testing and validation</li>
+                    <li><strong>Code Review:</strong> Team reviews and approves changes</li>
+                    <li><strong>Merge to Main:</strong> Integrate approved changes</li>
+                    <li><strong>Deploy:</strong> Automated deployment to production</li>
+                </ol>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>GitLab vs GitHub</span>
+                </div>
+                <p><strong>GitLab:</strong> Complete DevOps platform with built-in CI/CD, security, and project management. <strong>GitHub:</strong> Excellent Git hosting with marketplace for CI/CD (Actions). GitLab provides more out-of-the-box features; GitHub has larger community and ecosystem.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Architecture -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🏗️</div>
+                <h2>GitLab Architecture</h2>
+            </div>
+
+            <p>GitLab follows a <strong>modular, microservice-based architecture</strong> that provides scalability and flexibility.</p>
+
+            <div class="architecture-diagram">
+                <div class="architecture-title">🏗️ GitLab Architecture Overview</div>
+                <pre>
+                        ┌──────────────────────────┐
+                        │    Web UI / API          │
+                        │ (Projects, Issues, MR)   │
+                        └────────────┬─────────────┘
+                                     │
+                  ┌──────────────────┴──────────────────┐
+                  │   GitLab Rails (App Layer)          │
+                  │ • Handles requests & business logic │
+                  │ • Manages users, projects, commits  │
+                  └──────────────────┬──────────────────┘
+                                     │
+         ┌───────────────────────────┼───────────────────────────┐
+         │                           │                           │
+         ▼                           ▼                           ▼
+┌────────────────┐         ┌─────────────────┐         ┌────────────────┐
+│ PostgreSQL DB  │◀───────▶│  Redis (Cache)  │◀───────▶│ Sidekiq (Jobs) │
+│ Stores metadata│         │  Queue/session  │         │  Async tasks   │
+└────────────────┘         └─────────────────┘         └────────────────┘
+                                     │
+                                     ▼
+                         ┌───────────┴────────────┐
+                         │   Git Repository       │
+                         │ (Project Source Code)  │
+                         └───────────┬────────────┘
+                                     │
+                                     ▼
+                           ┌─────────┴──────────┐
+                           │   GitLab Runner    │
+                           │ Executes CI/CD jobs│
+                           └─────────┬──────────┘
+                                     │
+                                     ▼
+                             ┌───────┴────────┐
+                             │ External Systems│
+                             │ (AWS, GCP, K8s) │
+                             └─────────────────┘
+</pre>
+            </div>
+
+            <h3>Architecture Components</h3>
+
+            <h4>1. Web UI & REST API</h4>
+            <p>User interface and programmatic access:</p>
+            <ul>
+                <li><strong>Web Interface:</strong> Projects, merge requests, pipelines, issues</li>
+                <li><strong>REST API:</strong> Complete API for automation and integration</li>
+                <li><strong>GraphQL API:</strong> Flexible query language for data retrieval</li>
+                <li><strong>Mobile Apps:</strong> iOS and Android applications</li>
+            </ul>
+
+            <h4>2. GitLab Rails (Application Layer)</h4>
+            <p>Core business logic built on Ruby on Rails:</p>
+            <ul>
+                <li><strong>User Management:</strong> Authentication, authorization, RBAC</li>
+                <li><strong>Project Management:</strong> Repositories, issues, merge requests</li>
+                <li><strong>CI/CD Orchestration:</strong> Pipeline creation and management</li>
+                <li><strong>Webhook Handling:</strong> Event notifications and triggers</li>
+            </ul>
+
+            <h4>3. PostgreSQL Database</h4>
+            <p>Primary data store for all metadata:</p>
+            <ul>
+                <li><strong>Users & Groups:</strong> Account and organization data</li>
+                <li><strong>Projects:</strong> Repository metadata and settings</li>
+                <li><strong>Commits & Branches:</strong> Git reference tracking</li>
+                <li><strong>CI/CD Data:</strong> Pipeline runs, job status, artifacts</li>
+                <li><strong>Issues & MRs:</strong> Discussion threads and approvals</li>
+            </ul>
+
+            <h4>4. Redis Cache & Queue</h4>
+            <p>High-performance caching and message queue:</p>
+            <ul>
+                <li><strong>Session Storage:</strong> User authentication sessions</li>
+                <li><strong>Cache Layer:</strong> Frequently accessed data caching</li>
+                <li><strong>Job Queue:</strong> Background task queueing for Sidekiq</li>
+                <li><strong>Rate Limiting:</strong> API and request throttling</li>
+            </ul>
+
+            <h4>5. Sidekiq (Background Jobs)</h4>
+            <p>Asynchronous task processing:</p>
+            <ul>
+                <li><strong>Email Notifications:</strong> Async email delivery</li>
+                <li><strong>Repository Indexing:</strong> Search index updates</li>
+                <li><strong>Pipeline Triggers:</strong> CI/CD job scheduling</li>
+                <li><strong>Cleanup Tasks:</strong> Old artifact removal</li>
+            </ul>
+
+            <h4>6. Git Repository Storage</h4>
+            <p>Actual source code storage:</p>
+            <ul>
+                <li><strong>Git Objects:</strong> Commits, trees, blobs</li>
+                <li><strong>Branches & Tags:</strong> Git references</li>
+                <li><strong>Git LFS:</strong> Large file storage support</li>
+                <li><strong>Repository Sharding:</strong> Distributed storage</li>
+            </ul>
+
+            <h4>7. GitLab Runner</h4>
+            <p>CI/CD job executor:</p>
+            <ul>
+                <li><strong>Multiple Executors:</strong> Shell, Docker, Kubernetes</li>
+                <li><strong>Scalable:</strong> Multiple runners for parallel jobs</li>
+                <li><strong>Flexible:</strong> Run on any platform</li>
+                <li><strong>Secure:</strong> Isolated execution environments</li>
+            </ul>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>🖥️ Shared Runners</h4>
+                    <p>Provided by GitLab.com</p>
+                    <p>Free tier available</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🔒 Specific Runners</h4>
+                    <p>Project-dedicated runners</p>
+                    <p>Better performance and control</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>👥 Group Runners</h4>
+                    <p>Shared across group projects</p>
+                    <p>Resource optimization</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Deployment Options</span>
+                </div>
+                <ul>
+                    <li><strong>GitLab.com (SaaS):</strong> Cloud-hosted, managed by GitLab</li>
+                    <li><strong>Self-Managed:</strong> Deploy on your own infrastructure</li>
+                    <li><strong>GitLab Dedicated:</strong> Single-tenant SaaS for enterprises</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 3: How GitLab Helps Data Engineers -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>How GitLab Helps Data Engineers</h2>
+            </div>
+
+            <p>GitLab provides a complete DevOps platform specifically beneficial for data engineering workflows.</p>
+
+            <div class="use-case-box">
+                <div class="use-case-header">1. Version Control for Code & Notebooks</div>
+                <p>Track Python scripts, SQL queries, and Jupyter notebooks for reproducible data workflows.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">GIT WORKFLOW</span>
+                        <pre><span class="code-comment"># Track ETL scripts</span>
+git add etl/extract_sales.py
+git commit -m "Add sales data extraction pipeline"
+
+<span class="code-comment"># Track SQL queries</span>
+git add sql/transform_customer_data.sql
+git commit -m "Update customer data transformation logic"
+
+<span class="code-comment"># Track Jupyter notebooks</span>
+git add notebooks/exploratory_analysis.ipynb
+git commit -m "Add customer churn analysis notebook"
+
+git push origin main</pre>
+                    </div>
+                </div>
+
+                <div class="best-practice">
+                    <div class="best-practice-header">Version Control Benefits</div>
+                    <ul>
+                        <li>Track every change to data pipelines</li>
+                        <li>Rollback to previous working versions</li>
+                        <li>Collaborate without overwriting each other's work</li>
+                        <li>Maintain complete audit trail for compliance</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">2. CI/CD for Data Pipelines</div>
+                <p>Automate ETL jobs, data validation, and model training using GitLab Runners.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">.GITLAB-CI.YML</span>
+                        <pre>stages:
+  - test
+  - build
+  - deploy
+
+<span class="code-comment"># Run data quality tests</span>
+test_data_quality:
+  stage: test
+  image: python:3.9
+  script:
+    - pip install pytest pandas great_expectations
+    - pytest tests/test_data_quality.py
+  only:
+    - merge_requests
+    - main
+
+<span class="code-comment"># Build Docker image for ETL</span>
+build_etl_image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/etl:$CI_COMMIT_SHA .
+    - docker push $CI_REGISTRY_IMAGE/etl:$CI_COMMIT_SHA
+  only:
+    - main
+
+<span class="code-comment"># Deploy to production</span>
+deploy_to_prod:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - apk add --no-cache curl
+    - curl -X POST $AIRFLOW_WEBHOOK_URL
+  only:
+    - main
+  when: manual</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">3. Collaboration</div>
+                <p>Facilitate code review via Merge Requests and discussion threads among data engineers and analysts.</p>
+                
+                <div class="git-workflow">
+                    <div class="git-workflow-header">📝 Merge Request Workflow</div>
+                    <ol>
+                        <li><strong>Create Feature Branch:</strong> Work on pipeline improvements</li>
+                        <li><strong>Push Changes:</strong> Upload to GitLab</li>
+                        <li><strong>Open Merge Request:</strong> Request review from team</li>
+                        <li><strong>CI/CD Runs:</strong> Automated tests validate changes</li>
+                        <li><strong>Code Review:</strong> Team discusses and suggests improvements</li>
+                        <li><strong>Address Feedback:</strong> Make requested changes</li>
+                        <li><strong>Approve & Merge:</strong> Integrate into main branch</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">4. Automation</div>
+                <p>Trigger jobs when data files or model scripts are updated in Git.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">.GITLAB-CI.YML</span>
+                        <pre><span class="code-comment"># Trigger only when specific files change</span>
+retrain_model:
+  stage: deploy
+  script:
+    - python ml/train_model.py
+    - python ml/deploy_model.py
+  only:
+    changes:
+      - ml/models/**/*
+      - data/training/**/*
+  when: always
+
+<span class="code-comment"># Schedule nightly data pipeline</span>
+nightly_etl:
+  stage: deploy
+  script:
+    - python etl/daily_pipeline.py
+  only:
+    - schedules</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">5. Integration</div>
+                <p>Works seamlessly with Airflow, Jenkins, Kubernetes, and data warehouses.</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tool</th>
+                            <th>Integration Type</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Airflow</strong></td>
+                            <td>Webhook, API</td>
+                            <td>Deploy DAGs from GitLab</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kubernetes</strong></td>
+                            <td>GitLab Agent</td>
+                            <td>Deploy data apps to K8s</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Snowflake</strong></td>
+                            <td>CI/CD Pipeline</td>
+                            <td>Deploy schema changes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Databricks</strong></td>
+                            <td>REST API</td>
+                            <td>Submit Spark jobs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Slack</strong></td>
+                            <td>Webhook</td>
+                            <td>Pipeline notifications</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">6. Security & Compliance</div>
+                <p>Perform static code analysis, secret detection, and access control for data projects.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">.GITLAB-CI.YML</span>
+                        <pre><span class="code-comment"># Security scanning</span>
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+
+<span class="code-comment"># Custom security checks</span>
+check_credentials:
+  stage: test
+  script:
+    - echo "Checking for hardcoded credentials..."
+    - python scripts/check_secrets.py
+  only:
+    - merge_requests</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">7. Artifact Management</div>
+                <p>Store build outputs like ML models, reports, or logs in GitLab's built-in registry.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">.GITLAB-CI.YML</span>
+                        <pre>train_model:
+  stage: build
+  script:
+    - python ml/train.py
+    - python ml/evaluate.py
+  artifacts:
+    paths:
+      - models/customer_churn.pkl
+      - reports/model_metrics.html
+    expire_in: 30 days
+  reports:
+    junit: test-results.xml</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">8. Monitoring</div>
+                <p>Pipeline dashboards and job logs to monitor workflow execution and detect errors quickly.</p>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Real-World Impact</h4>
+                <ul>
+                    <li>Reduce deployment time with automated CI/CD pipelines</li>
+                    <li>Improve code quality with mandatory code reviews</li>
+                    <li>Maintain compliance with complete audit trails</li>
+                    <li>Accelerate collaboration across distributed teams</li>
+                    <li>Detect security issues before production deployment</li>
+                    <li>Simplify workflow with unified platform</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4: Core Components -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🧩</div>
+                <h2>GitLab Components Explained</h2>
+            </div>
+
+            <h3>1. Git Repository</h3>
+            <p>Central place where source code, notebooks, or SQL scripts are stored.</p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">EXAMPLE</span>
+                    <pre><span class="code-comment">Data Engineering Repository Structure:</span>
+data-engineering-project/
+├── etl/
+│   ├── extract_sales.py
+│   ├── transform_customer.py
+│   └── load_to_warehouse.py
+├── sql/
+│   ├── create_tables.sql
+│   └── transformations/
+├── notebooks/
+│   └── analysis.ipynb
+├── tests/
+│   └── test_etl.py
+├── .gitlab-ci.yml
+├── Dockerfile
+└── README.md</pre>
+                </div>
+            </div>
+
+            <h3>2. GitLab Rails (Application Layer)</h3>
+            <p>Manages user actions — creating projects, merge requests, permissions.</p>
+            
+            <div class="pipeline-stage">
+                <div class="pipeline-stage-header">🔄 Example Scenario</div>
+                <p>When a data engineer submits a merge request:</p>
+                <ol>
+                    <li>Rails layer receives the MR creation request</li>
+                    <li>Validates user permissions</li>
+                    <li>Triggers CI/CD pipeline via Sidekiq</li>
+                    <li>Sends notifications to reviewers</li>
+                    <li>Updates project timeline and activity feed</li>
+                </ol>
+            </div>
+
+            <h3>3. PostgreSQL Database</h3>
+            <p>Stores metadata like users, projects, commits, pipelines, and issues.</p>
+            
+            <ul>
+                <li><strong>User Data:</strong> Accounts, SSH keys, access tokens</li>
+                <li><strong>Project Metadata:</strong> Settings, webhooks, integrations</li>
+                <li><strong>Commit History:</strong> SHA, author, message, timestamp</li>
+                <li><strong>Pipeline Data:</strong> Job status, logs, artifacts references</li>
+                <li><strong>Issues & MRs:</strong> Discussion threads, approvals, labels</li>
+            </ul>
+
+            <h3>4. Redis Cache & Queue</h3>
+            <p>Speeds up data retrieval and queues background tasks.</p>
+            
+            <div class="pipeline-stage">
+                <div class="pipeline-stage-header">⚡ Example Scenario</div>
+                <p>When multiple data jobs trigger simultaneously:</p>
+                <ol>
+                    <li>GitLab receives multiple webhook events</li>
+                    <li>Redis queues the pipeline requests</li>
+                    <li>Sidekiq processes queue sequentially</li>
+                    <li>Runners execute jobs based on availability</li>
+                </ol>
+            </div>
+
+            <h3>5. Sidekiq (Background Processing)</h3>
+            <p>Handles asynchronous background processes.</p>
+            
+            <ul>
+                <li><strong>Pipeline Triggers:</strong> Starts CI/CD jobs</li>
+                <li><strong>Email Notifications:</strong> Sends alerts and updates</li>
+                <li><strong>Repository Updates:</strong> Syncs Git data</li>
+                <li><strong>Cleanup Jobs:</strong> Removes old artifacts</li>
+                <li><strong>Webhook Delivery:</strong> Sends event notifications</li>
+            </ul>
+
+            <h3>6. GitLab Runner</h3>
+            <p>Executes CI/CD pipelines defined in <code>.gitlab-ci.yml</code>.</p>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>🐚 Shell Executor</h4>
+                    <p>Runs commands directly on host</p>
+                    <p>Simple, fast, less isolated</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🐳 Docker Executor</h4>
+                    <p>Runs jobs in Docker containers</p>
+                    <p>Clean, reproducible environments</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>☸️ Kubernetes Executor</h4>
+                    <p>Spawns pods for each job</p>
+                    <p>Highly scalable, cloud-native</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>⚙️ Custom Executor</h4>
+                    <p>Define your own execution logic</p>
+                    <p>Maximum flexibility</p>
+                </div>
+            </div>
+
+            <div class="pipeline-stage">
+                <div class="pipeline-stage-header">🏃 Runner Example</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre><span class="code-comment"># Install GitLab Runner</span>
+curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+sudo apt-get install gitlab-runner
+
+<span class="code-comment"># Register runner</span>
+sudo gitlab-runner register \
+  --url https://gitlab.com/ \
+  --registration-token YOUR_TOKEN \
+  --executor docker \
+  --docker-image python:3.9 \
+  --description "Data Engineering Runner"
+
+<span class="code-comment"># Start runner</span>
+sudo gitlab-runner start</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>7. Container Registry</h3>
+            <p>Stores Docker images created during builds.</p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">DOCKER</span>
+                    <pre><span class="code-comment"># Build and push to GitLab registry</span>
+docker build -t registry.gitlab.com/username/project/etl:latest .
+docker login registry.gitlab.com
+docker push registry.gitlab.com/username/project/etl:latest
+
+<span class="code-comment"># Use in CI/CD</span>
+deploy:
+  image: registry.gitlab.com/username/project/etl:latest
+  script:
+    - python run_pipeline.py</pre>
+                </div>
+            </div>
+
+            <h3>8. Web UI & API</h3>
+            <p>Provides dashboards, project views, and REST APIs.</p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON API</span>
+                    <pre>import gitlab
+
+<span class="code-comment"># Connect to GitLab</span>
+gl = gitlab.Gitlab('https://gitlab.com', private_token='YOUR_TOKEN')
+
+<span class="code-comment"># Get project</span>
+project = gl.projects.get('username/data-project')
+
+<span class="code-comment"># Trigger pipeline</span>
+pipeline = project.pipelines.create({'ref': 'main'})
+
+<span class="code-comment"># Get pipeline status</span>
+print(f"Pipeline {pipeline.id}: {pipeline.status}")</pre>
+                </div>
+            </div>
+
+            <h3>9. Integrations</h3>
+            <p>Connect GitLab with external systems.</p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">.GITLAB-CI.YML</span>
+                    <pre><span class="code-comment"># Slack notification</span>
+notify_slack:
+  stage: .post
+  script:
+    - 'curl -X POST -H "Content-type: application/json"
+      --data "{\"text\":\"Pipeline completed: $CI_PIPELINE_URL\"}"
+      $SLACK_WEBHOOK_URL'
+
+<span class="code-comment"># Trigger Airflow DAG</span>
+trigger_airflow:
+  stage: deploy
+  script:
+    - 'curl -X POST "$AIRFLOW_URL/api/v1/dags/$DAG_ID/dagRuns"
+      -H "Content-Type: application/json"
+      -d "{\"conf\":{}}"'</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Getting Started -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Getting Started with GitLab</h2>
+            </div>
+
+            <h3>Step 1: Setup Account</h3>
+            <ol>
+                <li>Go to <code>gitlab.com</code> or install GitLab self-managed</li>
+                <li>Create account or sign in with GitHub/Google</li>
+                <li>Verify email address</li>
+                <li>Set up profile and SSH keys</li>
+            </ol>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">SSH SETUP</span>
+                    <pre><span class="code-comment"># Generate SSH key</span>
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+<span class="code-comment"># Copy public key</span>
+cat ~/.ssh/id_ed25519.pub
+
+<span class="code-comment"># Add to GitLab: Profile → SSH Keys</span></pre>
+                </div>
+            </div>
+
+            <h3>Step 2: Create Repository</h3>
+            <ol>
+                <li>Click <strong>New Project</strong></li>
+                <li>Choose <strong>Create blank project</strong></li>
+                <li>Set project name: "data-engineering-pipeline"</li>
+                <li>Choose visibility: Private/Internal/Public</li>
+                <li>Initialize with README (optional)</li>
+                <li>Click <strong>Create project</strong></li>
+            </ol>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">GIT</span>
+                    <pre><span class="code-comment"># Clone repository</span>
+git clone git@gitlab.com:username/data-engineering-pipeline.git
+cd data-engineering-pipeline
+
+<span class="code-comment"># Or clone with HTTPS</span>
+git clone https://gitlab.com/username/data-engineering-pipeline.git</pre>
+                </div>
+            </div>
+
+            <h3>Step 3: Commit & Push Code</h3>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">GIT WORKFLOW</span>
+                    <pre><span class="code-comment"># Create files</span>
+echo "# Data Engineering Pipeline" > README.md
+mkdir etl sql tests
+
+<span class="code-comment"># Create ETL script</span>
+cat > etl/extract_data.py << EOF
+import pandas as pd
+
+def extract_sales_data():
+    # Extract logic here
+    pass
+EOF
+
+<span class="code-comment"># Stage changes</span>
+git add .
+
+<span class="code-comment"># Commit with descriptive message</span>
+git commit -m "Initial commit: Add project structure and ETL skeleton"
+
+<span class="code-comment"># Push to GitLab</span>
+git push origin main</pre>
+                </div>
+            </div>
+
+            <h3>Step 4: Setup CI/CD Pipeline</h3>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">.GITLAB-CI.YML</span>
+                    <pre><span class="code-comment"># Define stages</span>
+stages:
+  - test
+  - build
+  - deploy
+
+<span class="code-comment"># Variables</span>
+variables:
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+
+<span class="code-comment"># Test stage</span>
+unit_tests:
+  stage: test
+  image: python:3.9
+  before_script:
+    - pip install -r requirements.txt
+  script:
+    - pytest tests/ -v --cov=etl
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+
+<span class="code-comment"># Build stage</span>
+build_docker:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $DOCKER_IMAGE .
+    - docker push $DOCKER_IMAGE
+  only:
+    - main
+
+<span class="code-comment"># Deploy stage</span>
+deploy_production:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Deploying to production..."
+    - apk add --no-cache curl
+    - curl -X POST $WEBHOOK_URL
+  only:
+    - main
+  when: manual
+  environment:
+    name: production
+    url: https://production.example.com</pre>
+                </div>
+            </div>
+
+            <h3>Step 5: Create Merge Request</h3>
+            
+            <div class="git-workflow">
+                <div class="git-workflow-header">🔀 MR Workflow</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre><span class="code-comment"># Create feature branch</span>
+git checkout -b feature/add-data-validation
+
+<span class="code-comment"># Make changes</span>
+# ... edit files ...
+
+<span class="code-comment"># Commit changes</span>
+git add .
+git commit -m "Add data validation checks"
+
+<span class="code-comment"># Push to GitLab</span>
+git push origin feature/add-data-validation
+
+<span class="code-comment"># GitLab will show link to create MR</span></pre>
+                    </div>
+                </div>
+                
+                <ol>
+                    <li>Click the MR creation link or go to Merge Requests → New</li>
+                    <li>Add title and description</li>
+                    <li>Assign reviewers</li>
+                    <li>Add labels (enhancement, data-quality)</li>
+                    <li>Check "Delete source branch when merged"</li>
+                    <li>Click <strong>Create merge request</strong></li>
+                </ol>
+            </div>
+
+            <h3>Step 6: Configure Integrations</h3>
+
+            <h4>Slack Notifications:</h4>
+            <ol>
+                <li>Go to Project Settings → Integrations</li>
+                <li>Select Slack notifications</li>
+                <li>Add webhook URL</li>
+                <li>Select events (Pipeline, MR)</li>
+                <li>Save integration</li>
+            </ol>
+
+            <h4>Kubernetes Deployment:</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">.GITLAB-CI.YML</span>
+                    <pre>deploy_to_k8s:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl config use-context $KUBE_CONTEXT
+    - kubectl set image deployment/etl-pipeline 
+      etl=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - kubectl rollout status deployment/etl-pipeline
+  only:
+    - main</pre>
+                </div>
+            </div>
+
+            <h3>Step 7: Monitor Pipelines</h3>
+            
+            <ul>
+                <li>Go to <strong>CI/CD → Pipelines</strong></li>
+                <li>View pipeline status (passed/failed/running)</li>
+                <li>Click pipeline to see individual jobs</li>
+                <li>View job logs for debugging</li>
+                <li>Download artifacts from completed jobs</li>
+            </ul>
+
+            <h3>Step 8: Manage Access</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Permissions</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Owner</strong></td>
+                        <td>Full control, delete project</td>
+                        <td>Project creator</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maintainer</strong></td>
+                        <td>Manage settings, push to protected branches</td>
+                        <td>Tech leads</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Developer</strong></td>
+                        <td>Push code, create MRs</td>
+                        <td>Data engineers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reporter</strong></td>
+                        <td>View code, create issues</td>
+                        <td>Analysts, stakeholders</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Guest</strong></td>
+                        <td>View issues only</td>
+                        <td>External reviewers</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 6: Real-World Example -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Real-World Example: Data Pipeline Project</h2>
+            </div>
+
+            <p>Complete GitLab setup for a production data engineering project.</p>
+
+            <h3>Project Overview</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PROJECT</span>
+                    <pre><span class="code-comment">Project Name:</span> Customer Analytics ETL
+<span class="code-comment">Team:</span> 5 data engineers
+<span class="code-comment">Tech Stack:</span> Python, PySpark, Airflow, Snowflake
+<span class="code-comment">Deployment:</span> Kubernetes on AWS EKS</pre>
+                </div>
+            </div>
+
+            <h3>Repository Structure</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">STRUCTURE</span>
+                    <pre>customer-analytics-etl/
+├── .gitlab-ci.yml              <span class="code-comment"># CI/CD pipeline</span>
+├── Dockerfile                   <span class="code-comment"># Container image</span>
+├── requirements.txt             <span class="code-comment"># Python dependencies</span>
+├── pyproject.toml              <span class="code-comment"># Project config</span>
+├── README.md                    <span class="code-comment"># Documentation</span>
+├── etl/
+│   ├── __init__.py
+│   ├── extract/
+│   │   ├── salesforce.py       <span class="code-comment"># Extract from Salesforce</span>
+│   │   ├── postgres.py         <span class="code-comment"># Extract from database</span>
+│   │   └── s3.py               <span class="code-comment"># Extract from S3</span>
+│   ├── transform/
+│   │   ├── clean.py            <span class="code-comment"># Data cleaning</span>
+│   │   ├── aggregate.py        <span class="code-comment"># Aggregations</span>
+│   │   └── enrich.py           <span class="code-comment"># Data enrichment</span>
+│   └── load/
+│       └── snowflake.py        <span class="code-comment"># Load to Snowflake</span>
+├── sql/
+│   ├── ddl/
+│   │   └── create_tables.sql
+│   └── dml/
+│       └── transformations.sql
+├── tests/
+│   ├── unit/
+│   │   └── test_extract.py
+│   ├── integration/
+│   │   └── test_pipeline.py
+│   └── data_quality/
+│       └── test_schema.py
+├── config/
+│   ├── dev.yaml
+│   ├── staging.yaml
+│   └── prod.yaml
+├── k8s/
+│   ├── deployment.yaml
+│   └── service.yaml
+└── airflow/
+    └── dags/
+        └── customer_analytics_dag.py</pre>
+                </div>
+            </div>
+
+            <h3>Complete CI/CD Pipeline</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">.GITLAB-CI.YML</span>
+                    <pre>stages:
+  - lint
+  - test
+  - security
+  - build
+  - deploy
+
+variables:
+  DOCKER_IMAGE: $CI_REGISTRY_IMAGE/etl
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+<span class="code-comment"># Cache pip dependencies</span>
+cache:
+  paths:
+    - .cache/pip
+
+<span class="code-comment">####################
+# LINT STAGE
+####################</span>
+
+code_quality:
+  stage: lint
+  image: python:3.9
+  before_script:
+    - pip install black flake8 mypy pylint
+  script:
+    - black --check etl/
+    - flake8 etl/ --max-line-length=100
+    - mypy etl/
+    - pylint etl/
+  only:
+    - merge_requests
+    - main
+
+<span class="code-comment">####################
+# TEST STAGE
+####################</span>
+
+unit_tests:
+  stage: test
+  image: python:3.9
+  before_script:
+    - pip install -r requirements.txt
+    - pip install pytest pytest-cov
+  script:
+    - pytest tests/unit/ -v --cov=etl --cov-report=xml
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+  only:
+    - merge_requests
+    - main
+
+integration_tests:
+  stage: test
+  image: python:3.9
+  services:
+    - postgres:13
+    - redis:latest
+  variables:
+    POSTGRES_DB: test_db
+    POSTGRES_USER: test_user
+    POSTGRES_PASSWORD: test_pass
+  before_script:
+    - pip install -r requirements.txt
+    - pip install pytest
+  script:
+    - pytest tests/integration/ -v
+  only:
+    - merge_requests
+    - main
+
+data_quality_tests:
+  stage: test
+  image: python:3.9
+  before_script:
+    - pip install -r requirements.txt
+    - pip install great_expectations
+  script:
+    - python -m pytest tests/data_quality/ -v
+  only:
+    - merge_requests
+    - main
+
+<span class="code-comment">####################
+# SECURITY STAGE
+####################</span>
+
+secret_detection:
+  stage: security
+  image: trufflesecurity/trufflehog:latest
+  script:
+    - trufflehog filesystem . --json
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+
+dependency_scanning:
+  stage: security
+  image: python:3.9
+  before_script:
+    - pip install safety
+  script:
+    - safety check -r requirements.txt
+  allow_failure: true
+  only:
+    - merge_requests
+    - main
+
+<span class="code-comment">####################
+# BUILD STAGE
+####################</span>
+
+build_docker_image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build -t $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker build -t $DOCKER_IMAGE:latest .
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_IMAGE:latest
+  only:
+    - main
+
+<span class="code-comment">####################
+# DEPLOY STAGE
+####################</span>
+
+deploy_to_staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  before_script:
+    - kubectl config use-context staging
+  script:
+    - kubectl set image deployment/customer-analytics-etl 
+      etl=$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA -n staging
+    - kubectl rollout status deployment/customer-analytics-etl -n staging
+  environment:
+    name: staging
+    url: https://staging.analytics.company.com
+  only:
+    - main
+
+deploy_to_production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  before_script:
+    - kubectl config use-context production
+  script:
+    - kubectl set image deployment/customer-analytics-etl 
+      etl=$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA -n production
+    - kubectl rollout status deployment/customer-analytics-etl -n production
+    - echo "Deployment completed successfully"
+  environment:
+    name: production
+    url: https://analytics.company.com
+  only:
+    - main
+  when: manual
+
+<span class="code-comment"># Slack notification</span>
+notify_team:
+  stage: .post
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - |
+      if [ "$CI_JOB_STATUS" == "success" ]; then
+        COLOR="good"
+        STATUS="✅ SUCCESS"
+      else
+        COLOR="danger"
+        STATUS="❌ FAILED"
+      fi
+      curl -X POST $SLACK_WEBHOOK_URL \
+        -H 'Content-Type: application/json' \
+        -d "{\"text\":\"$STATUS: Pipeline for $CI_PROJECT_NAME\",\"attachments\":[{\"color\":\"$COLOR\",\"fields\":[{\"title\":\"Branch\",\"value\":\"$CI_COMMIT_REF_NAME\",\"short\":true},{\"title\":\"Commit\",\"value\":\"$CI_COMMIT_SHORT_SHA\",\"short\":true},{\"title\":\"Author\",\"value\":\"$GITLAB_USER_NAME\",\"short\":true},{\"title\":\"Pipeline\",\"value\":\"$CI_PIPELINE_URL\",\"short\":false}]}]}"
+  when: always</pre>
+                </div>
+            </div>
+
+            <h3>Merge Request Template</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">.GITLAB/MERGE_REQUEST_TEMPLATES/DEFAULT.MD</span>
+                    <pre>## Description
+<!-- Describe the changes in this MR -->
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+- [ ] Performance improvement
+
+## Related Issues
+<!-- Link related issues: Closes #123 -->
+
+## Testing
+<!-- Describe testing performed -->
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Data quality tests passed
+- [ ] Manual testing completed
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review of code completed
+- [ ] Comments added for complex logic
+- [ ] Documentation updated
+- [ ] No new warnings generated
+- [ ] Tests pass locally
+
+## Screenshots/Logs
+<!-- Add relevant screenshots or log outputs -->
+
+## Deployment Notes
+<!-- Any special deployment considerations --></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Project Success Metrics</span>
+                </div>
+                <ul>
+                    <li><strong>Deployment Frequency:</strong> 10+ deploys per week</li>
+                    <li><strong>Lead Time:</strong> Reduced from 2 days to 4 hours</li>
+                    <li><strong>Change Failure Rate:</strong> <5% due to automated testing</li>
+                    <li><strong>MTTR:</strong> Mean time to recovery < 30 minutes</li>
+                    <li><strong>Code Coverage:</strong> 85%+ across all modules</li>
+                    <li><strong>Team Velocity:</strong> Improved by 40% with CI/CD</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Best Practices -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💎</div>
+                <h2>GitLab Best Practices</h2>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">1. Use Meaningful Commit Messages</div>
+                <p>Follow conventional commits format: <code>type(scope): description</code></p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>feat(etl): add Salesforce data extraction
+fix(transform): resolve null handling in customer merge
+docs(readme): update installation instructions
+test(extract): add unit tests for S3 connector
+refactor(load): optimize Snowflake batch insert</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">2. Protect Main Branch</div>
+                <p>Configure branch protection rules:</p>
+                <ul>
+                    <li>Require merge request for all changes</li>
+                    <li>Require approval from code owners</li>
+                    <li>Require passing pipeline before merge</li>
+                    <li>Prevent force push to main</li>
+                </ul>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">3. Use Feature Branches</div>
+                <p>Create descriptive branch names:</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>feature/add-data-validation
+bugfix/fix-null-pointer-exception
+hotfix/critical-pipeline-failure
+refactor/improve-performance
+docs/update-api-documentation</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">4. Leverage CI/CD Templates</div>
+                <p>Use GitLab's built-in templates for common tasks:</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Code-Quality.gitlab-ci.yml</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">5. Implement Code Review Standards</div>
+                <p>Establish clear review guidelines:</p>
+                <ul>
+                    <li>At least 2 approvals for production code</li>
+                    <li>Review within 24 hours</li>
+                    <li>Check for code quality, not just functionality</li>
+                    <li>Verify tests cover changes</li>
+                </ul>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">6. Use CI/CD Variables Securely</div>
+                <p>Store secrets in GitLab CI/CD variables, not in code:</p>
+                <ul>
+                    <li>Mark sensitive variables as "Masked"</li>
+                    <li>Use "Protected" for production secrets</li>
+                    <li>Rotate credentials regularly</li>
+                    <li>Use external secret managers (Vault, AWS Secrets Manager)</li>
+                </ul>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">7. Optimize Pipeline Performance</div>
+                <ul>
+                    <li>Use caching for dependencies</li>
+                    <li>Run jobs in parallel where possible</li>
+                    <li>Use Docker layer caching</li>
+                    <li>Skip unnecessary jobs with <code>only/except</code> rules</li>
+                </ul>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">8. Maintain Clean Git History</div>
+                <ul>
+                    <li>Squash commits before merging</li>
+                    <li>Delete merged branches automatically</li>
+                    <li>Use rebase for feature branches</li>
+                    <li>Keep commits atomic and focused</li>
+                </ul>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">9. Document Everything</div>
+                <ul>
+                    <li>Maintain comprehensive README</li>
+                    <li>Document API endpoints</li>
+                    <li>Create Wiki for architecture docs</li>
+                    <li>Use MR templates for consistency</li>
+                </ul>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">10. Monitor Pipeline Health</div>
+                <ul>
+                    <li>Track pipeline success rate</li>
+                    <li>Monitor job duration trends</li>
+                    <li>Set up alerts for failures</li>
+                    <li>Review and optimize slow jobs</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Anti-Patterns to Avoid</span>
+                </div>
+                <ul>
+                    <li><strong>Committing secrets:</strong> Never commit credentials or API keys</li>
+                    <li><strong>Large commits:</strong> Break changes into smaller, logical commits</li>
+                    <li><strong>Skipping tests:</strong> Always run tests before merging</li>
+                    <li><strong>Force pushing to main:</strong> Protect main branch from force push</li>
+                    <li><strong>Vague commit messages:</strong> "Fixed stuff" provides no context</li>
+                    <li><strong>No code review:</strong> All code should be reviewed</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 8: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Summary & Key Takeaways</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 GitLab Essentials</h4>
+                <ul>
+                    <li><strong>Complete DevOps Platform:</strong> Version control, CI/CD, security in one tool</li>
+                    <li><strong>Git-Based:</strong> Standard Git workflow with enhanced collaboration</li>
+                    <li><strong>Built-in CI/CD:</strong> YAML-based automation without external tools</li>
+                    <li><strong>Flexible Deployment:</strong> Cloud SaaS or self-managed</li>
+                    <li><strong>Scalable Architecture:</strong> Microservices with PostgreSQL, Redis, Sidekiq</li>
+                    <li><strong>Integrated Security:</strong> SAST, secret detection, dependency scanning</li>
+                    <li><strong>Container Registry:</strong> Built-in Docker image storage</li>
+                </ul>
+            </div>
+
+            <h3>Quick Reference</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Purpose</th>
+                        <th>Key Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Repository</strong></td>
+                        <td>Version control</td>
+                        <td>Git-based source management</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Merge Request</strong></td>
+                        <td>Code review</td>
+                        <td>Collaborative approval workflow</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CI/CD Pipeline</strong></td>
+                        <td>Automation</td>
+                        <td>YAML-defined workflows</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Runner</strong></td>
+                        <td>Job execution</td>
+                        <td>Shell, Docker, Kubernetes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registry</strong></td>
+                        <td>Artifacts</td>
+                        <td>Docker image storage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PostgreSQL</strong></td>
+                        <td>Metadata</td>
+                        <td>Project and pipeline data</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Redis</strong></td>
+                        <td>Caching</td>
+                        <td>Performance optimization</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>GitLab for Data Engineers</h3>
+            <div class="component-grid">
+                <div class="component-card" style="border-color: var(--accent-green);">
+                    <h4 style="color: var(--accent-green);">✅ Perfect For</h4>
+                    <p>• Version control for data pipelines</p>
+                    <p>• CI/CD for ETL automation</p>
+                    <p>• Data quality testing</p>
+                    <p>• ML model deployment</p>
+                    <p>• Infrastructure as Code</p>
+                    <p>• Team collaboration</p>
+                </div>
+                
+                <div class="component-card" style="border-color: var(--accent-blue);">
+                    <h4 style="color: var(--accent-blue);">🔗 Integrations</h4>
+                    <p>• Airflow (DAG deployment)</p>
+                    <p>• Kubernetes (container orchestration)</p>
+                    <p>• Snowflake (data warehouse)</p>
+                    <p>• Databricks (Spark jobs)</p>
+                    <p>• Slack (notifications)</p>
+                    <p>• AWS/GCP/Azure (cloud)</p>
+                </div>
+            </div>
+
+            <h3>GitLab vs Alternatives</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>GitLab</th>
+                        <th>GitHub</th>
+                        <th>Bitbucket</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Built-in CI/CD</strong></td>
+                        <td>✅ Yes</td>
+                        <td>⚠️ GitHub Actions</td>
+                        <td>⚠️ Pipelines</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Self-Hosted</strong></td>
+                        <td>✅ Full featured</td>
+                        <td>❌ Enterprise only</td>
+                        <td>✅ Available</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Container Registry</strong></td>
+                        <td>✅ Built-in</td>
+                        <td>✅ Built-in</td>
+                        <td>❌ External</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Security Scanning</strong></td>
+                        <td>✅ Built-in</td>
+                        <td>⚠️ Marketplace</td>
+                        <td>⚠️ Limited</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complete DevOps</strong></td>
+                        <td>✅ Yes</td>
+                        <td>⚠️ Multiple tools</td>
+                        <td>⚠️ Multiple tools</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master GitLab for DevOps Success!</span>
+                </div>
+                <p>GitLab provides a complete DevOps platform that streamlines development, testing, and deployment. Master its features, follow best practices, and you'll accelerate delivery, improve quality, and enhance collaboration across data engineering teams.</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Build, test, and deploy with GitLab! 🦊🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🦊</div>
+        <p><strong>GitLab for Data Engineers — Complete Classroom Notes</strong></p>
+        <p>DevOps Lifecycle & CI/CD Platform Mastery</p>
+        <p style="margin-top: 1rem;">© 2025 Data Engineering Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

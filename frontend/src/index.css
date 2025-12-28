@@ -1,0 +1,233 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@layer base {
+  :root {
+    /* Modern Data Platform - Light Mode */
+    --background: 210 12% 98%;
+    --foreground: 212 12% 12%;
+    --card: 210 10% 96%;
+    --card-foreground: 212 12% 12%;
+    --popover: 210 10% 96%;
+    --popover-foreground: 212 12% 12%;
+    --primary: 204 86% 43%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 190 55% 60%;
+    --secondary-foreground: 212 12% 12%;
+    --muted: 210 12% 92%;
+    --muted-foreground: 212 8% 40%;
+    --accent: 190 55% 60%;
+    --accent-foreground: 212 12% 12%;
+    --destructive: 358 76% 44%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 12% 88%;
+    --input: 210 12% 88%;
+    --ring: 204 86% 43%;
+    --success: 145 50% 30%;
+    --warning: 42 95% 48%;
+    --chart-1: 204 86% 43%;
+    --chart-2: 190 55% 60%;
+    --chart-3: 145 50% 30%;
+    --chart-4: 42 95% 48%;
+    --chart-5: 358 76% 44%;
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(204 86% 43%) 0%, hsl(190 55% 60%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(210 12% 98%) 0%, hsl(204 86% 97%) 50%, hsl(210 12% 98%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(210 10% 96%) 0%, hsl(204 30% 98%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(204 86% 43% / 0.2);
+    --shadow-glow: 0 0 40px hsl(204 86% 43% / 0.15);
+    --shadow-card: 0 4px 20px hsl(212 12% 12% / 0.08);
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+
+    /* Animations */
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    /* Modern Data Platform - Dark Mode */
+    --background: 212 18% 10%;
+    --foreground: 210 18% 96%;
+    --card: 212 18% 13%;
+    --card-foreground: 210 18% 96%;
+    --popover: 212 18% 13%;
+    --popover-foreground: 210 18% 96%;
+    --primary: 204 86% 56%;
+    --primary-foreground: 212 12% 12%;
+    --secondary: 190 55% 66%;
+    --secondary-foreground: 210 18% 96%;
+    --muted: 212 18% 18%;
+    --muted-foreground: 210 12% 72%;
+    --accent: 190 55% 66%;
+    --accent-foreground: 210 18% 96%;
+    --destructive: 358 76% 64%;
+    --destructive-foreground: 210 18% 96%;
+    --border: 212 18% 18%;
+    --input: 212 18% 18%;
+    --ring: 204 86% 56%;
+    --success: 145 50% 46%;
+    --warning: 42 95% 58%;
+    --chart-1: 204 86% 56%;
+    --chart-2: 190 55% 66%;
+    --chart-3: 145 50% 46%;
+    --chart-4: 42 95% 58%;
+    --chart-5: 358 76% 64%;
+
+    /* Gradients - Dark Mode */
+    --gradient-primary: linear-gradient(135deg, hsl(204 86% 56%) 0%, hsl(190 55% 66%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(212 18% 10%) 0%, hsl(204 40% 15%) 50%, hsl(212 18% 10%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(212 18% 13%) 0%, hsl(204 30% 18%) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+
+    /* Shadows - Dark Mode */
+    --shadow-elegant: 0 10px 30px -10px hsl(204 86% 56% / 0.3);
+    --shadow-glow: 0 0 40px hsl(204 86% 56% / 0.25);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
+    --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  /* Glass Card Effect */
+  .glass-card {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-glass);
+  }
+
+  /* Animated Gradient Background */
+  .animated-gradient {
+    background: var(--gradient-hero);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Floating Animation */
+  .floating {
+    animation: floating 6s ease-in-out infinite;
+  }
+
+  @keyframes floating {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* Pulse Glow */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px hsl(204 86% 43% / 0.4); }
+    50% { box-shadow: 0 0 40px hsl(204 86% 43% / 0.8); }
+  }
+
+  /* Smooth scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+}
+
+@layer base {
+  [data-debug-wrapper="true"] {
+    display: contents !important;
+  }
+
+  [data-debug-wrapper="true"] > * {
+    margin-left: inherit;
+    margin-right: inherit;
+    margin-top: inherit;
+    margin-bottom: inherit;
+    padding-left: inherit;
+    padding-right: inherit;
+    padding-top: inherit;
+    padding-bottom: inherit;
+    column-gap: inherit;
+    row-gap: inherit;
+    gap: inherit;
+    border-left-width: inherit;
+    border-right-width: inherit;
+    border-top-width: inherit;
+    border-bottom-width: inherit;
+    border-left-style: inherit;
+    border-right-style: inherit;
+    border-top-style: inherit;
+    border-bottom-style: inherit;
+    border-left-color: inherit;
+    border-right-color: inherit;
+    border-top-color: inherit;
+    border-bottom-color: inherit;
+  }
+}

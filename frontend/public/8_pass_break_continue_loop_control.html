@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Loop Control Statements - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-red {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+        }
+
+        .badge-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip {
+            background: rgba(236, 72, 153, 0.1);
+            border-left: 3px solid var(--accent-pink);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .interview-tip-header {
+            color: var(--accent-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip-header::before {
+            content: '🎯';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .flowchart {
+            background: rgba(45, 55, 72, 0.3);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .flowchart-title {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .flow-box {
+            background: var(--gradient-purple);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem auto;
+            max-width: 300px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .flow-arrow {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-item {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .comparison-item h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.75rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .statement-break {
+            border-color: rgba(239, 68, 68, 0.5) !important;
+        }
+
+        .statement-break h4 {
+            color: var(--accent-red) !important;
+        }
+
+        .statement-continue {
+            border-color: rgba(6, 182, 212, 0.5) !important;
+        }
+
+        .statement-continue h4 {
+            color: var(--accent-cyan) !important;
+        }
+
+        .statement-pass {
+            border-color: rgba(251, 146, 60, 0.5) !important;
+        }
+
+        .statement-pass h4 {
+            color: var(--accent-orange) !important;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Loop Control Statements</h1>
+        <p class="subtitle">Complete Classroom Notes — Mastering break, continue & pass in Python</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>Introduction to Loop Control Statements</h2>
+            </div>
+
+            <p>Python provides powerful ways to control the flow of loops. The three primary control statements used within loops are <strong>break</strong>, <strong>continue</strong>, and <strong>pass</strong>. These help manage how loops execute, skip, or terminate iterations dynamically.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-red">break</span>
+                <span class="badge badge-cyan">continue</span>
+                <span class="badge badge-orange">pass</span>
+            </div>
+
+            <h3>Overview of Control Statements</h3>
+            
+            <div class="comparison-grid">
+                <div class="comparison-item statement-break">
+                    <h4>🛑 break</h4>
+                    <p><strong>Purpose:</strong> Terminates the loop entirely</p>
+                    <p><strong>Effect:</strong> Exits loop immediately</p>
+                    <p><strong>Use:</strong> When condition is met and loop should stop</p>
+                </div>
+                
+                <div class="comparison-item statement-continue">
+                    <h4>⏭️ continue</h4>
+                    <p><strong>Purpose:</strong> Skips current iteration</p>
+                    <p><strong>Effect:</strong> Jumps to next iteration</p>
+                    <p><strong>Use:</strong> When you want to skip specific cases</p>
+                </div>
+                
+                <div class="comparison-item statement-pass">
+                    <h4>⏸️ pass</h4>
+                    <p><strong>Purpose:</strong> Does nothing</p>
+                    <p><strong>Effect:</strong> No effect on flow</p>
+                    <p><strong>Use:</strong> As a placeholder</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Why Loop Control Matters</span>
+                </div>
+                <p>These statements give Python programmers precise control over loop execution, enabling clean, readable, and conditionally responsive code flow. They're essential for efficient programming and are frequently tested in technical interviews.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: break Statement -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🛑</div>
+                <h2>The break Statement</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge badge-red">Terminates Loop</span>
+                <span class="badge">Exit Immediately</span>
+                <span class="badge badge-purple">Innermost Loop</span>
+            </div>
+
+            <h3>Definition</h3>
+            <p>The <code>break</code> statement <strong>immediately terminates</strong> the closest enclosing loop (either <code>for</code> or <code>while</code>). Execution jumps to the first statement after the loop.</p>
+
+            <h3>Purpose</h3>
+            <p>Used when a specific condition occurs and further loop executions are no longer required. It provides an early exit mechanism for loops.</p>
+
+            <h3>Key Rules</h3>
+            <ul>
+                <li>It <strong>stops the loop entirely</strong>, not just the current iteration</li>
+                <li>Often appears inside <code>if</code> conditions</li>
+                <li>Can be used within nested loops, in which case <code>break</code> only stops the <strong>innermost loop</strong></li>
+                <li>Code after <code>break</code> in the loop is never executed</li>
+            </ul>
+
+            <h3>Syntax</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">SYNTAX</span>
+                    <pre>if condition:
+    break</pre>
+                </div>
+            </div>
+
+            <h3>Example 1: Stop Loop at Condition</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>for i in range(1, 10):
+    if i == 5:
+        break
+    print(i)
+
+<span class="code-comment"># Output:
+# 1
+# 2
+# 3
+# 4</span></pre>
+                </div>
+            </div>
+
+            <div class="flowchart">
+                <div class="flowchart-title">🔄 break Statement Flow</div>
+                <div class="flow-box">Start Loop</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-cyan);">Check Condition</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-red);">If True: break</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Exit Loop Immediately</div>
+            </div>
+
+            <h3>Example 2: Searching in a List</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>nums = [10, 20, 30, 40, 50]
+target = 30
+
+for n in nums:
+    if n == target:
+        print(f"Found {target}!")
+        break
+    print(f"Checking {n}...")
+
+<span class="code-comment"># Output:
+# Checking 10...
+# Checking 20...
+# Found 30!</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 3: Break in while Loop</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>i = 1
+while i <= 10:
+    if i == 6:
+        print(f"Breaking at {i}")
+        break
+    print(i)
+    i += 1
+
+<span class="code-comment"># Output:
+# 1
+# 2
+# 3
+# 4
+# 5
+# Breaking at 6</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 4: Nested Loops with break</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>for i in range(3):
+    print(f"Outer loop: i={i}")
+    for j in range(3):
+        if j == 1:
+            print(f"  Breaking inner loop at j={j}")
+            break
+        print(f"  Inner loop: j={j}")
+    print(f"Outer loop continues...\n")
+
+<span class="code-comment"># Output:
+# Outer loop: i=0
+#   Inner loop: j=0
+#   Breaking inner loop at j=1
+# Outer loop continues...
+# 
+# Outer loop: i=1
+#   Inner loop: j=0
+#   Breaking inner loop at j=1
+# Outer loop continues...
+# 
+# Outer loop: i=2
+#   Inner loop: j=0
+#   Breaking inner loop at j=1
+# Outer loop continues...</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 5: Breaking Infinite Loop</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>while True:
+    name = input("Enter name (type 'stop' to exit): ")
+    if name.lower() == "stop":
+        print("Exiting program...")
+        break
+    print(f"Hello, {name}!")
+
+<span class="code-comment"># Sample interaction:
+# Enter name (type 'stop' to exit): Amit
+# Hello, Amit!
+# Enter name (type 'stop' to exit): Priya
+# Hello, Priya!
+# Enter name (type 'stop' to exit): stop
+# Exiting program...</span></pre>
+                </div>
+            </div>
+
+            <h3>Practical Uses</h3>
+            <div class="key-points">
+                <h4>🎯 Real-World Applications</h4>
+                <ul>
+                    <li>Searching and exiting when a match is found</li>
+                    <li>Validating inputs within loops</li>
+                    <li>Preventing infinite loop conditions</li>
+                    <li>Early termination in optimization algorithms</li>
+                    <li>Exit menu systems when user selects quit</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p><code>break</code> helps end loops prematurely when a desired condition is achieved, ensuring efficient and controlled flow of execution.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: continue Statement -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⏭️</div>
+                <h2>The continue Statement</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge badge-cyan">Skips Iteration</span>
+                <span class="badge badge-blue">Jumps to Next</span>
+                <span class="badge badge-green">Continues Loop</span>
+            </div>
+
+            <h3>Definition</h3>
+            <p>The <code>continue</code> statement <strong>skips the current iteration</strong> and jumps directly to the next iteration of the loop. The loop doesn't terminate; it just bypasses the remaining code in that particular cycle.</p>
+
+            <h3>Purpose</h3>
+            <p>Used when you want to ignore certain conditions within a loop but still continue looping. Perfect for filtering or skipping unwanted data.</p>
+
+            <h3>Key Rules</h3>
+            <ul>
+                <li>Unlike <code>break</code>, it <strong>doesn't end the loop entirely</strong></li>
+                <li>Skipped iterations do not execute the remaining code in that cycle</li>
+                <li>Commonly used for <strong>filtering</strong>, skipping invalid data, or ignoring special values</li>
+                <li>Works with both <code>for</code> and <code>while</code> loops</li>
+            </ul>
+
+            <h3>Syntax</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">SYNTAX</span>
+                    <pre>if condition:
+    continue</pre>
+                </div>
+            </div>
+
+            <h3>Example 1: Skip Even Numbers</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>for i in range(1, 6):
+    if i % 2 == 0:
+        continue
+    print(i)
+
+<span class="code-comment"># Output:
+# 1
+# 3
+# 5</span></pre>
+                </div>
+            </div>
+
+            <div class="flowchart">
+                <div class="flowchart-title">🔄 continue Statement Flow</div>
+                <div class="flow-box">Start Iteration</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-cyan);">Check Condition</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-cyan);">If True: continue</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Skip to Next Iteration</div>
+            </div>
+
+            <h3>Example 2: Skip Specific Value</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>nums = [1, 2, 3, 4, 5]
+
+for n in nums:
+    if n == 3:
+        print(f"Skipping {n}")
+        continue
+    print(f"Processing {n}")
+
+<span class="code-comment"># Output:
+# Processing 1
+# Processing 2
+# Skipping 3
+# Processing 4
+# Processing 5</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 3: Skip Empty Strings</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>names = ["Anu", "", "Ravi", "", "Meera"]
+
+for name in names:
+    if name == "":
+        continue
+    print(f"Hello, {name}!")
+
+<span class="code-comment"># Output:
+# Hello, Anu!
+# Hello, Ravi!
+# Hello, Meera!</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 4: Skip Negative Numbers</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>numbers = [-3, -1, 0, 2, 4, -5, 6]
+
+print("Positive numbers and zero:")
+for num in numbers:
+    if num < 0:
+        continue
+    print(num)
+
+<span class="code-comment"># Output:
+# Positive numbers and zero:
+# 0
+# 2
+# 4
+# 6</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 5: Continue in while Loop</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>i = 0
+while i < 5:
+    i += 1
+    if i == 3:
+        print(f"Skipping {i}")
+        continue
+    print(f"Number: {i}")
+
+<span class="code-comment"># Output:
+# Number: 1
+# Number: 2
+# Skipping 3
+# Number: 4
+# Number: 5</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 6: Data Validation</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>scores = [85, -5, 92, 150, 78, 105]
+
+print("Valid scores (0-100):")
+for score in scores:
+    if score < 0 or score > 100:
+        print(f"  Invalid: {score}")
+        continue
+    print(f"  Valid: {score}")
+
+<span class="code-comment"># Output:
+# Valid scores (0-100):
+#   Valid: 85
+#   Invalid: -5
+#   Valid: 92
+#   Invalid: 150
+#   Valid: 78
+#   Invalid: 105</span></pre>
+                </div>
+            </div>
+
+            <h3>Practical Uses</h3>
+            <div class="key-points">
+                <h4>🎯 Real-World Applications</h4>
+                <ul>
+                    <li>Ignoring invalid input or skipped data</li>
+                    <li>Filtering unwanted elements in lists</li>
+                    <li>Controlling loop flow without full termination</li>
+                    <li>Processing only valid records in datasets</li>
+                    <li>Skipping weekends in date processing</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p><code>continue</code> skips over portions of loop logic while allowing the loop to carry on efficiently, ensuring conditions can be bypassed selectively.</p>
+            </div>
+        </div>
+
+        <!-- Section 4: pass Statement -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⏸️</div>
+                <h2>The pass Statement</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge badge-orange">Does Nothing</span>
+                <span class="badge">Placeholder</span>
+                <span class="badge badge-purple">Null Operation</span>
+            </div>
+
+            <h3>Definition</h3>
+            <p>The <code>pass</code> statement <strong>does nothing</strong> when executed. It is a <strong>null operation</strong>, meaning the interpreter executes it without any effect on program flow.</p>
+
+            <h3>Purpose</h3>
+            <p>Acts as a placeholder where Python's syntax requires a statement but you don't want any code to run yet. Essential for maintaining syntactic correctness during development.</p>
+
+            <h3>Key Rules</h3>
+            <ul>
+                <li>Often used as a <strong>placeholder</strong> in loops, functions, classes, or conditionals</li>
+                <li>Prevents syntax errors when a block must be syntactically present</li>
+                <li>Commonly replaced later during code development</li>
+                <li>Has absolutely <strong>no effect on execution flow</strong></li>
+            </ul>
+
+            <h3>Syntax</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">SYNTAX</span>
+                    <pre>pass</pre>
+                </div>
+            </div>
+
+            <h3>Example 1: Placeholder Function</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>def calculate_tax(income):
+    pass  <span class="code-comment"># To be implemented later</span>
+
+def send_email(recipient):
+    pass  <span class="code-comment"># Placeholder for future implementation</span>
+
+<span class="code-comment"># No output - functions exist but do nothing</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 2: Placeholder Class</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>class Student:
+    pass  <span class="code-comment"># Will add properties and methods later</span>
+
+class Employee:
+    pass  <span class="code-comment"># Placeholder for future development</span>
+
+<span class="code-comment"># Can create instances even with pass</span>
+s = Student()
+e = Employee()
+print(type(s))  <span class="code-comment"># &lt;class '__main__.Student'&gt;</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 3: Pass in Loop</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>for i in range(5):
+    if i == 2:
+        pass  <span class="code-comment"># Do nothing for i=2</span>
+    print(i)
+
+<span class="code-comment"># Output:
+# 0
+# 1
+# 2  ← Still prints because pass does nothing
+# 3
+# 4</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 4: Pass in Conditional</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 10
+
+if x > 5:
+    pass  <span class="code-comment"># Nothing happens</span>
+else:
+    print("x is small")
+
+print("Program continues...")
+
+<span class="code-comment"># Output:
+# Program continues...</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 5: Pass with Exception Handling</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>try:
+    x = 10 / 0
+except ZeroDivisionError:
+    pass  <span class="code-comment"># Silently ignore the error</span>
+
+print("Program continues...")
+
+<span class="code-comment"># Output:
+# Program continues...</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 6: Why pass is Needed</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># ❌ This will cause SyntaxError</span>
+def empty_function():
+    <span class="code-comment"># IndentationError: expected an indented block</span>
+
+<span class="code-comment"># ✅ This works perfectly</span>
+def empty_function():
+    pass  <span class="code-comment"># Valid empty function</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Why Not Use Empty Functions?</span>
+                </div>
+                <p>Python requires at least one statement in code blocks. An empty function, class, or conditional would cause a <strong>SyntaxError</strong>. <code>pass</code> satisfies this requirement while doing nothing.</p>
+            </div>
+
+            <h3>pass vs continue Comparison</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Using pass - prints all numbers</span>
+for i in range(5):
+    if i == 2:
+        pass  <span class="code-comment"># Does nothing</span>
+    print(i)
+<span class="code-comment"># Output: 0 1 2 3 4</span>
+
+<span class="code-comment"># Using continue - skips number 2</span>
+for i in range(5):
+    if i == 2:
+        continue  <span class="code-comment"># Skips to next iteration</span>
+    print(i)
+<span class="code-comment"># Output: 0 1 3 4</span></pre>
+                </div>
+            </div>
+
+            <h3>Practical Uses</h3>
+            <div class="key-points">
+                <h4>🎯 Real-World Applications</h4>
+                <ul>
+                    <li>Marking areas of code "to be implemented later"</li>
+                    <li>Creating minimal class or function definitions</li>
+                    <li>Writing temporary scaffolds during code drafting</li>
+                    <li>Handling exceptions without requiring logic yet</li>
+                    <li>Maintaining code structure in development phase</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p><code>pass</code> serves as a syntactic placeholder, ensuring that program structure remains valid even if functionality is deferred or intentionally left empty.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Comparison Table -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>Complete Comparison</h2>
+            </div>
+
+            <p>Understanding the differences between these three statements is crucial for writing efficient Python code.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Statement</th>
+                        <th>Functionality</th>
+                        <th>Loop Effect</th>
+                        <th>Typical Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>break</code></td>
+                        <td>Terminates the loop immediately</td>
+                        <td>Exits loop and skips remaining iterations</td>
+                        <td>Stop searching, exit on condition match</td>
+                    </tr>
+                    <tr>
+                        <td><code>continue</code></td>
+                        <td>Skips the current iteration</td>
+                        <td>Proceeds to next cycle</td>
+                        <td>Ignore specific inputs or conditions</td>
+                    </tr>
+                    <tr>
+                        <td><code>pass</code></td>
+                        <td>Performs no action</td>
+                        <td>No effect on flow</td>
+                        <td>Placeholder to maintain syntax correctness</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Side-by-Side Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: Using break</span>
+print("With break:")
+for i in range(1, 6):
+    if i == 3:
+        break
+    print(i)
+<span class="code-comment"># Output: 1 2</span>
+
+print("\n" + "="*30 + "\n")
+
+<span class="code-comment"># Example 2: Using continue</span>
+print("With continue:")
+for i in range(1, 6):
+    if i == 3:
+        continue
+    print(i)
+<span class="code-comment"># Output: 1 2 4 5</span>
+
+print("\n" + "="*30 + "\n")
+
+<span class="code-comment"># Example 3: Using pass</span>
+print("With pass:")
+for i in range(1, 6):
+    if i == 3:
+        pass
+    print(i)
+<span class="code-comment"># Output: 1 2 3 4 5</span></pre>
+                </div>
+            </div>
+
+            <h3>Decision Guide</h3>
+            <div class="comparison-grid">
+                <div class="comparison-item statement-break">
+                    <h4>🛑 Use break When</h4>
+                    <p>• You found what you're looking for</p>
+                    <p>• Loop condition is met</p>
+                    <p>• No need to continue looping</p>
+                    <p>• Exit on user command</p>
+                </div>
+                
+                <div class="comparison-item statement-continue">
+                    <h4>⏭️ Use continue When</h4>
+                    <p>• Skip invalid data</p>
+                    <p>• Filter specific values</p>
+                    <p>• Ignore certain conditions</p>
+                    <p>• Continue with next item</p>
+                </div>
+                
+                <div class="comparison-item statement-pass">
+                    <h4>⏸️ Use pass When</h4>
+                    <p>• Creating function stubs</p>
+                    <p>• Placeholder for future code</p>
+                    <p>• Silencing exceptions</p>
+                    <p>• Maintaining structure</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Advanced Examples -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Advanced Examples & Real-World Use Cases</h2>
+            </div>
+
+            <h3>Example 1: User Authentication System</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>max_attempts = 3
+attempts = 0
+
+while attempts < max_attempts:
+    username = input("Username: ")
+    password = input("Password: ")
+    
+    if username == "" or password == "":
+        print("Fields cannot be empty")
+        continue  <span class="code-comment"># Skip to next attempt</span>
+    
+    if username == "admin" and password == "secret123":
+        print("✓ Login successful!")
+        break  <span class="code-comment"># Exit loop on success</span>
+    
+    attempts += 1
+    remaining = max_attempts - attempts
+    if remaining > 0:
+        print(f"✗ Invalid credentials. {remaining} attempts remaining.\n")
+    else:
+        print("✗ Account locked. Too many failed attempts.")
+
+<span class="code-comment"># Sample output:
+# Username: 
+# Password: secret
+# Fields cannot be empty
+# Username: user
+# Password: wrong
+# ✗ Invalid credentials. 2 attempts remaining.
+# Username: admin
+# Password: secret123
+# ✓ Login successful!</span></pre>
+                </div>
+            </div>
+
+            <h3>Example 2: Data Processing Pipeline</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>data = [
+    {"id": 1, "value": 100, "status": "active"},
+    {"id": 2, "value": -50, "status": "active"},
+    {"id": 3, "value": 200, "status": "inactive"},
+    {"id": 4, "value": 150, "status": "active"},
+    {"id": 5, "value": None, "status": "active"}
+]
+
+processed_count = 0
+skipped_count = 0
+
+for record in data:
+    <span class="code-comment"># Skip inactive records</span>
+    if record["status"] == "inactive":
+        print(f"Skipping inactive record ID: {record['id']}")
+        skipped_count += 1
+        continue
+    
+    <span class="code-comment"># Skip invalid data</span>
+    if record["value"] is None or record["value"] < 0:
+        print(f"Skipping invalid value in record ID: {record['id']}")
+        skipped_count += 1
+        continue
+    
+    <span class="code-comment"># Process valid record</span>
+    print(f"✓ Processing record ID: {record['id']}, Value: {record['value']}")
+    processed_count += 1
+    
+    <span class="code-comment"># Stop if we've processed enough</span>
+    if processed_count >= 2:
+        print("\nReached processing limit")
+        break
+
+print(f"\nSummary: {processed_count} processed, {skipped_count} skipped")</pre>
+                </div>
+            </div>
+
+            <h3>Example 3: Menu-Driven Program</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>def show_menu():
+    print("\n=== Calculator Menu ===")
+    print("1. Add")
+    print("2. Subtract")
+    print("3. Multiply")
+    print("4. Divide")
+    print("5. Exit")
+    print("="*23)
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    pass  <span class="code-comment"># To be implemented</span>
+
+def divide(a, b):
+    pass  <span class="code-comment"># To be implemented</span>
+
+while True:
+    show_menu()
+    choice = input("Enter choice (1-5): ")
+    
+    if choice == "5":
+        print("Thank you for using Calculator!")
+        break
+    
+    if choice not in ["1", "2", "3", "4"]:
+        print("Invalid choice. Please try again.")
+        continue
+    
+    try:
+        num1 = float(input("Enter first number: "))
+        num2 = float(input("Enter second number: "))
+    except ValueError:
+        print("Invalid number format!")
+        continue
+    
+    if choice == "1":
+        result = add(num1, num2)
+        print(f"Result: {num1} + {num2} = {result}")
+    elif choice == "2":
+        result = subtract(num1, num2)
+        print(f"Result: {num1} - {num2} = {result}")
+    elif choice == "3":
+        print("Multiply feature coming soon!")
+        pass
+    elif choice == "4":
+        print("Divide feature coming soon!")
+        pass</pre>
+                </div>
+            </div>
+
+            <h3>Example 4: Finding Prime Numbers</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>def is_prime(n):
+    if n < 2:
+        return False
+    
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False  <span class="code-comment"># Not prime, exit early</span>
+    return True
+
+<span class="code-comment"># Find first 5 prime numbers after 10</span>
+count = 0
+number = 10
+
+print("First 5 prime numbers after 10:")
+while count < 5:
+    number += 1
+    
+    if not is_prime(number):
+        continue  <span class="code-comment"># Skip non-prime numbers</span>
+    
+    print(number)
+    count += 1
+
+<span class="code-comment"># Output:
+# First 5 prime numbers after 10:
+# 11
+# 13
+# 17
+# 19
+# 23</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Practice Exercises -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💪</div>
+                <h2>Practice Exercises</h2>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 1: Number Guessing Game</h4>
+                <p>Create a number guessing game where the user has 5 attempts to guess a number between 1-50. Use <code>break</code> when they guess correctly, <code>continue</code> for invalid inputs (non-numbers), and provide feedback on each attempt.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 2: Password Validator</h4>
+                <p>Write a program that validates passwords. Use <code>continue</code> to skip passwords that don't meet criteria (min 8 chars, has digit, has uppercase). Use <code>break</code> when a valid password is found. Use <code>pass</code> for future validation rules.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 3: Shopping Cart</h4>
+                <p>Create a shopping cart program that accepts items and prices. Use <code>continue</code> to skip invalid prices (negative or non-numeric). Use <code>break</code> when user types "done". Calculate and display total.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 4: Search and Replace</h4>
+                <p>Given a list of words, search for a target word. Use <code>break</code> when found. Use <code>continue</code> to skip empty strings. Print the index where it was found or "Not found" message.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 5: Grade Calculator</h4>
+                <p>Process a list of student scores. Use <code>continue</code> to skip invalid scores (< 0 or > 100). Use <code>pass</code> as placeholder for grade category logic. Calculate class average from valid scores only.</p>
+            </div>
+        </div>
+
+        <!-- Section 8: Interview Tips -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Interview Tips & Best Practices</h2>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Common Interview Questions</div>
+                <ul>
+                    <li><strong>Q:</strong> What's the difference between <code>break</code> and <code>continue</code>?<br>
+                    <strong>A:</strong> <code>break</code> exits the loop entirely, while <code>continue</code> skips only the current iteration and moves to the next one.</li>
+                    
+                    <li><strong>Q:</strong> When would you use <code>pass</code>?<br>
+                    <strong>A:</strong> As a placeholder where syntax requires a statement but you want no action, like in stub functions or empty exception handlers.</li>
+                    
+                    <li><strong>Q:</strong> Can you use <code>break</code> in nested loops?<br>
+                    <strong>A:</strong> Yes, but it only breaks the innermost loop where it appears.</li>
+                    
+                    <li><strong>Q:</strong> What happens if you use <code>continue</code> in the last statement of a loop?<br>
+                    <strong>A:</strong> It effectively does nothing since the loop would naturally proceed to the next iteration anyway.</li>
+                </ul>
+            </div>
+
+            <h3>Best Practices</h3>
+            <div class="key-points">
+                <h4>🎯 Code Quality Guidelines</h4>
+                <ul>
+                    <li>Use <code>break</code> sparingly - prefer natural loop termination when possible</li>
+                    <li>Replace <code>pass</code> with actual implementation as soon as possible</li>
+                    <li>Avoid deep nesting with multiple <code>break</code> statements</li>
+                    <li>Comment why you're using <code>continue</code> for code clarity</li>
+                    <li>Consider extracting complex loop logic into separate functions</li>
+                </ul>
+            </div>
+
+            <h3>Common Mistakes to Avoid</h3>
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Pitfalls to Watch Out For</span>
+                </div>
+                <ul>
+                    <li><strong>Infinite loops:</strong> Forgetting to update loop variables before <code>continue</code></li>
+                    <li><strong>Unreachable code:</strong> Placing code after <code>break</code> in the same block</li>
+                    <li><strong>Leaving <code>pass</code>:</strong> Forgetting to implement placeholder functions in production</li>
+                    <li><strong>Overusing <code>break</code>:</strong> Making code hard to follow with multiple exit points</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 9: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Final Summary</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Key Takeaways</h4>
+                <ul>
+                    <li><strong>break</strong> stops a loop entirely - use for early termination</li>
+                    <li><strong>continue</strong> skips only the current iteration - use for filtering</li>
+                    <li><strong>pass</strong> performs no operation - use as placeholder</li>
+                    <li>All three statements give precise control over loop execution</li>
+                    <li>Choose the right statement based on your specific use case</li>
+                    <li>Understanding these statements is essential for efficient programming</li>
+                </ul>
+            </div>
+
+            <h3>Quick Reference</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Statement</th>
+                        <th>When to Use</th>
+                        <th>Example Scenario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>break</code></td>
+                        <td>Exit loop completely</td>
+                        <td>Found search result, user quits, error occurs</td>
+                    </tr>
+                    <tr>
+                        <td><code>continue</code></td>
+                        <td>Skip current iteration</td>
+                        <td>Invalid data, filter condition, skip weekends</td>
+                    </tr>
+                    <tr>
+                        <td><code>pass</code></td>
+                        <td>Do nothing (placeholder)</td>
+                        <td>Stub functions, empty classes, future features</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Loop Control!</span>
+                </div>
+                <p>Together, these statements give Python programmers precise control over loop execution, enabling clean, readable, and conditionally responsive code flow. Practice using them in different scenarios to build strong programming fundamentals!</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Master these statements, master loop control! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Python Loop Control Statements — Complete Classroom Notes</strong></p>
+        <p>Mastering break, continue & pass in Python</p>
+        <p style="margin-top: 1rem;">© 2025 Python Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

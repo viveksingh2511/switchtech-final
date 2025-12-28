@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Conditional Statements - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-yellow {
+            background: linear-gradient(135deg, #fbbf24, #fcd34d);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip {
+            background: rgba(236, 72, 153, 0.1);
+            border-left: 3px solid var(--accent-pink);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .interview-tip-header {
+            color: var(--accent-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip-header::before {
+            content: '🎯';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .flowchart {
+            background: rgba(45, 55, 72, 0.3);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .flowchart-title {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .flow-box {
+            background: var(--gradient-purple);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem auto;
+            max-width: 300px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .flow-diamond {
+            background: var(--accent-cyan);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem auto;
+            max-width: 250px;
+            font-weight: 500;
+            transform: rotate(0deg);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .flow-arrow {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .flow-branch {
+            display: flex;
+            justify-content: space-around;
+            margin: 1rem 0;
+            gap: 1rem;
+        }
+
+        .flow-branch-item {
+            flex: 1;
+        }
+
+        .syntax-box {
+            background: rgba(6, 182, 212, 0.1);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .syntax-box-header {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .syntax-box-header::before {
+            content: '📐';
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-item {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .comparison-item h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.75rem 0;
+            font-size: 1rem;
+        }
+
+        .comparison-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-branch {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Conditional Statements</h1>
+        <p class="subtitle">Complete Classroom Notes — Mastering Decision-Making in Python</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔀</div>
+                <h2>Introduction to Conditional Statements</h2>
+            </div>
+
+            <p>In programming, <strong>conditionals</strong> determine <strong>which part of the code</strong> should be executed based on whether a <strong>condition (expression)</strong> evaluates to <code>True</code> or <code>False</code>.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-purple">Decision Making</span>
+                <span class="badge badge-green">Control Flow</span>
+                <span class="badge badge-blue">Boolean Logic</span>
+            </div>
+
+            <h3>Purpose of Conditionals</h3>
+            <p>Conditionals add <strong>decision-making ability</strong> to your programs, allowing them to respond differently based on various conditions and user inputs.</p>
+
+            <h3>Key Components</h3>
+            <ul>
+                <li><strong><code>if</code>:</strong> Executes a block if the condition is <code>True</code></li>
+                <li><strong><code>elif</code>:</strong> Tests another condition if the previous ones are <code>False</code></li>
+                <li><strong><code>else</code>:</strong> Executes only when all previous conditions are <code>False</code></li>
+            </ul>
+
+            <h3>Boolean Evaluation</h3>
+            <p>Any expression that results in <code>True</code> or <code>False</code>, such as comparisons (<code>x > 10</code>, <code>name == "Alice"</code>, etc.).</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>temperature = 30
+if temperature > 25:
+    print("It's warm outside.")
+<span class="code-comment"># Output: It's warm outside.</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>How It Works</span>
+                </div>
+                <p>The message prints only when the condition <code>temperature > 25</code> evaluates to <code>True</code>. This is the foundation of all decision-making in programming!</p>
+            </div>
+
+            <div class="flowchart">
+                <div class="flowchart-title">🔄 Conditional Flow Overview</div>
+                <div class="flow-box">Start Program</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-diamond">Evaluate Condition</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-branch">
+                    <div class="flow-branch-item">
+                        <div style="color: var(--accent-green); font-weight: 600; margin-bottom: 0.5rem;">✓ True</div>
+                        <div class="flow-box" style="background: var(--accent-green);">Execute Block</div>
+                    </div>
+                    <div class="flow-branch-item">
+                        <div style="color: var(--accent-orange); font-weight: 600; margin-bottom: 0.5rem;">✗ False</div>
+                        <div class="flow-box" style="background: var(--accent-orange);">Skip Block</div>
+                    </div>
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Continue Program</div>
+            </div>
+        </div>
+
+        <!-- Section 2: The if Statement -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">1️⃣</div>
+                <h2>The if Statement</h2>
+            </div>
+
+            <p>The <strong><code>if</code> statement</strong> is the simplest form of decision-making. It allows your program to execute a block of code only when a specific condition is met.</p>
+
+            <div class="syntax-box">
+                <div class="syntax-box-header">Syntax Structure</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>if condition:
+    statement(s)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Key Characteristics</h3>
+            <ul>
+                <li>Begins with the keyword <strong><code>if</code></strong></li>
+                <li>Followed by a <strong>condition</strong> (expression that evaluates to True/False)</li>
+                <li>Ends with a <strong>colon</strong> (<code>:</code>)</li>
+                <li>The code block underneath must be <strong>indented</strong> (typically 4 spaces)</li>
+            </ul>
+
+            <h3>Basic Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 10
+if x > 5:
+    print("x is greater than 5")
+<span class="code-comment"># Output: x is greater than 5</span></pre>
+                </div>
+            </div>
+
+            <h3>How It Works (Step-by-Step)</h3>
+            <ol>
+                <li>Python evaluates the condition <code>x > 5</code></li>
+                <li>Since <code>10 > 5</code> is <code>True</code>, the indented statement executes</li>
+                <li>The message is printed to the console</li>
+                <li>If the condition were <code>False</code>, Python would skip the indented block entirely</li>
+            </ol>
+
+            <h3>Multiple Statements in if Block</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = 20
+if age >= 18:
+    print("You are an adult")
+    print("You can vote")
+    print("You have full legal rights")
+<span class="code-comment"># All three statements execute because age >= 18 is True</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Mistake: Indentation</span>
+                </div>
+                <p>Python uses indentation to determine which statements belong to the <code>if</code> block. Incorrect indentation will cause an <code>IndentationError</code>.</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre><span class="code-comment"># ❌ Wrong - IndentationError</span>
+if x > 5:
+print("This will cause an error")
+
+<span class="code-comment"># ✅ Correct</span>
+if x > 5:
+    print("This works perfectly")</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flowchart">
+                <div class="flowchart-title">🔄 if Statement Flow</div>
+                <div class="flow-box">Start</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-diamond">Is condition True?</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-branch">
+                    <div class="flow-branch-item">
+                        <div style="color: var(--accent-green); font-weight: 600; margin-bottom: 0.5rem;">Yes</div>
+                        <div class="flow-box" style="background: var(--accent-green);">Execute if block</div>
+                    </div>
+                    <div class="flow-branch-item">
+                        <div style="color: var(--accent-orange); font-weight: 600; margin-bottom: 0.5rem;">No</div>
+                        <div class="flow-box" style="background: var(--accent-orange);">Skip if block</div>
+                    </div>
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Continue with rest of program</div>
+            </div>
+        </div>
+
+        <!-- Section 3: The else Statement -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">2️⃣</div>
+                <h2>The else Statement</h2>
+            </div>
+
+            <p>The <strong><code>else</code> statement</strong> handles the "alternative" branch—what to do when the <code>if</code> condition is <code>False</code>. It provides a default action when the primary condition isn't met.</p>
+
+            <div class="syntax-box">
+                <div class="syntax-box-header">Syntax Structure</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>if condition:
+    <span class="code-comment"># executes when True</span>
+else:
+    <span class="code-comment"># executes when False</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Basic Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 2
+if x > 5:
+    print("x is greater than 5")
+else:
+    print("x is 5 or smaller")
+<span class="code-comment"># Output: x is 5 or smaller</span></pre>
+                </div>
+            </div>
+
+            <h3>How It Works</h3>
+            <ul>
+                <li>Python first evaluates the <code>if</code> condition</li>
+                <li>If <code>True</code>, only the <code>if</code> block executes</li>
+                <li>If <code>False</code>, Python automatically jumps to the <code>else</code> block</li>
+                <li>Only one branch ever executes—never both</li>
+            </ul>
+
+            <h3>Practical Example: Authentication</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>password = "secret123"
+user_input = "secret123"
+
+if user_input == password:
+    print("✓ Access Granted")
+    print("Welcome to the system!")
+else:
+    print("✗ Access Denied")
+    print("Incorrect password")
+<span class="code-comment"># Output: ✓ Access Granted
+#         Welcome to the system!</span></pre>
+                </div>
+            </div>
+
+            <h3>Real-World Example: Age Verification</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = 16
+
+if age >= 18:
+    print("You can create an account")
+    print("Full access granted")
+else:
+    print("You must be 18 or older")
+    print("Parental consent required")
+<span class="code-comment"># Output: You must be 18 or older
+#         Parental consent required</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Key Concept</span>
+                </div>
+                <p>The <code>else</code> clause is optional but extremely useful for handling the "what if it's not true?" scenario. It creates a complete decision structure with two clear paths.</p>
+            </div>
+
+            <div class="flowchart">
+                <div class="flowchart-title">🔄 if-else Statement Flow</div>
+                <div class="flow-box">Start</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-diamond">Is condition True?</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-branch">
+                    <div class="flow-branch-item">
+                        <div style="color: var(--accent-green); font-weight: 600; margin-bottom: 0.5rem;">Yes (True)</div>
+                        <div class="flow-box" style="background: var(--accent-green);">Execute if block</div>
+                    </div>
+                    <div class="flow-branch-item">
+                        <div style="color: var(--accent-orange); font-weight: 600; margin-bottom: 0.5rem;">No (False)</div>
+                        <div class="flow-box" style="background: var(--accent-orange);">Execute else block</div>
+                    </div>
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Continue Program</div>
+            </div>
+        </div>
+
+        <!-- Section 4: The elif Statement -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">3️⃣</div>
+                <h2>The elif Statement (else if)</h2>
+            </div>
+
+            <p><code>elif</code> allows <strong>multiple branching</strong> decisions—checking more than one condition in sequence. It's short for "else if" and is used when you have more than two possible outcomes.</p>
+
+            <div class="syntax-box">
+                <div class="syntax-box-header">Syntax Structure</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>if condition1:
+    statement1
+elif condition2:
+    statement2
+elif condition3:
+    statement3
+else:
+    fallback_statement</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Basic Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 10
+
+if x < 0:
+    print("Negative")
+elif x == 0:
+    print("Zero")
+elif x < 10:
+    print("Single digit positive")
+else:
+    print("Two-digit or larger")
+<span class="code-comment"># Output: Two-digit or larger</span></pre>
+                </div>
+            </div>
+
+            <h3>How It Works (Execution Flow)</h3>
+            <ol>
+                <li>Python checks conditions <strong>in order from top to bottom</strong></li>
+                <li>Once a condition is <code>True</code>, it executes that block</li>
+                <li><strong>Skips all remaining</strong> <code>elif</code> and <code>else</code> blocks</li>
+                <li>If no condition is <code>True</code>, the <code>else</code> block executes (if present)</li>
+            </ol>
+
+            <h3>Grade Categorization Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>marks = 85
+
+if marks >= 90:
+    grade = "A+"
+    print(f"Grade: {grade} - Outstanding!")
+elif marks >= 80:
+    grade = "A"
+    print(f"Grade: {grade} - Excellent!")
+elif marks >= 70:
+    grade = "B"
+    print(f"Grade: {grade} - Good")
+elif marks >= 60:
+    grade = "C"
+    print(f"Grade: {grade} - Average")
+else:
+    grade = "F"
+    print(f"Grade: {grade} - Needs Improvement")
+
+<span class="code-comment"># Output: Grade: A - Excellent!</span></pre>
+                </div>
+            </div>
+
+            <h3>Traffic Light Simulator</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>light = "yellow"
+
+if light == "red":
+    print("🔴 STOP - Do not cross")
+elif light == "yellow":
+    print("🟡 SLOW DOWN - Prepare to stop")
+elif light == "green":
+    print("🟢 GO - Safe to proceed")
+else:
+    print("⚠️ Signal malfunction - Exercise caution")
+
+<span class="code-comment"># Output: 🟡 SLOW DOWN - Prepare to stop</span></pre>
+                </div>
+            </div>
+
+            <h3>Temperature Classification</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>temp = 28
+
+if temp > 35:
+    print("🔥 Extremely Hot - Stay hydrated")
+elif temp > 25:
+    print("☀️ Warm - Pleasant weather")
+elif temp > 15:
+    print("🌤️ Mild - Comfortable")
+elif temp > 5:
+    print("🌥️ Cool - Wear a jacket")
+else:
+    print("❄️ Cold - Bundle up")
+
+<span class="code-comment"># Output: ☀️ Warm - Pleasant weather</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>Using <code>elif</code> is more efficient than using multiple separate <code>if</code> statements because Python stops checking once it finds a <code>True</code> condition. This brings clarity and avoids deeply nested code.</p>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Mistake: Multiple if vs elif</span>
+                </div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre><span class="code-comment"># ❌ Wrong - Checks ALL conditions (inefficient)</span>
+score = 85
+if score >= 90:
+    print("A+")
+if score >= 80:
+    print("A")     <span class="code-comment"># This will print!</span>
+if score >= 70:
+    print("B")     <span class="code-comment"># This will also print!</span>
+
+<span class="code-comment"># ✅ Correct - Stops at first True</span>
+score = 85
+if score >= 90:
+    print("A+")
+elif score >= 80:
+    print("A")     <span class="code-comment"># Only this prints, then stops</span>
+elif score >= 70:
+    print("B")</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Nested Conditionals -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Nested if-else Statements</h2>
+            </div>
+
+            <p><strong>Nested conditional statements</strong> place one <code>if-else</code> inside another for more complex, multi-level decision-making.</p>
+
+            <h3>When to Use Nested Conditionals</h3>
+            <ul>
+                <li>When you need to check a condition <strong>only if</strong> another condition is already true</li>
+                <li>For hierarchical or dependent decision-making</li>
+                <li>When different criteria apply at different levels</li>
+            </ul>
+
+            <h3>Basic Example: Age Category</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = 25
+
+if age >= 18:
+    print("You are an adult")
+    if age >= 60:
+        print("Category: Senior Citizen")
+    else:
+        print("Category: Working Age Adult")
+else:
+    print("You are a minor")
+    if age >= 13:
+        print("Category: Teenager")
+    else:
+        print("Category: Child")
+
+<span class="code-comment"># Output: You are an adult
+#         Category: Working Age Adult</span></pre>
+                </div>
+            </div>
+
+            <h3>Step-by-Step Execution</h3>
+            <ol>
+                <li>Check outer condition: <code>age >= 18</code> → <code>True</code></li>
+                <li>Enter the outer <code>if</code> block</li>
+                <li>Check inner condition: <code>age >= 60</code> → <code>False</code></li>
+                <li>Execute inner <code>else</code> block</li>
+            </ol>
+
+            <h3>Real-World Example: ATM Transaction</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>balance = 5000
+withdraw_amount = 2000
+pin_correct = True
+
+if pin_correct:
+    print("✓ PIN Verified")
+    if withdraw_amount <= balance:
+        print("✓ Sufficient Balance")
+        if withdraw_amount <= 10000:
+            balance = balance - withdraw_amount
+            print(f"✓ Transaction Successful")
+            print(f"New Balance: ${balance}")
+        else:
+            print("✗ Amount exceeds daily ATM limit ($10,000)")
+    else:
+        print("✗ Insufficient Balance")
+else:
+    print("✗ Invalid PIN - Access Denied")
+
+<span class="code-comment"># Output: ✓ PIN Verified
+#         ✓ Sufficient Balance
+#         ✓ Transaction Successful
+#         New Balance: $3000</span></pre>
+                </div>
+            </div>
+
+            <h3>Login System with Multiple Checks</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>username = "admin"
+password = "secure123"
+is_account_active = True
+
+if username == "admin":
+    print("Username valid")
+    if password == "secure123":
+        print("Password correct")
+        if is_account_active:
+            print("✓ Login Successful - Welcome Admin!")
+        else:
+            print("✗ Account is deactivated")
+    else:
+        print("✗ Incorrect password")
+else:
+    print("✗ Username not found")</pre>
+                </div>
+            </div>
+
+            <h3>E-commerce Discount System</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>is_member = True
+purchase_amount = 1200
+has_coupon = True
+
+if is_member:
+    print("Member discount applied: 10%")
+    discount = 0.10
+    
+    if purchase_amount > 1000:
+        print("Bulk purchase bonus: +5%")
+        discount = discount + 0.05
+        
+        if has_coupon:
+            print("Coupon discount: +10%")
+            discount = discount + 0.10
+    
+    final_amount = purchase_amount * (1 - discount)
+    print(f"Total Discount: {discount*100}%")
+    print(f"Final Amount: ${final_amount}")
+else:
+    print("Regular price applies")
+
+<span class="code-comment"># Output: Member discount applied: 10%
+#         Bulk purchase bonus: +5%
+#         Coupon discount: +10%
+#         Total Discount: 25.0%
+#         Final Amount: $900.0</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Best Practice Warning</span>
+                </div>
+                <p><strong>Avoid deeply nested conditionals!</strong> Too many nested levels (more than 3-4) reduce readability and make code harder to maintain. Consider using <code>elif</code> or breaking logic into separate functions instead.</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Pro Tip</span>
+                </div>
+                <p>When you find yourself nesting more than 2-3 levels deep, ask: "Can I use <code>elif</code> instead?" or "Should this be a separate function?" This improves code clarity and maintainability.</p>
+            </div>
+        </div>
+
+        <!-- Section 6: Ternary Operator -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h2>Shorthand (Ternary) if-else</h2>
+            </div>
+
+            <p>A <strong>compact form</strong> of <code>if-else</code> used for simple one-line conditions. Also known as the <strong>ternary operator</strong> or <strong>conditional expression</strong>.</p>
+
+            <div class="syntax-box">
+                <div class="syntax-box-header">Syntax Structure</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>value_if_true if condition else value_if_false</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Basic Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Simple even/odd check</span>
+x = 5
+result = "Even" if x % 2 == 0 else "Odd"
+print(result)  <span class="code-comment"># Output: Odd</span>
+
+<span class="code-comment"># Comparing two numbers</span>
+a, b = 10, 20
+max_value = a if a > b else b
+print(f"Maximum: {max_value}")  <span class="code-comment"># Output: Maximum: 20</span>
+
+<span class="code-comment"># Age category</span>
+age = 25
+category = "Adult" if age >= 18 else "Minor"
+print(category)  <span class="code-comment"># Output: Adult</span></pre>
+                </div>
+            </div>
+
+            <h3>How It Works</h3>
+            <ul>
+                <li>If the <strong>condition</strong> is <code>True</code>, the first expression (<code>value_if_true</code>) is returned</li>
+                <li>If the <strong>condition</strong> is <code>False</code>, the second expression (<code>value_if_false</code>) is returned</li>
+                <li>Can be assigned to variables or used directly in expressions</li>
+            </ul>
+
+            <h3>Comparison: Traditional vs Ternary</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Traditional if-else (5 lines)</span>
+score = 75
+if score >= 50:
+    status = "Pass"
+else:
+    status = "Fail"
+
+<span class="code-comment"># Ternary operator (1 line)</span>
+score = 75
+status = "Pass" if score >= 50 else "Fail"
+
+<span class="code-comment"># Both produce the same result: Pass</span></pre>
+                </div>
+            </div>
+
+            <h3>Practical Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Discount eligibility</span>
+purchase = 150
+discount = 20 if purchase > 100 else 10
+print(f"Discount: {discount}%")  <span class="code-comment"># Output: Discount: 20%</span>
+
+<span class="code-comment"># Shipping fee</span>
+order_total = 80
+shipping = 0 if order_total >= 100 else 5
+print(f"Shipping: ${shipping}")  <span class="code-comment"># Output: Shipping: $5</span>
+
+<span class="code-comment"># Access level</span>
+is_admin = True
+access_level = "Full Access" if is_admin else "Limited Access"
+print(access_level)  <span class="code-comment"># Output: Full Access</span>
+
+<span class="code-comment"># Temperature message</span>
+temp = 32
+message = "It's hot!" if temp > 30 else "It's comfortable"
+print(message)  <span class="code-comment"># Output: It's hot!</span></pre>
+                </div>
+            </div>
+
+            <h3>Using Ternary in Print Statements</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 7
+print("Even") if x % 2 == 0 else print("Odd")
+<span class="code-comment"># Output: Odd</span>
+
+age = 16
+print("Can vote" if age >= 18 else "Cannot vote yet")
+<span class="code-comment"># Output: Cannot vote yet</span></pre>
+                </div>
+            </div>
+
+            <h3>Nested Ternary (Use with Caution)</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>marks = 85
+grade = "A+" if marks >= 90 else "A" if marks >= 80 else "B" if marks >= 70 else "C"
+print(grade)  <span class="code-comment"># Output: A</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>When to Avoid Ternary</span>
+                </div>
+                <p><strong>Don't use ternary operators for:</strong></p>
+                <ul>
+                    <li>Complex conditions with multiple statements</li>
+                    <li>Deeply nested ternary expressions (hard to read)</li>
+                    <li>When code clarity is more important than brevity</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Best Use Cases</span>
+                </div>
+                <p><strong>Perfect for:</strong> Simple variable assignments, quick value selections, default parameters, and one-line status checks where readability isn't compromised.</p>
+            </div>
+        </div>
+
+        <!-- Section 7: Comparison Operators -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>Comparison Operators</h2>
+            </div>
+
+            <p>Comparison operators are used to compare values and return a Boolean result (<code>True</code> or <code>False</code>). They form the foundation of all conditional logic.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Meaning</th>
+                        <th>Example</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>==</code></td>
+                        <td>Equal to</td>
+                        <td><code>5 == 5</code></td>
+                        <td><code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>!=</code></td>
+                        <td>Not equal to</td>
+                        <td><code>5 != 6</code></td>
+                        <td><code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>&gt;</code></td>
+                        <td>Greater than</td>
+                        <td><code>7 &gt; 3</code></td>
+                        <td><code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;</code></td>
+                        <td>Less than</td>
+                        <td><code>4 &lt; 5</code></td>
+                        <td><code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>&gt;=</code></td>
+                        <td>Greater than or equal to</td>
+                        <td><code>8 &gt;= 8</code></td>
+                        <td><code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;=</code></td>
+                        <td>Less than or equal to</td>
+                        <td><code>9 &lt;= 10</code></td>
+                        <td><code>True</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Practical Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Equality check</span>
+password = "abc123"
+if password == "abc123":
+    print("Password matches")  <span class="code-comment"># Output: Password matches</span>
+
+<span class="code-comment"># Not equal</span>
+status = "active"
+if status != "banned":
+    print("User can access the system")
+
+<span class="code-comment"># Greater than</span>
+age = 25
+if age > 18:
+    print("You are an adult")
+
+<span class="code-comment"># Less than or equal</span>
+score = 100
+if score <= 100:
+    print("Score is within valid range")
+
+<span class="code-comment"># Combining in elif</span>
+temp = 28
+if temp > 30:
+    print("Hot")
+elif temp >= 20:
+    print("Warm")  <span class="code-comment"># This executes</span>
+else:
+    print("Cold")</pre>
+                </div>
+            </div>
+
+            <h3>String Comparisons</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Case-sensitive comparison</span>
+name = "Python"
+if name == "python":
+    print("Match")
+else:
+    print("No match")  <span class="code-comment"># Output: No match</span>
+
+<span class="code-comment"># Case-insensitive comparison</span>
+name = "Python"
+if name.lower() == "python":
+    print("Match!")  <span class="code-comment"># Output: Match!</span>
+
+<span class="code-comment"># Alphabetical comparison</span>
+if "apple" < "banana":
+    print("apple comes first")  <span class="code-comment"># True alphabetically</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Mistake: = vs ==</span>
+                </div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre><span class="code-comment"># ❌ Wrong - Assignment, not comparison</span>
+x = 5
+if x = 5:  <span class="code-comment"># SyntaxError!</span>
+    print("This won't work")
+
+<span class="code-comment"># ✅ Correct - Comparison</span>
+x = 5
+if x == 5:  <span class="code-comment"># Correct!</span>
+    print("This works perfectly")</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Logical Operators -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔗</div>
+                <h2>Logical Operators in Conditions</h2>
+            </div>
+
+            <p>Logical operators combine multiple conditions into one expression, enabling more complex decision-making.</p>
+
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h4>and</h4>
+                    <p>ALL conditions must be True</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>or</h4>
+                    <p>AT LEAST ONE must be True</p>
+                </div>
+                <div class="comparison-item">
+                    <h4>not</h4>
+                    <p>Inverts the condition (True ↔ False)</p>
+                </div>
+            </div>
+
+            <h3>The and Operator</h3>
+            <p>Returns <code>True</code> only if <strong>all</strong> conditions are <code>True</code>.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = 25
+citizen = True
+
+if age >= 18 and citizen:
+    print("Eligible to vote")
+<span class="code-comment"># Output: Eligible to vote</span>
+
+<span class="code-comment"># Login validation</span>
+username = "admin"
+password = "secret"
+if username == "admin" and password == "secret":
+    print("Login successful")
+
+<span class="code-comment"># Range checking</span>
+score = 75
+if score >= 0 and score <= 100:
+    print("Valid score")</pre>
+                </div>
+            </div>
+
+            <h3>Truth Table for and</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Condition 1</th>
+                        <th>Condition 2</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>True</td>
+                        <td>True</td>
+                        <td><strong>True</strong></td>
+                    </tr>
+                    <tr>
+                        <td>True</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                    <tr>
+                        <td>False</td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                    <tr>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>The or Operator</h3>
+            <p>Returns <code>True</code> if <strong>at least one</strong> condition is <code>True</code>.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>day = "Saturday"
+
+if day == "Saturday" or day == "Sunday":
+    print("It's the weekend!")
+<span class="code-comment"># Output: It's the weekend!</span>
+
+<span class="code-comment"># Emergency access</span>
+is_admin = False
+is_emergency = True
+if is_admin or is_emergency:
+    print("Access granted")
+
+<span class="code-comment"># Payment method</span>
+has_cash = False
+has_card = True
+if has_cash or has_card:
+    print("Can make purchase")</pre>
+                </div>
+            </div>
+
+            <h3>Truth Table for or</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Condition 1</th>
+                        <th>Condition 2</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>True</td>
+                        <td>True</td>
+                        <td><strong>True</strong></td>
+                    </tr>
+                    <tr>
+                        <td>True</td>
+                        <td>False</td>
+                        <td><strong>True</strong></td>
+                    </tr>
+                    <tr>
+                        <td>False</td>
+                        <td>True</td>
+                        <td><strong>True</strong></td>
+                    </tr>
+                    <tr>
+                        <td>False</td>
+                        <td>False</td>
+                        <td>False</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>The not Operator</h3>
+            <p>Inverts a Boolean value: <code>True</code> becomes <code>False</code>, and vice versa.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>is_raining = False
+
+if not is_raining:
+    print("You can go outside!")
+<span class="code-comment"># Output: You can go outside!</span>
+
+<span class="code-comment"># Checking if NOT logged in</span>
+logged_in = False
+if not logged_in:
+    print("Please log in to continue")
+
+<span class="code-comment"># Inverting conditions</span>
+is_member = True
+if not is_member:
+    print("Sign up for membership")
+else:
+    print("Welcome back, member!")</pre>
+                </div>
+            </div>
+
+            <h3>Combining Multiple Logical Operators</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Complex condition</span>
+age = 25
+has_license = True
+has_insurance = True
+
+if age >= 18 and has_license and has_insurance:
+    print("Can rent a car")
+
+<span class="code-comment"># Discount eligibility</span>
+is_student = True
+is_senior = False
+has_coupon = True
+
+if (is_student or is_senior) and has_coupon:
+    print("Extra discount applied!")
+
+<span class="code-comment"># Access control</span>
+is_admin = False
+is_moderator = True
+is_banned = False
+
+if (is_admin or is_moderator) and not is_banned:
+    print("Can moderate content")</pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>Logical operators follow <strong>short-circuit evaluation</strong>: For <code>and</code>, if the first condition is False, Python doesn't check the rest. For <code>or</code>, if the first condition is True, Python stops checking. This improves efficiency!</p>
+            </div>
+        </div>
+
+        <!-- Section 9: Real-Life Applications -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🌍</div>
+                <h2>Real-Life Use Cases</h2>
+            </div>
+
+            <h3>1. Authentication System</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>username = "user123"
+password = "pass456"
+is_active = True
+
+if username == "user123":
+    if password == "pass456":
+        if is_active:
+            print("✓ Login successful")
+            print("Welcome to your dashboard!")
+        else:
+            print("✗ Account suspended")
+    else:
+        print("✗ Incorrect password")
+else:
+    print("✗ Username not found")</pre>
+                </div>
+            </div>
+
+            <h3>2. E-commerce Discount Logic</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>purchase = 1200
+is_member = True
+
+if purchase > 1000:
+    if is_member:
+        discount = 0.15  <span class="code-comment"># 15% for members</span>
+    else:
+        discount = 0.10  <span class="code-comment"># 10% for non-members</span>
+else:
+    if is_member:
+        discount = 0.05  <span class="code-comment"># 5% for members</span>
+    else:
+        discount = 0.00  <span class="code-comment"># No discount</span>
+
+final_price = purchase * (1 - discount)
+print(f"Discount: {discount*100}%")
+print(f"Final Price: ${final_price}")</pre>
+                </div>
+            </div>
+
+            <h3>3. Bank Loan Approval System</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>credit_score = 720
+annual_income = 60000
+age = 28
+has_existing_loan = False
+
+if age >= 21 and age <= 65:
+    if credit_score >= 700:
+        if annual_income >= 50000:
+            if not has_existing_loan:
+                print("✓ Loan APPROVED")
+                print("Congratulations! You qualify for a loan.")
+            else:
+                print("✗ Clear existing loan first")
+        else:
+            print("✗ Insufficient income")
+    else:
+        print("✗ Credit score too low")
+else:
+    print("✗ Age not in eligible range")</pre>
+                </div>
+            </div>
+
+            <h3>4. Exam Grade Calculator</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>marks = 78
+
+if marks >= 90:
+    grade = "A+"
+    message = "Outstanding!"
+elif marks >= 80:
+    grade = "A"
+    message = "Excellent work!"
+elif marks >= 70:
+    grade = "B"
+    message = "Good job!"
+elif marks >= 60:
+    grade = "C"
+    message = "Satisfactory"
+elif marks >= 50:
+    grade = "D"
+    message = "Needs improvement"
+else:
+    grade = "F"
+    message = "Failed - Please retake"
+
+print(f"Grade: {grade}")
+print(f"Feedback: {message}")</pre>
+                </div>
+            </div>
+
+            <h3>5. Ticket Pricing System</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = 65
+is_student = False
+is_military = False
+
+base_price = 15
+
+if age < 5:
+    price = 0  <span class="code-comment"># Free for children under 5</span>
+    category = "Child (Free)"
+elif age < 18:
+    price = base_price * 0.5  <span class="code-comment"># 50% off for minors</span>
+    category = "Minor (50% off)"
+elif age >= 60:
+    price = base_price * 0.7  <span class="code-comment"># 30% off for seniors</span>
+    category = "Senior (30% off)"
+elif is_student or is_military:
+    price = base_price * 0.8  <span class="code-comment"># 20% off</span>
+    category = "Student/Military (20% off)"
+else:
+    price = base_price
+    category = "Adult (Regular)"
+
+print(f"Category: {category}")
+print(f"Ticket Price: ${price}")</pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p>Conditionals make programs adapt to different user inputs and situations. They're used everywhere: authentication, pricing logic, access control, decision engines, and game programming.</p>
+            </div>
+        </div>
+
+        <!-- Section 10: Practice Problems -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💪</div>
+                <h2>Practice Code Challenges</h2>
+            </div>
+
+            <h3>1. Even or Odd Checker</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 7
+
+if x % 2 == 0:
+    print(f"{x} is Even")
+else:
+    print(f"{x} is Odd")
+<span class="code-comment"># Output: 7 is Odd</span></pre>
+                </div>
+            </div>
+
+            <h3>2. Largest of Three Numbers</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a, b, c = 15, 8, 22
+
+if a >= b and a >= c:
+    print(f"Largest is {a}")
+elif b >= a and b >= c:
+    print(f"Largest is {b}")
+else:
+    print(f"Largest is {c}")
+<span class="code-comment"># Output: Largest is 22</span></pre>
+                </div>
+            </div>
+
+            <h3>3. Leap Year Checker</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>year = 2024
+
+if (year % 400 == 0) or (year % 100 != 0 and year % 4 == 0):
+    print(f"{year} is a Leap Year")
+else:
+    print(f"{year} is not a Leap Year")
+<span class="code-comment"># Output: 2024 is a Leap Year</span></pre>
+                </div>
+            </div>
+
+            <h3>4. Vowel or Consonant</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>char = 'e'
+
+if char in 'aeiouAEIOU':
+    print(f"{char} is a vowel")
+else:
+    print(f"{char} is a consonant")
+<span class="code-comment"># Output: e is a vowel</span></pre>
+                </div>
+            </div>
+
+            <h3>5. Temperature Converter with Validation</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>celsius = -300
+valid_range = celsius >= -273.15  <span class="code-comment"># Absolute zero</span>
+
+if valid_range:
+    fahrenheit = (celsius * 9/5) + 32
+    print(f"{celsius}°C = {fahrenheit}°F")
+else:
+    print("Invalid temperature: below absolute zero!")
+<span class="code-comment"># Output: Invalid temperature: below absolute zero!</span></pre>
+                </div>
+            </div>
+
+            <h3>6. BMI Calculator with Categories</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>weight = 70  <span class="code-comment"># kg</span>
+height = 1.75  <span class="code-comment"># meters</span>
+
+bmi = weight / (height ** 2)
+
+if bmi < 18.5:
+    category = "Underweight"
+elif bmi < 25:
+    category = "Normal weight"
+elif bmi < 30:
+    category = "Overweight"
+else:
+    category = "Obese"
+
+print(f"BMI: {bmi:.2f}")
+print(f"Category: {category}")</pre>
+                </div>
+            </div>
+
+            <h3>7. Triangle Type Classifier</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a, b, c = 5, 5, 5
+
+if a + b > c and b + c > a and a + c > b:
+    if a == b == c:
+        print("Equilateral Triangle")
+    elif a == b or b == c or a == c:
+        print("Isosceles Triangle")
+    else:
+        print("Scalene Triangle")
+else:
+    print("Not a valid triangle")</pre>
+                </div>
+            </div>
+
+            <h3>8. Password Strength Checker</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>password = "Secure@123"
+
+has_upper = any(c.isupper() for c in password)
+has_lower = any(c.islower() for c in password)
+has_digit = any(c.isdigit() for c in password)
+has_special = any(c in "!@#$%^&*()" for c in password)
+length = len(password)
+
+if length < 8:
+    strength = "Weak - Too short"
+elif has_upper and has_lower and has_digit and has_special:
+    strength = "Strong"
+elif (has_upper or has_lower) and has_digit:
+    strength = "Medium"
+else:
+    strength = "Weak"
+
+print(f"Password Strength: {strength}")</pre>
+                </div>
+            </div>
+
+            <div class="practice-card">
+                <h4>Challenge Yourself!</h4>
+                <p>Try modifying these examples with different values. Create your own conditional logic for real-world scenarios like:</p>
+                <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                    <li>Restaurant tip calculator based on service quality</li>
+                    <li>Electricity bill calculator with tiered pricing</li>
+                    <li>Movie ticket booking with seat selection</li>
+                    <li>Tax calculator based on income brackets</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 11: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Key Takeaways</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Core Concepts</h4>
+                <ul>
+                    <li><strong>if:</strong> Single condition check - executes block only if True</li>
+                    <li><strong>else:</strong> Alternative action when if condition is False</li>
+                    <li><strong>elif:</strong> Multiple branching checks - tests conditions in sequence</li>
+                    <li><strong>Nested if:</strong> Step-by-step hierarchical decisions</li>
+                    <li><strong>Ternary expression:</strong> Compact single-line if-else for simple cases</li>
+                    <li><strong>Comparison operators:</strong> ==, !=, >, <, >=, <= for comparisons</li>
+                    <li><strong>Logical operators:</strong> and, or, not for combining conditions</li>
+                    <li><strong>Indentation:</strong> Critical for defining code blocks in Python</li>
+                </ul>
+            </div>
+
+            <h3>Decision-Making Best Practices</h3>
+            <ul>
+                <li>Use <code>elif</code> instead of multiple <code>if</code> statements when conditions are mutually exclusive</li>
+                <li>Avoid deeply nested conditionals (max 3-4 levels)</li>
+                <li>Place most likely conditions first for better performance</li>
+                <li>Use ternary operators only for simple, readable cases</li>
+                <li>Always consider the <code>else</code> case, even if it's just error handling</li>
+                <li>Keep conditions simple and readable—break complex logic into smaller functions</li>
+            </ul>
+
+            <h3>Common Pitfalls to Avoid</h3>
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Watch Out For</span>
+                </div>
+                <ul>
+                    <li>Using <code>=</code> instead of <code>==</code> in conditions</li>
+                    <li>Forgetting the colon <code>:</code> after if/elif/else statements</li>
+                    <li>Incorrect indentation causing unexpected behavior</li>
+                    <li>Testing for equality with floats (use ranges instead)</li>
+                    <li>Not handling all possible cases (always include else for safety)</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>The Power of Conditionals</span>
+                </div>
+                <p>Conditional logic transforms linear code into <strong>dynamic, intelligent decision systems</strong> that respond differently to each situation. Mastering conditionals is essential for:</p>
+                <ul>
+                    <li>✓ Building interactive applications</li>
+                    <li>✓ Implementing business logic</li>
+                    <li>✓ Creating adaptive user experiences</li>
+                    <li>✓ Handling errors and edge cases</li>
+                    <li>✓ Automating decision-making processes</li>
+                </ul>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Final Interview Tip</div>
+                <p>In technical interviews, always:</p>
+                <ul>
+                    <li>1. Clarify the conditions and edge cases before coding</li>
+                    <li>2. Write clear, readable conditionals (avoid clever but confusing code)</li>
+                    <li>3. Test with multiple scenarios (True, False, and boundary cases)</li>
+                    <li>4. Explain your logic step-by-step while coding</li>
+                    <li>5. Consider using elif for efficiency when conditions are mutually exclusive</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Master conditionals, master program flow! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Python Conditional Statements — Complete Classroom Notes</strong></p>
+        <p>Mastering Decision-Making in Python</p>
+        <p style="margin-top: 1rem;">© 2025 Python Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

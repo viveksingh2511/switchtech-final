@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Variables - Comprehensive Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .example-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            margin: 1.25rem 0;
+        }
+
+        .example-box .label {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid #ef4444;
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .error-box-header {
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-item {
+            background: rgba(45, 55, 72, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .comparison-item h4 {
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-item.valid h4 {
+            color: var(--accent-green);
+        }
+
+        .comparison-item.invalid h4 {
+            color: #ef4444;
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .visual-diagram {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .variable-box {
+            display: inline-block;
+            background: var(--gradient-purple);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            margin: 0.5rem;
+            box-shadow: 0 4px 8px rgba(124, 111, 214, 0.3);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--accent-green);
+            margin: 0 1rem;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Python Variables</h1>
+        <p class="subtitle">Professional Classroom Notes — Understanding the Foundation of Python Programming</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction to Variables -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📦</div>
+                <h2>Introduction to Variables</h2>
+            </div>
+            <p>In Python, a <strong>variable</strong> is simply a name for a value stored in memory. Think of a variable as a <strong>labeled container</strong>: you store a value in it, and you use its label to retrieve or update the value later.</p>
+
+            <p>Python variables work with numbers, text, or other data types — and Python automatically figures out the type from your assignment, a feature called <strong>dynamic typing</strong>.</p>
+
+            <div class="visual-diagram">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Variable Concept Visualization</p>
+                <div>
+                    <span class="variable-box">x</span>
+                    <span class="arrow">→</span>
+                    <span class="variable-box">10</span>
+                </div>
+                <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">Variable "x" points to value "10" in memory</p>
+            </div>
+
+            <h3>Dynamic Typing in Action</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 10         <span class="code-comment"># Integer</span>
+print(x, type(x))  <span class="code-comment"># Output: 10 &lt;class 'int'&gt;</span>
+
+x = "Hello"    <span class="code-comment"># Now x is a string</span>
+print(x, type(x))  <span class="code-comment"># Output: Hello &lt;class 'str'&gt;</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Key Concept: Dynamic Typing</span>
+                </div>
+                <p>No declaration is needed in advance — assign a value, and Python takes care of the rest. The variable's type can change during program execution, giving Python tremendous flexibility.</p>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Benefits of Variables</span>
+                </div>
+                <p><strong>Reusability:</strong> Store a value once, use it many times throughout your program<br>
+                <strong>Readability:</strong> Use descriptive names to make code self-documenting<br>
+                <strong>Flexibility:</strong> Update values without rewriting code</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Rules for Variable Names -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📜</div>
+                <h2>Rules for Variable Names</h2>
+            </div>
+            <p>Proper naming ensures that your code is valid and readable. Python enforces strict rules for variable names:</p>
+
+            <ul>
+                <li><strong>Can include:</strong> Letters (A–Z, a–z), digits (0–9), and underscores (_)</li>
+                <li><strong>Must not start with a digit</strong> — <code>2name</code> is invalid</li>
+                <li><strong>No spaces allowed</strong> — use underscores instead</li>
+                <li><strong>No special characters</strong> — avoid @, #, $, %, etc.</li>
+                <li><strong>Case-sensitive</strong> — <code>age</code>, <code>Age</code>, and <code>AGE</code> are three different variables</li>
+                <li><strong>Cannot use Python keywords</strong> — like <code>if</code>, <code>for</code>, <code>class</code>, <code>while</code></li>
+            </ul>
+
+            <h3>Valid vs Invalid Variable Names</h3>
+
+            <div class="comparison-row">
+                <div class="comparison-item valid">
+                    <h4>✅ Valid Names</h4>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>score = 90
+student_name = "Amy"
+_private = 100
+name2 = "Bob"
+userName = "Alice"</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-item invalid">
+                    <h4>❌ Invalid Names</h4>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>2score = 5      <span class="code-comment"># Starts with digit</span>
+my-score = 6    <span class="code-comment"># Contains hyphen</span>
+my score = 7    <span class="code-comment"># Contains space</span>
+for = 10        <span class="code-comment"># Python keyword</span>
+my@name = "X"   <span class="code-comment"># Special character</span></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Case Sensitivity Warning</span>
+                </div>
+                <p>Remember that Python is case-sensitive! The variables <code>username</code>, <code>userName</code>, <code>UserName</code>, and <code>USERNAME</code> are all different variables. Be consistent with your naming style throughout your code!</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Naming Conventions (PEP 8) -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>Naming Conventions (PEP 8)</h2>
+            </div>
+            <p>Python's style guide, <strong>PEP 8</strong>, recommends specific conventions to make code consistent and professional across the Python community.</p>
+
+            <div class="badge-container">
+                <span class="badge">snake_case</span>
+                <span class="badge badge-green">CONSTANTS</span>
+                <span class="badge badge-blue">_internal</span>
+            </div>
+
+            <h3>1. Use snake_case for Regular Variables</h3>
+            <p>Lowercase letters with underscores separating words:</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>student_name = "John"
+total_score = 95
+user_age = 25
+max_attempts = 3</pre>
+                </div>
+            </div>
+
+            <h3>2. Use UPPERCASE for Constants</h3>
+            <p>Values that should not change during program execution:</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>PI = 3.14159
+MAX_USERS = 100
+DEFAULT_TIMEOUT = 30
+DATABASE_URL = "localhost:5432"</pre>
+                </div>
+            </div>
+
+            <h3>3. Special Naming Patterns</h3>
+            <ul>
+                <li><strong>Single leading underscore</strong> (<code>_variable</code>): Signals internal use or "private" variable</li>
+                <li><strong>Double leading underscore</strong> (<code>__variable</code>): Special use inside classes for name-mangling</li>
+            </ul>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>_internal_var = 10     <span class="code-comment"># Weak "internal use" indicator</span>
+__name_mangle = 20     <span class="code-comment"># Strong private indicator (classes)</span></pre>
+                </div>
+            </div>
+
+            <h3>4. Choose Descriptive Names</h3>
+            <p>Good variable names make code self-documenting:</p>
+
+            <div class="comparison-row">
+                <div class="comparison-item valid">
+                    <h4>✅ Descriptive Names</h4>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>max_score = 100
+student_count = 25
+is_active = True
+user_email = "user@example.com"</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-item invalid">
+                    <h4>❌ Unclear Names</h4>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>ms = 100         <span class="code-comment"># What is ms?</span>
+sc = 25          <span class="code-comment"># Unclear</span>
+x = True         <span class="code-comment"># Not descriptive</span>
+a = "user@..."   <span class="code-comment"># Too generic</span></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 PEP 8 Best Practices</h4>
+                <ul>
+                    <li>Use descriptive names that clearly indicate purpose</li>
+                    <li>Follow snake_case for regular variables</li>
+                    <li>Use UPPERCASE for constants</li>
+                    <li>Avoid single-letter names (except for counters in loops)</li>
+                    <li>Be consistent throughout your codebase</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4: Assigning Values to Variables -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">✏️</div>
+                <h2>Assigning Values to Variables</h2>
+            </div>
+            <p>Assign a value to a variable using the <code>=</code> operator. The variable is created at the moment of assignment — no prior declaration needed!</p>
+
+            <h3>Basic Assignment</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>name = "John"
+age = 25
+height = 5.8
+is_student = True
+
+print(name)     <span class="code-comment"># Output: John</span>
+print(age)      <span class="code-comment"># Output: 25</span>
+print(height)   <span class="code-comment"># Output: 5.8</span></pre>
+                </div>
+            </div>
+
+            <h3>Reassigning Variables</h3>
+            <p>You can reassign values (and even change types) at any time:</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = 25
+print(age, type(age))  <span class="code-comment"># Output: 25 &lt;class 'int'&gt;</span>
+
+age = "Twenty-five"
+print(age, type(age))  <span class="code-comment"># Output: Twenty-five &lt;class 'str'&gt;</span></pre>
+                </div>
+            </div>
+
+            <h3>Copying Variables</h3>
+            <p>Assign one variable's value to another:</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>original = 100
+copy = original
+print(copy)     <span class="code-comment"># Output: 100</span>
+
+original = 200
+print(original) <span class="code-comment"># Output: 200</span>
+print(copy)     <span class="code-comment"># Output: 100 (unchanged)</span></pre>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="label">Example: Creating and Printing Variables</div>
+            </div>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Creating variables</span>
+score = 85
+print(score)                <span class="code-comment"># 85</span>
+
+<span class="code-comment"># Changing value and type</span>
+score = "Eighty-five"
+print(score)                <span class="code-comment"># Eighty-five</span>
+
+<span class="code-comment"># Simple mathematical operations</span>
+a = 7
+b = 3
+s = a + b
+print(s)                    <span class="code-comment"># 10</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Understanding Assignment</span>
+                </div>
+                <p>When you write <code>x = 10</code>, Python creates an object with value 10 in memory and makes the variable name 'x' point to it. Reassigning <code>x = 20</code> makes 'x' point to a new object with value 20.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Multiple Assignments -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">➕</div>
+                <h2>Multiple Assignments</h2>
+            </div>
+            <p>Python provides elegant shortcuts for assigning values to multiple variables simultaneously, making your code more concise and readable.</p>
+
+            <h3>1. Assign the Same Value to Multiple Variables</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = y = z = 100
+print(x, y, z)   <span class="code-comment"># Output: 100 100 100</span>
+
+<span class="code-comment"># All three variables reference the same value</span>
+print(x)  <span class="code-comment"># 100</span>
+print(y)  <span class="code-comment"># 100</span>
+print(z)  <span class="code-comment"># 100</span></pre>
+                </div>
+            </div>
+
+            <h3>2. Assign Different Values in One Line</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a, b, c = 1, 2, 3
+print(a, b, c)   <span class="code-comment"># Output: 1 2 3</span>
+
+<span class="code-comment"># Assigning different types</span>
+name, age, height = "Alice", 25, 5.6
+print(name)      <span class="code-comment"># Alice</span>
+print(age)       <span class="code-comment"># 25</span>
+print(height)    <span class="code-comment"># 5.6</span></pre>
+                </div>
+            </div>
+
+            <h3>3. Variable Swapping</h3>
+            <p>Python makes swapping variables incredibly easy:</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x, y = 10, 20
+print(f"Before swap: x = {x}, y = {y}")
+<span class="code-comment"># Output: Before swap: x = 10, y = 20</span>
+
+x, y = y, x  <span class="code-comment"># Swap values</span>
+print(f"After swap: x = {x}, y = {y}")
+<span class="code-comment"># Output: After swap: x = 20, y = 10</span></pre>
+                </div>
+            </div>
+
+            <h3>Practical Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Multiple assignment examples</span>
+m = n = 5
+print(m, n)                  <span class="code-comment"># 5 5</span>
+
+<span class="code-comment"># Assigning multiple values</span>
+x, y = 10, 20
+print(x, y)                  <span class="code-comment"># 10 20</span>
+
+<span class="code-comment"># Mixed types in one assignment</span>
+name, score, passed = "Bob", 85, True
+print(name, score, passed)   <span class="code-comment"># Bob 85 True</span></pre>
+                </div>
+            </div>
+
+            <div class="error-box">
+                <div class="error-box-header">
+                    <span>❌</span>
+                    <span>ValueError: Mismatched Assignment</span>
+                </div>
+                <p>Make sure the number of variables matches the number of values, or Python will raise a ValueError:</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>x, y = 10, 20, 30  <span class="code-comment"># ❌ Error: too many values</span>
+x, y, z = 10, 20   <span class="code-comment"># ❌ Error: not enough values</span>
+
+<span class="code-comment"># Correct usage:</span>
+x, y, z = 10, 20, 30  <span class="code-comment"># ✅ Correct</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Variable Scope -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🌍</div>
+                <h2>Variable Scope: Local vs Global</h2>
+            </div>
+            <p>Understanding <strong>scope</strong> is crucial for writing correct Python programs. Scope determines where in your code a variable can be accessed.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-green">Global Variables</span>
+                <span class="badge badge-blue">Local Variables</span>
+            </div>
+
+            <h3>Global Variables</h3>
+            <p><strong>Global variables</strong> are created outside any function and can be accessed anywhere in your program.</p>
+
+            <h3>Local Variables</h3>
+            <p><strong>Local variables</strong> are created inside a function and exist only within that function.</p>
+
+            <div class="example-box">
+                <div class="label">Example: Understanding Scope</div>
+            </div>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 50               <span class="code-comment"># Global variable</span>
+
+def demo():
+    y = 10           <span class="code-comment"># Local variable</span>
+    print(y)         <span class="code-comment"># Can access y inside function</span>
+    print(x)         <span class="code-comment"># Can access global variable x</span>
+
+demo()               <span class="code-comment"># Prints: 10, then 50</span>
+print(x)             <span class="code-comment"># Prints: 50 (global variable)</span>
+<span class="code-comment"># print(y)           # ❌ Error: y is not defined globally!</span></pre>
+                </div>
+            </div>
+
+            <div class="visual-diagram">
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Variable Scope Visualization</p>
+                <div style="text-align: left; max-width: 500px; margin: 0 auto;">
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <strong style="color: var(--accent-green);">Global Scope</strong>
+                        <div style="margin-top: 0.5rem; color: var(--text-secondary);">
+                            x = 50 ← Accessible everywhere
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); padding: 1rem; margin-top: 1rem; border-radius: 8px; border-left: 3px solid #3b82f6;">
+                            <strong style="color: #60a5fa;">Local Scope (inside demo)</strong>
+                            <div style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                y = 10 ← Only accessible here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Accessing Global Variables Inside Functions</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>count = 0           <span class="code-comment"># Global variable</span>
+
+def increment():
+    global count    <span class="code-comment"># Declare we're using global count</span>
+    count += 1
+    print(f"Count inside function: {count}")
+
+increment()         <span class="code-comment"># Count inside function: 1</span>
+print(f"Count outside function: {count}")  <span class="code-comment"># Count outside function: 1</span></pre>
+                </div>
+            </div>
+
+            <h3>Complete Scope Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Scope demonstration</span>
+message = "Global message"  <span class="code-comment"># Global variable</span>
+
+def greet():
+    greeting = "Hi"         <span class="code-comment"># Local variable</span>
+    print(greeting)         <span class="code-comment"># Hi (local variable)</span>
+    print(message)          <span class="code-comment"># Global message (can access global)</span>
+
+greet()
+print(message)              <span class="code-comment"># Global message (works)</span>
+<span class="code-comment"># print(greeting)             # ❌ NameError: greeting not defined</span></pre>
+                </div>
+            </div>
+
+            <div class="error-box">
+                <div class="error-box-header">
+                    <span>❌</span>
+                    <span>Common Mistake: NameError</span>
+                </div>
+                <p>Use of local variables outside their scope leads to a <strong>NameError</strong>. Always ensure you're trying to access variables within their valid scope!</p>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Modifying Global Variables</span>
+                </div>
+                <p>To modify a global variable inside a function, you must use the <code>global</code> keyword. Without it, Python creates a new local variable with the same name, which can lead to confusing bugs!</p>
+            </div>
+        </div>
+
+        <!-- Section 7: Type Detection and Conversion -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h2>Variable Type Detection and Conversion</h2>
+            </div>
+            <p>Python provides built-in functions to check and convert variable types, essential for writing flexible and error-free code.</p>
+
+            <h3>Checking Variable Types with type()</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 10
+print(type(x))      <span class="code-comment"># Output: &lt;class 'int'&gt;</span>
+
+x = "Hello"
+print(type(x))      <span class="code-comment"># Output: &lt;class 'str'&gt;</span>
+
+x = 3.14
+print(type(x))      <span class="code-comment"># Output: &lt;class 'float'&gt;</span>
+
+x = True
+print(type(x))      <span class="code-comment"># Output: &lt;class 'bool'&gt;</span></pre>
+                </div>
+            </div>
+
+            <h3>Type Conversion (Type Casting)</h3>
+            <p>Convert variables from one type to another using built-in functions:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># String to Integer</span>
+age_str = "25"
+age_int = int(age_str)
+print(age_int + 5)  <span class="code-comment"># Output: 30</span>
+
+<span class="code-comment"># Integer to String (for concatenation)</span>
+age = 25
+message = "I am " + str(age) + " years old"
+print(message)      <span class="code-comment"># Output: I am 25 years old</span>
+
+<span class="code-comment"># String to Float</span>
+price = "19.99"
+price_float = float(price)
+print(price_float)  <span class="code-comment"># Output: 19.99</span>
+
+<span class="code-comment"># Float to Integer (truncates decimal)</span>
+pi = 3.14159
+pi_int = int(pi)
+print(pi_int)       <span class="code-comment"># Output: 3</span></pre>
+                </div>
+            </div>
+
+            <h3>Practical Type Conversion Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: User input (always returns string)</span>
+name = input("Enter your name: ")
+age_input = input("Enter your age: ")
+age = int(age_input)  <span class="code-comment"># Convert string to int</span>
+
+print(f"{name} is {age} years old")
+print(f"Next year, {name} will be {age + 1}")
+
+<span class="code-comment"># Example 2: Calculations with type conversion</span>
+num1 = "10"
+num2 = "20"
+result = int(num1) + int(num2)
+print(result)  <span class="code-comment"># Output: 30</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Type Conversion Errors</span>
+                </div>
+                <p>Type conversion can fail if the value cannot be converted. For example:</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>x = "hello"
+y = int(x)  <span class="code-comment"># ❌ ValueError: invalid literal for int()</span></pre>
+                    </div>
+                </div>
+                <p>Always ensure the string contains a valid number before converting!</p>
+            </div>
+        </div>
+
+        <!-- Section 8: Variable Operations Examples -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h2>Variable Operations Examples</h2>
+            </div>
+            <p>Let's see how variables work in practical scenarios with various operations:</p>
+
+            <h3>Complete Working Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: Creating and printing variables</span>
+score = 85
+print(score)                <span class="code-comment"># 85</span>
+
+<span class="code-comment"># Example 2: Changing value and type</span>
+score = "Eighty-five"
+print(score)                <span class="code-comment"># Eighty-five</span>
+
+<span class="code-comment"># Example 3: Simple mathematical operations</span>
+a = 7
+b = 3
+sum_result = a + b
+print(sum_result)           <span class="code-comment"># 10</span>
+
+<span class="code-comment"># Example 4: Assigning multiple values</span>
+x, y = 10, 20
+print(x, y)                 <span class="code-comment"># 10 20</span>
+
+<span class="code-comment"># Example 5: Multiple assignment, same value</span>
+m = n = 5
+print(m, n)                 <span class="code-comment"># 5 5</span>
+
+<span class="code-comment"># Example 6: String and number operations</span>
+age = 21
+print("My age is " + str(age))  <span class="code-comment"># My age is 21</span>
+
+<span class="code-comment"># Example 7: Variable swapping</span>
+x, y = 100, 200
+print(f"Before: x={x}, y={y}")
+x, y = y, x
+print(f"After: x={x}, y={y}")</pre>
+                </div>
+            </div>
+
+            <h3>Real-World Application Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Shopping cart calculation</span>
+item_name = "Laptop"
+price = 999.99
+quantity = 2
+tax_rate = 0.08
+
+subtotal = price * quantity
+tax = subtotal * tax_rate
+total = subtotal + tax
+
+print(f"Item: {item_name}")
+print(f"Price: ${price}")
+print(f"Quantity: {quantity}")
+print(f"Subtotal: ${subtotal}")
+print(f"Tax (8%): ${tax:.2f}")
+print(f"Total: ${total:.2f}")
+
+<span class="code-comment"># Output:
+# Item: Laptop
+# Price: $999.99
+# Quantity: 2
+# Subtotal: $1999.98
+# Tax (8%): $159.98
+# Total: $2159.97</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: Best Practices & Common Errors -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚠️</div>
+                <h2>Best Practices & Common Errors</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>✅ Best Practices</h4>
+                <ul>
+                    <li>Always use descriptive variable names (avoid single letters except as counters)</li>
+                    <li>Follow PEP 8 naming conventions consistently</li>
+                    <li>Initialize variables before using them</li>
+                    <li>Be mindful of variable scope</li>
+                    <li>Use type conversion when mixing different data types</li>
+                    <li>Comment your code to explain complex variable usage</li>
+                </ul>
+            </div>
+
+            <h3>Common Mistakes to Avoid</h3>
+
+            <div class="error-box">
+                <div class="error-box-header">
+                    <span>❌</span>
+                    <span>Error 1: Accessing Local Variables Outside Scope</span>
+                </div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>def calculate():
+    result = 100
+
+calculate()
+print(result)  <span class="code-comment"># ❌ NameError: name 'result' is not defined</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-box">
+                <div class="error-box-header">
+                    <span>❌</span>
+                    <span>Error 2: Mixing Types Without Conversion</span>
+                </div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>age = 25
+print("I am " + age + " years old")  <span class="code-comment"># ❌ TypeError</span>
+
+<span class="code-comment"># Fix:</span>
+print("I am " + str(age) + " years old")  <span class="code-comment"># ✅</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-box">
+                <div class="error-box-header">
+                    <span>❌</span>
+                    <span>Error 3: Using Reserved Keywords</span>
+                </div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>for = 10       <span class="code-comment"># ❌ SyntaxError: invalid syntax</span>
+class = "A"    <span class="code-comment"># ❌ SyntaxError: invalid syntax</span>
+
+<span class="code-comment"># Fix: Use different names</span>
+loop_count = 10  <span class="code-comment"># ✅</span>
+grade = "A"      <span class="code-comment"># ✅</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-box">
+                <div class="error-box-header">
+                    <span>❌</span>
+                    <span>Error 4: Mismatched Multiple Assignment</span>
+                </div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>x, y = 10, 20, 30  <span class="code-comment"># ❌ ValueError: too many values</span>
+
+<span class="code-comment"># Fix:</span>
+x, y, z = 10, 20, 30  <span class="code-comment"># ✅</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 10: Quick Reference Table -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Quick Reference Table</h2>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Declaration</strong></td>
+                        <td>Automatic upon assignment</td>
+                        <td><code>x = 10</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Naming</strong></td>
+                        <td>Letters, digits, underscores; not starting with digit</td>
+                        <td><code>user_name</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Assignment</strong></td>
+                        <td>Use <code>=</code> operator</td>
+                        <td><code>age = 30</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reassignment</strong></td>
+                        <td>Allowed, can change type</td>
+                        <td><code>age = "Thirty"</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multiple (Same)</strong></td>
+                        <td>Assign same value to multiple variables</td>
+                        <td><code>a = b = 5</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Multiple (Different)</strong></td>
+                        <td>Assign different values in one line</td>
+                        <td><code>a, b = 1, 2</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scope</strong></td>
+                        <td>Local (inside function) vs. Global (outside)</td>
+                        <td><code>def f(): x = 1</code> / <code>y = 2</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type Check</strong></td>
+                        <td>Use <code>type()</code> function</td>
+                        <td><code>type(x)</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type Conversion</strong></td>
+                        <td>Use <code>int()</code>, <code>str()</code>, <code>float()</code></td>
+                        <td><code>int("42")</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Practice Exercises -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <h2>Practice Exercises</h2>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 1: Basic Variable Creation</h4>
+                <p>Create three variables: <code>name</code> (your name), <code>age</code> (your age), and <code>city</code> (your city). Print all three variables on separate lines.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 2: Variable Reassignment</h4>
+                <p>Create a variable <code>temperature = 25</code>. Print it, then reassign it to <code>"Twenty-five degrees"</code> and print it again. Observe how the type changes.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 3: Multiple Assignment</h4>
+                <p>Use multiple assignment to create three variables in one line: <code>x = 10</code>, <code>y = 20</code>, <code>z = 30</code>. Then swap <code>x</code> and <code>z</code> using Python's swap technique.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 4: Type Conversion Challenge</h4>
+                <p>Create a string variable <code>num_str = "100"</code>. Convert it to an integer, add 50 to it, convert the result back to a string, and print: "The result is: 150"</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 5: Scope Practice</h4>
+                <p>Create a global variable <code>count = 0</code>. Write a function that increments this count by 1 using the <code>global</code> keyword. Call the function 3 times and print the final count.</p>
+            </div>
+        </div>
+
+        <!-- Final Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Summary</h2>
+            </div>
+            <p>Understanding variables — including naming, assignment, type checking, use in expressions, multiple assignment, and variable scope — sets the stage for all future programming in Python.</p>
+
+            <div class="key-points">
+                <h4>🎯 Key Takeaways</h4>
+                <ul>
+                    <li>Variables are labeled containers that store values in memory</li>
+                    <li>Python uses dynamic typing - types are determined automatically</li>
+                    <li>Follow PEP 8 conventions for professional, readable code</li>
+                    <li>Understand the difference between local and global scope</li>
+                    <li>Use type conversion when mixing different data types</li>
+                    <li>Multiple assignment makes code concise and elegant</li>
+                    <li>Always use descriptive variable names</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>You're Ready for the Next Step!</span>
+                </div>
+                <p>With a solid understanding of variables, you're now ready to explore data types in depth, operators, control structures, and more advanced Python concepts. Keep practicing and experimenting!</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Master variables, master Python! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Python Variables — Professional Classroom Notes</strong></p>
+        <p>Understanding the Foundation of Python Programming</p>
+        <p style="margin-top: 1rem;">© 2025 Python Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

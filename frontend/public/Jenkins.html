@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenkins for Data Engineers - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --jenkins-red: #d24939;
+            --jenkins-dark: #1a1a1a;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+            --gradient-jenkins: linear-gradient(135deg, #d24939 0%, #f05545 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 65px;
+            height: 65px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+
+        .badge-red {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+        }
+
+        .badge-yellow {
+            background: linear-gradient(135deg, #fbbf24, #fcd34d);
+        }
+
+        .badge-jenkins {
+            background: linear-gradient(135deg, #d24939, #f05545);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .best-practice-header {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice-header::before {
+            content: '💎';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .architecture-diagram {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .architecture-title {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .component-card {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .component-card h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.75rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .component-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .use-case-box {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .use-case-header {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .use-case-header::before {
+            content: '🎯';
+        }
+
+        .stage-box {
+            background: rgba(6, 182, 212, 0.1);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .stage-header {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="jenkinsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#d24939;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#f05545;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- Jenkins butler silhouette -->
+                <ellipse cx="100" cy="170" rx="60" ry="15" fill="#1a1a1a" opacity="0.3"/>
+                <!-- Body -->
+                <rect x="70" y="100" width="60" height="60" rx="8" fill="url(#jenkinsGrad)"/>
+                <!-- Head -->
+                <circle cx="100" cy="75" r="28" fill="#f0d4b8"/>
+                <!-- Hat -->
+                <ellipse cx="100" cy="55" rx="35" ry="12" fill="#1a1a1a"/>
+                <rect x="85" y="45" width="30" height="15" rx="3" fill="#1a1a1a"/>
+                <!-- Eyes -->
+                <circle cx="92" cy="73" r="3" fill="#1a1a1a"/>
+                <circle cx="108" cy="73" r="3" fill="#1a1a1a"/>
+                <!-- Bow tie -->
+                <path d="M 85,100 L 95,95 L 95,105 Z" fill="#d24939"/>
+                <path d="M 115,100 L 105,95 L 105,105 Z" fill="#d24939"/>
+                <circle cx="100" cy="100" r="4" fill="#d24939"/>
+                <!-- Arms -->
+                <rect x="55" y="110" width="15" height="8" rx="4" fill="#f0d4b8"/>
+                <rect x="130" y="110" width="15" height="8" rx="4" fill="#f0d4b8"/>
+                <!-- Buttons -->
+                <circle cx="100" cy="120" r="3" fill="#ffffff"/>
+                <circle cx="100" cy="135" r="3" fill="#ffffff"/>
+                <circle cx="100" cy="150" r="3" fill="#ffffff"/>
+            </svg>
+        </div>
+        <h1>Jenkins for Data Engineers</h1>
+        <p class="subtitle">Complete Classroom Notes — CI/CD Automation & Pipeline Orchestration</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🤖</div>
+                <h2>What is Jenkins?</h2>
+            </div>
+
+            <p>Jenkins is an <strong>open-source automation server</strong> widely used for implementing <strong>continuous integration (CI)</strong> and <strong>continuous delivery (CD)</strong> in software and data engineering workflows. It automates the entire lifecycle of code—from building and testing to deployment—ensuring fast, reliable, and repeatable delivery of applications or pipelines.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-jenkins">CI/CD Automation</span>
+                <span class="badge badge-orange">Open Source</span>
+                <span class="badge badge-purple">Extensible</span>
+                <span class="badge badge-cyan">Plugin Ecosystem</span>
+            </div>
+
+            <h3>Why Jenkins for Data Engineering?</h3>
+            <div class="key-points">
+                <h4>🎯 Key Benefits</h4>
+                <ul>
+                    <li><strong>Automated ETL Orchestration:</strong> Schedule and trigger data pipelines automatically</li>
+                    <li><strong>Version-Controlled Pipelines:</strong> Jenkinsfile as code in Git for auditability</li>
+                    <li><strong>Tool Integration:</strong> Seamless integration with Spark, Hadoop, Airflow, Snowflake</li>
+                    <li><strong>Automated Testing:</strong> Data validation and quality checks after each step</li>
+                    <li><strong>Containerized Execution:</strong> Run workloads in Docker for consistency</li>
+                    <li><strong>Distributed Execution:</strong> Scale across cloud agents for parallel processing</li>
+                    <li><strong>Monitoring & Alerts:</strong> Real-time notifications via Slack, Email, PagerDuty</li>
+                    <li><strong>Infrastructure as Code:</strong> Combine with Terraform, Ansible for deployment</li>
+                </ul>
+            </div>
+
+            <h3>Core Concepts</h3>
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>🎛️ Controller</h4>
+                    <p><strong>Master Node</strong></p>
+                    <p>Orchestrates jobs, manages configs, schedules tasks</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>⚙️ Agent</h4>
+                    <p><strong>Worker Node</strong></p>
+                    <p>Executes builds, tests, deployments on various platforms</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>📋 Pipeline</h4>
+                    <p><strong>Workflow Definition</strong></p>
+                    <p>Multi-stage automation defined in Jenkinsfile (Groovy)</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>🔌 Plugin</h4>
+                    <p><strong>Extension</strong></p>
+                    <p>1800+ plugins for Git, Docker, AWS, Kubernetes, etc.</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Jenkins vs Airflow</span>
+                </div>
+                <p><strong>Jenkins:</strong> General-purpose CI/CD automation, best for build/test/deploy workflows. <strong>Airflow:</strong> Purpose-built for data workflow orchestration with DAGs. Many teams use <strong>both</strong>: Jenkins for deploying Airflow DAGs and data infrastructure!</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Architecture -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🏗️</div>
+                <h2>Jenkins Architecture</h2>
+            </div>
+
+            <p>Jenkins follows a <strong>controller-agent architecture</strong> (previously master-slave). The controller orchestrates, while agents execute the work.</p>
+
+            <div class="architecture-diagram">
+                <div class="architecture-title">🏗️ Jenkins Architecture Overview</div>
+                <pre>
+               ┌───────────────────────────────────┐
+               │       Web Interface               │
+               │ (Dashboard, Logs, Configuration)  │
+               └────────────────┬──────────────────┘
+                                │
+                                ▼
+              ┌─────────────────┴──────────────────┐
+              │      Jenkins Controller            │
+              │ (Job Orchestration & Scheduling)   │
+              │ • Manages Job Queues               │
+              │ • Stores Configs & Plugins         │
+              │ • Assigns Tasks to Agents          │
+              │ • Manages Credentials & Security   │
+              └─────────────────┬──────────────────┘
+                                │
+             ┌──────────────────┴──────────────────┐
+             │                                     │
+             ▼                                     ▼
+   ┌────────────────────┐              ┌────────────────────┐
+   │     Agent 1        │              │     Agent 2        │
+   │ (Linux/Java Node)  │              │ (Docker/K8s Node)  │
+   │ • Executes Builds  │              │ • Runs Pipelines   │
+   │ • Uses Executors   │              │ • Uses Containers  │
+   └──────────┬─────────┘              └──────────┬─────────┘
+              │                                   │
+              ▼                                   ▼
+   ┌────────────────────┐              ┌────────────────────┐
+   │ Build Artifacts    │              │  Test Reports      │
+   │ Logs, Binaries     │              │ Metrics, Results   │
+   └────────────────────┘              └────────────────────┘
+                                │
+                                ▼
+             ┌──────────────────────────────────────┐
+             │       Artifact Repository            │
+             │ (S3, Nexus, Artifactory, Storage)    │
+             └──────────────────────────────────────┘
+</pre>
+            </div>
+
+            <h3>Architecture Components</h3>
+
+            <h4>1. Jenkins Controller (Master Node)</h4>
+            <p>The central brain responsible for:</p>
+            <ul>
+                <li><strong>Job Orchestration:</strong> Schedules and manages all build jobs</li>
+                <li><strong>Configuration Management:</strong> Stores global settings, credentials, plugins</li>
+                <li><strong>Task Distribution:</strong> Assigns work to available agents</li>
+                <li><strong>Web Interface:</strong> Provides dashboard for monitoring and management</li>
+                <li><strong>Build History:</strong> Maintains logs and historical data</li>
+                <li><strong>Security:</strong> Handles authentication and authorization (RBAC)</li>
+            </ul>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Controller Best Practice</span>
+                </div>
+                <p>Never run builds on the controller in production! Use the controller only for orchestration. Execute all builds on agents to prevent resource exhaustion and maintain stability.</p>
+            </div>
+
+            <h4>2. Agents (Worker Nodes)</h4>
+            <p>Agents execute the actual work:</p>
+            <ul>
+                <li><strong>Task Execution:</strong> Run builds, tests, deployments</li>
+                <li><strong>Multi-Platform:</strong> Support Linux, Windows, macOS</li>
+                <li><strong>Containerized:</strong> Can run in Docker or Kubernetes</li>
+                <li><strong>Dynamic Scaling:</strong> Spin up on-demand (AWS EC2, GCP, Azure)</li>
+                <li><strong>Isolation:</strong> Each agent provides clean build environment</li>
+            </ul>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>🖥️ Static Agents</h4>
+                    <p>Permanently connected machines</p>
+                    <p>Best for: Dedicated build servers</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>☁️ Cloud Agents</h4>
+                    <p>Ephemeral instances</p>
+                    <p>Best for: Elastic, cost-effective scaling</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🐳 Docker Agents</h4>
+                    <p>Containerized execution</p>
+                    <p>Best for: Isolated, reproducible builds</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>☸️ Kubernetes Agents</h4>
+                    <p>Pod-based execution</p>
+                    <p>Best for: Cloud-native deployments</p>
+                </div>
+            </div>
+
+            <h4>3. Executors</h4>
+            <p>Logical compute units within agents. If an agent has 4 executors, it can run 4 concurrent builds simultaneously.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">EXAMPLE</span>
+                    <pre><span class="code-comment">Agent Configuration:</span>
+Agent Name: data-pipeline-agent
+Executors: 4
+<span class="code-comment">→ Can run 4 parallel Spark jobs or data pipelines</span></pre>
+                </div>
+            </div>
+
+            <h4>4. Communication</h4>
+            <p>Controller and agents communicate via:</p>
+            <ul>
+                <li><strong>JNLP (Java Network Launch Protocol):</strong> Agent-initiated connection</li>
+                <li><strong>SSH:</strong> Controller-initiated secure connection</li>
+                <li><strong>WebSocket:</strong> For cloud-based agents</li>
+            </ul>
+
+            <h4>5. Build Queue</h4>
+            <p>When all executors are busy, new jobs wait in the queue. The controller assigns them to agents as executors become available.</p>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Scalability Pattern</span>
+                </div>
+                <p>Use <strong>label-based routing</strong> to direct specific jobs to specific agents. For example: Spark jobs → <code>spark-agent</code>, Docker builds → <code>docker-agent</code>, Python ETL → <code>python-agent</code>.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: How Jenkins Helps Data Engineers -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>How Jenkins Helps Data Engineers</h2>
+            </div>
+
+            <p>Jenkins extends beyond traditional software CI/CD into data engineering by automating, scheduling, and orchestrating complex ETL and analytics pipelines.</p>
+
+            <div class="use-case-box">
+                <div class="use-case-header">1. Automated ETL Orchestration</div>
+                <p>Automate extraction, transformation, and loading of data from various sources (databases, APIs, files). Pipelines can be triggered on commits, schedules, or data arrival.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">JENKINSFILE</span>
+                        <pre>pipeline {
+    agent { label 'data-pipeline' }
+    triggers {
+        cron('0 2 * * *')  <span class="code-comment">// Run at 2 AM daily</span>
+    }
+    stages {
+        stage('Extract') {
+            steps {
+                sh 'python scripts/extract_from_api.py'
+            }
+        }
+        stage('Transform') {
+            steps {
+                sh 'spark-submit transform_sales.py'
+            }
+        }
+        stage('Load') {
+            steps {
+                sh 'python scripts/load_to_snowflake.py'
+            }
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">2. Tool Integration</div>
+                <p>Seamless integration with the entire data ecosystem:</p>
+                <ul>
+                    <li><strong>Compute:</strong> Spark, Hadoop, Databricks, EMR</li>
+                    <li><strong>Warehouses:</strong> Snowflake, Redshift, BigQuery</li>
+                    <li><strong>Orchestration:</strong> Airflow (deploy DAGs via Jenkins)</li>
+                    <li><strong>Databases:</strong> PostgreSQL, MySQL, MongoDB</li>
+                    <li><strong>Cloud:</strong> AWS, GCP, Azure via CLI/SDK</li>
+                    <li><strong>Containers:</strong> Docker, Kubernetes</li>
+                </ul>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">3. Version-Controlled Data Pipelines</div>
+                <p>Jenkinsfile defines entire ETL workflows as versioned code in Git, ensuring auditability and reproducibility.</p>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">Pipeline as Code Benefits</div>
+                    <ul>
+                        <li>Code reviews for pipeline changes</li>
+                        <li>Rollback to previous versions</li>
+                        <li>Branch-based development (dev, staging, prod)</li>
+                        <li>Automated testing of pipeline logic</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">4. Automated Testing</div>
+                <p>Execute data validation tests, schema checks, API verifications, or model validations after each data ingestion or transformation step.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">JENKINSFILE</span>
+                        <pre>stage('Data Quality Checks') {
+    steps {
+        sh '''
+            python tests/test_data_quality.py
+            python tests/test_schema_validation.py
+            python tests/test_row_counts.py
+        '''
+    }
+    post {
+        always {
+            junit 'test-results/*.xml'
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">5. Containerized Execution</div>
+                <p>Data workloads run inside Docker containers, ensuring dependencies like PySpark or pandas match development and production.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">JENKINSFILE</span>
+                        <pre>pipeline {
+    agent {
+        docker {
+            image 'company/pyspark:3.4.1'
+            args '-v /data:/data'
+        }
+    }
+    stages {
+        stage('Process Data') {
+            steps {
+                sh 'spark-submit --master local[*] process.py'
+            }
+        }
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">6. Dynamic Resource Scaling</div>
+                <p>Distributed agents on cloud platforms (AWS EC2, GCP Compute, Kubernetes Pods) allow parallel execution of compute-heavy Spark or PySpark jobs.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">7. Monitoring & Notifications</div>
+                <p>Integrate with Slack, Email, PagerDuty to notify data teams about job successes or failures.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">JENKINSFILE</span>
+                        <pre>post {
+    success {
+        slackSend(
+            color: 'good',
+            message: "✅ ETL Pipeline Succeeded - ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+        )
+    }
+    failure {
+        slackSend(
+            color: 'danger',
+            message: "❌ ETL Pipeline Failed - ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+        )
+        mail to: 'data-team@company.com',
+             subject: "Pipeline Failed: ${env.JOB_NAME}",
+             body: "Check console output at ${env.BUILD_URL}"
+    }
+}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">8. Continuous Delivery for Data</div>
+                <p>Automate model deployment, Airflow DAG updates, or dbt transformations using CI/CD principles.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">9. Data Quality Assurance</div>
+                <p>Each Jenkins build validates dataset integrity before consumption in downstream analytics tools.</p>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Real-World Impact</h4>
+                <ul>
+                    <li>Reduce manual pipeline execution and deployment</li>
+                    <li>Catch data quality issues early with automated testing</li>
+                    <li>Ensure consistency between dev and production environments</li>
+                    <li>Scale data processing across distributed workers</li>
+                    <li>Maintain audit trail of all pipeline changes</li>
+                    <li>Enable rapid iteration on data pipelines</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4: Core Components -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🧩</div>
+                <h2>Jenkins Components Explained</h2>
+            </div>
+
+            <h3>1. Controller (Master Node)</h3>
+            <p>Manages and schedules jobs, assigns tasks to agents, stores configurations, and maintains build history.</p>
+            
+            <div class="stage-box">
+                <div class="stage-header">📋 Example Scenario</div>
+                <p>When a PR is merged in GitHub, the Jenkins controller:</p>
+                <ol>
+                    <li>Receives webhook event</li>
+                    <li>Triggers configured pipeline</li>
+                    <li>Retrieves code from repository</li>
+                    <li>Queues job for execution</li>
+                    <li>Assigns to available agent</li>
+                </ol>
+            </div>
+
+            <h3>2. Agents (Worker Nodes)</h3>
+            <p>Execute the actual tasks assigned by the controller.</p>
+            
+            <div class="stage-box">
+                <div class="stage-header">⚙️ Example Configuration</div>
+                <p><strong>Agent 1 (Linux):</strong> Runs ETL Python scripts, processes CSV files</p>
+                <p><strong>Agent 2 (Docker):</strong> Builds container images, deploys to Kubernetes</p>
+                <p><strong>Agent 3 (Spark):</strong> Executes PySpark jobs for big data processing</p>
+            </div>
+
+            <h3>3. Executors</h3>
+            <p>Logical compute units within an agent.</p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">CONFIGURATION</span>
+                    <pre><span class="code-comment">Agent with 4 executors can run:</span>
+• 4 concurrent data processing pipelines
+• 4 parallel Spark jobs
+• 4 simultaneous test suites
+
+<span class="code-comment">Controller decides job assignment based on:</span>
+• Available executors
+• Agent labels
+• Job priority</pre>
+                </div>
+            </div>
+
+            <h3>4. Jobs and Pipelines</h3>
+            <p>Define automation logic through GUI or Jenkinsfile.</p>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>🔧 Freestyle Project</h4>
+                    <p>Simple, GUI-based configuration</p>
+                    <p>Good for: Single script execution</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>📋 Pipeline Project</h4>
+                    <p>Code-based, multi-stage workflows</p>
+                    <p>Good for: Complex ETL processes</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>📁 Multibranch Pipeline</h4>
+                    <p>Separate pipelines per Git branch</p>
+                    <p>Good for: Dev/staging/prod workflows</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>📂 Folder</h4>
+                    <p>Organize related pipelines</p>
+                    <p>Good for: Team or project grouping</p>
+                </div>
+            </div>
+
+            <h3>5. Plugins</h3>
+            <p>Extend Jenkins functionality with 1800+ community plugins.</p>
+
+            <h4>Essential Plugins for Data Engineering:</h4>
+            <ul>
+                <li><strong>Git Plugin:</strong> Version control integration</li>
+                <li><strong>Docker Pipeline:</strong> Container-based builds</li>
+                <li><strong>Kubernetes:</strong> Dynamic pod-based agents</li>
+                <li><strong>AWS Steps:</strong> S3, EC2, Lambda integration</li>
+                <li><strong>Google Cloud:</strong> GCS, BigQuery operations</li>
+                <li><strong>Slack Notification:</strong> Team alerts</li>
+                <li><strong>Email Extension:</strong> Advanced notifications</li>
+                <li><strong>Pipeline Stage View:</strong> Visual pipeline monitoring</li>
+                <li><strong>Blue Ocean:</strong> Modern UI for pipelines</li>
+                <li><strong>Credentials Binding:</strong> Secure secret injection</li>
+            </ul>
+
+            <h3>6. Credentials Store</h3>
+            <p>Securely store secrets, tokens, and API keys.</p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">JENKINSFILE</span>
+                    <pre>pipeline {
+    agent any
+    environment {
+        AWS_CREDENTIALS = credentials('aws-data-engineer')
+        SNOWFLAKE_CREDS = credentials('snowflake-prod')
+        API_KEY = credentials('api-token')
+    }
+    stages {
+        stage('Deploy') {
+            steps {
+                sh '''
+                    aws s3 cp data.csv s3://bucket/
+                    snowsql -c prod -f load.sql
+                '''
+            }
+        }
+    }
+}</pre>
+                </div>
+            </div>
+
+            <h3>7. Artifacts & Logs</h3>
+            <p>Build outputs (reports, binaries, data files) are archived for traceability.</p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">JENKINSFILE</span>
+                    <pre>post {
+    always {
+        archiveArtifacts artifacts: 'reports/*.html', 
+                         fingerprint: true
+        junit 'test-results/*.xml'
+        publishHTML([
+            reportDir: 'coverage',
+            reportFiles: 'index.html',
+            reportName: 'Code Coverage'
+        ])
+    }
+}</pre>
+                </div>
+            </div>
+
+            <h3>8. Build Queue</h3>
+            <p>Incoming jobs wait here until an executor is available, ensuring optimal resource management.</p>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Queue Management</span>
+                </div>
+                <p>Jobs can be prioritized, and you can configure how long jobs wait before timing out. Use agent labels to route specific jobs to specific agents for better resource utilization.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Getting Started -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Getting Started with Jenkins</h2>
+            </div>
+
+            <h3>Installation</h3>
+
+            <h4>Option 1: Package Manager</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">LINUX</span>
+                    <pre><span class="code-comment"># Ubuntu/Debian</span>
+sudo apt update
+sudo apt install jenkins
+
+<span class="code-comment"># Start Jenkins</span>
+sudo systemctl start jenkins
+sudo systemctl enable jenkins</pre>
+                </div>
+            </div>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">MACOS</span>
+                    <pre><span class="code-comment"># Using Homebrew</span>
+brew install jenkins-lts
+
+<span class="code-comment"># Start Jenkins</span>
+brew services start jenkins-lts</pre>
+                </div>
+            </div>
+
+            <h4>Option 2: Docker (Recommended)</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">DOCKER</span>
+                    <pre><span class="code-comment"># Run Jenkins in Docker</span>
+docker run -d \
+  --name jenkins \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -v jenkins_home:/var/jenkins_home \
+  jenkins/jenkins:lts
+
+<span class="code-comment"># Get initial admin password</span>
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword</pre>
+                </div>
+            </div>
+
+            <h4>Option 3: Kubernetes</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">HELM</span>
+                    <pre><span class="code-comment"># Add Jenkins Helm repo</span>
+helm repo add jenkins https://charts.jenkins.io
+helm repo update
+
+<span class="code-comment"># Install Jenkins</span>
+helm install jenkins jenkins/jenkins \
+  --set controller.serviceType=LoadBalancer</pre>
+                </div>
+            </div>
+
+            <h3>Initial Setup</h3>
+            <ol>
+                <li><strong>Access Jenkins:</strong> Navigate to <code>http://localhost:8080</code></li>
+                <li><strong>Unlock:</strong> Use password from <code>/var/lib/jenkins/secrets/initialAdminPassword</code></li>
+                <li><strong>Install Plugins:</strong> Choose "Install suggested plugins" or select manually</li>
+                <li><strong>Create Admin User:</strong> Set up username and password</li>
+                <li><strong>Configure Instance:</strong> Set Jenkins URL</li>
+            </ol>
+
+            <h3>Essential Configuration</h3>
+
+            <h4>1. Global Tool Configuration</h4>
+            <p>Navigate to <strong>Manage Jenkins → Global Tool Configuration</strong></p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">TOOLS</span>
+                    <pre><span class="code-comment">Configure:</span>
+• JDK installations
+• Git installations
+• Maven installations
+• Python installations
+• Docker installations</pre>
+                </div>
+            </div>
+
+            <h4>2. Add Credentials</h4>
+            <p>Navigate to <strong>Manage Jenkins → Manage Credentials</strong></p>
+            
+            <ul>
+                <li>GitHub token for repository access</li>
+                <li>AWS credentials for S3/EC2</li>
+                <li>Docker registry credentials</li>
+                <li>Database connection strings</li>
+                <li>API tokens</li>
+            </ul>
+
+            <h4>3. Configure Agents</h4>
+            <p>Navigate to <strong>Manage Jenkins → Manage Nodes and Clouds</strong></p>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">AGENT SETUP</span>
+                    <pre><span class="code-comment">Agent Configuration:</span>
+Name: data-pipeline-agent
+Remote root directory: /home/jenkins
+Labels: python spark data-engineering
+Executors: 4
+Launch method: SSH or JNLP</pre>
+                </div>
+            </div>
+
+            <h3>Creating Your First Pipeline</h3>
+
+            <h4>Step 1: Create New Item</h4>
+            <p>Click <strong>New Item</strong> → Enter name → Select <strong>Pipeline</strong></p>
+
+            <h4>Step 2: Configure Pipeline</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">JENKINSFILE</span>
+                    <pre>pipeline {
+    agent any
+    
+    stages {
+        stage('Hello World') {
+            steps {
+                echo 'Hello from Jenkins!'
+                sh 'python --version'
+                sh 'pwd'
+                sh 'ls -la'
+            }
+        }
+    }
+}</pre>
+                </div>
+            </div>
+
+            <h4>Step 3: Run Pipeline</h4>
+            <p>Click <strong>Build Now</strong> and view console output</p>
+
+            <h3>Triggering Builds</h3>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>🔄 Git Webhooks</h4>
+                    <p>Automatic trigger on code push</p>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>triggers {
+    githubPush()
+}</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="component-card">
+                    <h4>⏰ Cron Schedule</h4>
+                    <p>Time-based execution</p>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>triggers {
+    cron('0 2 * * *')
+    <span class="code-comment">// Daily at 2 AM</span>
+}</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="component-card">
+                    <h4>📊 Polling SCM</h4>
+                    <p>Check repository periodically</p>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>triggers {
+    pollSCM('H/15 * * * *')
+    <span class="code-comment">// Every 15 min</span>
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="component-card">
+                    <h4>👆 Manual Trigger</h4>
+                    <p>On-demand execution</p>
+                    <p>Click "Build Now" in UI or trigger via API</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Real-World Example -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Real-World Example: Data Pipeline</h2>
+            </div>
+
+            <p>Complete Jenkins pipeline for daily sales ETL process.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">JENKINSFILE</span>
+                    <pre>pipeline {
+    agent { label 'data-engineering' }
+    
+    environment {
+        AWS_CREDENTIALS = credentials('aws-data-engineer')
+        SNOWFLAKE_CREDS = credentials('snowflake-prod')
+        SLACK_CHANNEL = '#data-alerts'
+    }
+    
+    triggers {
+        cron('0 2 * * *')  <span class="code-comment">// Run at 2 AM daily</span>
+    }
+    
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
+    
+    stages {
+        stage('Setup') {
+            steps {
+                echo "Starting ETL Pipeline for ${env.BUILD_ID}"
+                sh 'python --version'
+                sh 'pip install -r requirements.txt'
+            }
+        }
+        
+        stage('Extract Data') {
+            steps {
+                echo 'Extracting data from multiple sources...'
+                sh '''
+                    python scripts/extract_from_api.py \
+                      --date $(date +%Y-%m-%d) \
+                      --output /tmp/raw_data/
+                '''
+                sh '''
+                    aws s3 cp s3://source-bucket/sales/ \
+                      /tmp/raw_data/ --recursive
+                '''
+            }
+        }
+        
+        stage('Validate Raw Data') {
+            steps {
+                echo 'Running data quality checks...'
+                sh 'python tests/validate_raw_data.py'
+            }
+            post {
+                always {
+                    junit 'test-results/validation-*.xml'
+                }
+            }
+        }
+        
+        stage('Transform Data') {
+            parallel {
+                stage('Clean Sales Data') {
+                    steps {
+                        sh 'python scripts/clean_sales.py'
+                    }
+                }
+                stage('Aggregate Metrics') {
+                    steps {
+                        sh 'python scripts/calculate_metrics.py'
+                    }
+                }
+                stage('Enrich Customer Data') {
+                    steps {
+                        sh 'python scripts/enrich_customers.py'
+                    }
+                }
+            }
+        }
+        
+        stage('Run Spark Job') {
+            agent { label 'spark-cluster' }
+            steps {
+                echo 'Processing large datasets with Spark...'
+                sh '''
+                    spark-submit \
+                      --master yarn \
+                      --deploy-mode cluster \
+                      --num-executors 10 \
+                      --executor-memory 4G \
+                      scripts/spark_transform.py
+                '''
+            }
+        }
+        
+        stage('Load to Warehouse') {
+            steps {
+                echo 'Loading data to Snowflake...'
+                sh '''
+                    snowsql -c production \
+                      -f sql/load_to_warehouse.sql \
+                      -D date=$(date +%Y-%m-%d)
+                '''
+            }
+        }
+        
+        stage('Data Quality Tests') {
+            steps {
+                echo 'Running post-load quality checks...'
+                sh 'pytest tests/test_data_quality.py -v'
+                sh 'python scripts/check_row_counts.py'
+                sh 'python scripts/validate_schema.py'
+            }
+            post {
+                always {
+                    junit 'test-results/quality-*.xml'
+                    publishHTML([
+                        reportDir: 'reports',
+                        reportFiles: 'data_quality.html',
+                        reportName: 'Data Quality Report'
+                    ])
+                }
+            }
+        }
+        
+        stage('Update Analytics') {
+            steps {
+                echo 'Refreshing BI dashboards...'
+                sh 'python scripts/refresh_tableau.py'
+                sh 'curl -X POST ${LOOKER_REFRESH_URL}'
+            }
+        }
+        
+        stage('Archive Artifacts') {
+            steps {
+                sh 'tar -czf processed_data.tar.gz /tmp/processed/'
+                archiveArtifacts artifacts: '*.tar.gz',
+                                 fingerprint: true
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+            slackSend(
+                color: 'good',
+                channel: env.SLACK_CHANNEL,
+                message: """
+                    ✅ *ETL Pipeline Succeeded*
+                    Job: ${env.JOB_NAME}
+                    Build: ${env.BUILD_NUMBER}
+                    Duration: ${currentBuild.durationString}
+                    Date: ${new Date().format('yyyy-MM-dd HH:mm:ss')}
+                """
+            )
+            mail to: 'data-team@company.com',
+                 subject: "ETL Success - ${env.JOB_NAME}",
+                 body: "Pipeline completed successfully. Check ${env.BUILD_URL}"
+        }
+        
+        failure {
+            echo 'Pipeline failed!'
+            slackSend(
+                color: 'danger',
+                channel: env.SLACK_CHANNEL,
+                message: """
+                    ❌ *ETL Pipeline Failed*
+                    Job: ${env.JOB_NAME}
+                    Build: ${env.BUILD_NUMBER}
+                    Check logs: ${env.BUILD_URL}console
+                """
+            )
+            mail to: 'data-team@company.com',
+                 subject: "ETL FAILURE - ${env.JOB_NAME}",
+                 body: "Pipeline failed. Immediate attention required. ${env.BUILD_URL}"
+        }
+        
+        always {
+            echo 'Cleaning up workspace...'
+            cleanWs()
+        }
+    }
+}</pre>
+                </div>
+            </div>
+
+            <h3>Pipeline Features Explained</h3>
+
+            <div class="stage-box">
+                <div class="stage-header">🔧 Environment Variables</div>
+                <p>Credentials securely injected from Jenkins credential store</p>
+            </div>
+
+            <div class="stage-box">
+                <div class="stage-header">⏰ Scheduled Execution</div>
+                <p>Cron trigger ensures daily automated runs</p>
+            </div>
+
+            <div class="stage-box">
+                <div class="stage-header">⚡ Parallel Processing</div>
+                <p>Multiple transformation stages run concurrently for speed</p>
+            </div>
+
+            <div class="stage-box">
+                <div class="stage-header">✅ Quality Gates</div>
+                <p>Validation at multiple stages catches issues early</p>
+            </div>
+
+            <div class="stage-box">
+                <div class="stage-header">🔔 Smart Notifications</div>
+                <p>Slack and email alerts with detailed context</p>
+            </div>
+
+            <div class="stage-box">
+                <div class="stage-header">📦 Artifact Archiving</div>
+                <p>Test reports and processed data stored for audit</p>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Production-Ready Features</span>
+                </div>
+                <ul>
+                    <li><strong>Timeout protection:</strong> Prevents hung pipelines</li>
+                    <li><strong>Build history:</strong> Keeps last 30 builds</li>
+                    <li><strong>Parallel execution:</strong> Speeds up processing</li>
+                    <li><strong>Quality gates:</strong> Validates data at each stage</li>
+                    <li><strong>Smart notifications:</strong> Team stays informed</li>
+                    <li><strong>Workspace cleanup:</strong> Manages disk space</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Best Practices -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💎</div>
+                <h2>Jenkins Best Practices</h2>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">1. Use Pipeline as Code</div>
+                <p>Always define pipelines in Jenkinsfile stored in Git. This enables version control, code review, and easy replication across environments.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">2. Never Build on Controller</div>
+                <p>Execute all builds on agents. Keep the controller lightweight for orchestration only to maintain stability and scalability.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">3. Use Declarative Syntax</div>
+                <p>Prefer declarative pipeline syntax over scripted for better readability, validation, and IDE support.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">4. Leverage Docker Agents</div>
+                <p>Run builds in Docker containers for isolated, reproducible environments with exact dependency versions.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">5. Implement Quality Gates</div>
+                <p>Add validation and testing stages between ETL steps to catch issues early and maintain data quality.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">6. Use Shared Libraries</div>
+                <p>Extract common pipeline code into shared libraries to promote reusability and maintainability across teams.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">7. Secure Credentials</div>
+                <p>Never hardcode secrets. Always use Jenkins credential store and bind them as environment variables.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">8. Label Your Agents</div>
+                <p>Use descriptive labels (python, spark, docker) to route jobs to appropriate agents with required tools.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">9. Set Appropriate Timeouts</div>
+                <p>Prevent hung builds by setting reasonable timeouts for each stage and overall pipeline.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">10. Monitor and Alert</div>
+                <p>Configure notifications for failures and successes. Integrate with monitoring tools for visibility.</p>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Anti-Patterns to Avoid</span>
+                </div>
+                <ul>
+                    <li><strong>Building on controller:</strong> Causes instability and doesn't scale</li>
+                    <li><strong>Hardcoded credentials:</strong> Security risk and inflexible</li>
+                    <li><strong>No version control:</strong> Makes rollback and audit impossible</li>
+                    <li><strong>Monolithic pipelines:</strong> Hard to maintain and debug</li>
+                    <li><strong>Missing timeouts:</strong> Can cause resource exhaustion</li>
+                    <li><strong>No logging/monitoring:</strong> Difficult to troubleshoot issues</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 8: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Summary & Key Takeaways</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Jenkins Essentials</h4>
+                <ul>
+                    <li><strong>CI/CD Platform:</strong> Automate build, test, and deployment workflows</li>
+                    <li><strong>Controller-Agent Architecture:</strong> Scalable, distributed execution model</li>
+                    <li><strong>Pipeline as Code:</strong> Jenkinsfile in Git for version control</li>
+                    <li><strong>Extensible:</strong> 1800+ plugins for tool integration</li>
+                    <li><strong>Data Engineering:</strong> Perfect for ETL orchestration and automation</li>
+                    <li><strong>Multi-Platform:</strong> Linux, Windows, Docker, Kubernetes support</li>
+                </ul>
+            </div>
+
+            <h3>Quick Reference</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Purpose</th>
+                        <th>Key Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Controller</strong></td>
+                        <td>Orchestrate and schedule</td>
+                        <td>Brain of Jenkins</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agent</strong></td>
+                        <td>Execute builds</td>
+                        <td>Distributed workers</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Executor</strong></td>
+                        <td>Compute unit</td>
+                        <td>Parallel execution</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pipeline</strong></td>
+                        <td>Define workflow</td>
+                        <td>Code-based automation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Plugin</strong></td>
+                        <td>Extend functionality</td>
+                        <td>1800+ integrations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Credentials</strong></td>
+                        <td>Secure secrets</td>
+                        <td>Encrypted storage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jenkinsfile</strong></td>
+                        <td>Pipeline definition</td>
+                        <td>Version controlled</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>When to Use Jenkins</h3>
+            <div class="component-grid">
+                <div class="component-card" style="border-color: var(--accent-green);">
+                    <h4 style="color: var(--accent-green);">✅ Perfect For</h4>
+                    <p>• CI/CD automation</p>
+                    <p>• ETL pipeline orchestration</p>
+                    <p>• Scheduled data jobs</p>
+                    <p>• Multi-stage workflows</p>
+                    <p>• Infrastructure deployment</p>
+                    <p>• Automated testing</p>
+                </div>
+                
+                <div class="component-card" style="border-color: var(--accent-blue);">
+                    <h4 style="color: var(--accent-blue);">🤝 Works Great With</h4>
+                    <p>• Git (version control)</p>
+                    <p>• Docker (containers)</p>
+                    <p>• Kubernetes (orchestration)</p>
+                    <p>• AWS/GCP/Azure (cloud)</p>
+                    <p>• Airflow (data workflows)</p>
+                    <p>• Terraform (IaC)</p>
+                </div>
+            </div>
+
+            <h3>Jenkins vs Airflow</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Jenkins</th>
+                        <th>Airflow</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Primary Use</strong></td>
+                        <td>CI/CD, general automation</td>
+                        <td>Data workflow orchestration</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Build, test, deploy pipelines</td>
+                        <td>Complex data dependencies</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Language</strong></td>
+                        <td>Groovy (Jenkinsfile)</td>
+                        <td>Python (DAGs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Visualization</strong></td>
+                        <td>Stage view, Blue Ocean</td>
+                        <td>Graph view, Gantt charts</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use Together</strong></td>
+                        <td colspan="2">Jenkins deploys Airflow DAGs and infrastructure!</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Jenkins for DevOps Success!</span>
+                </div>
+                <p>Jenkins is the industry standard for CI/CD automation. Master its architecture, follow best practices, and you'll build reliable, scalable, automated pipelines that accelerate software and data delivery across your organization.</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Automate everything with Jenkins! 🤖🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🤖</div>
+        <p><strong>Jenkins for Data Engineers — Complete Classroom Notes</strong></p>
+        <p>CI/CD Automation & Pipeline Orchestration Mastery</p>
+        <p style="margin-top: 1rem;">© 2025 Data Engineering Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

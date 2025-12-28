@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Lists - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-yellow {
+            background: linear-gradient(135deg, #fbbf24, #fcd34d);
+        }
+
+        .badge-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip {
+            background: rgba(236, 72, 153, 0.1);
+            border-left: 3px solid var(--accent-pink);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .interview-tip-header {
+            color: var(--accent-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip-header::before {
+            content: '🎯';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .feature-item h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .feature-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .comparison-table {
+            background: rgba(45, 55, 72, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-header {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Python Lists</h1>
+        <p class="subtitle">Complete Classroom Notes — Mastering List Data Structures in Python</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>Introduction to Lists</h2>
+            </div>
+
+            <p>A <strong>list</strong> in Python is a powerful built-in data structure that allows you to store and manage multiple items within a single variable. Lists act as containers for organizing information, enabling developers to group related data and manipulate it efficiently.</p>
+
+            <p>Lists are defined using <strong>square brackets</strong> <code>[ ]</code>, and elements inside are separated by commas.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>my_list = [10, "apple", 3.14, True]
+print(my_list)  <span class="code-comment"># [10, 'apple', 3.14, True]</span>
+print(type(my_list))  <span class="code-comment"># &lt;class 'list'&gt;</span></pre>
+                </div>
+            </div>
+
+            <h3>Core Characteristics of Lists</h3>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>📍 Ordered</h4>
+                    <p>Elements maintain fixed positions</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔄 Mutable</h4>
+                    <p>Can be modified after creation</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎨 Heterogeneous</h4>
+                    <p>Can store mixed data types</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔢 Indexed</h4>
+                    <p>Access elements by position</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📈 Dynamic</h4>
+                    <p>Can grow or shrink in size</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔁 Iterable</h4>
+                    <p>Can loop through elements</p>
+                </div>
+            </div>
+
+            <h3>Detailed Characteristics</h3>
+            <ul>
+                <li><strong>Ordered:</strong> Each element has a definite position, and that order is preserved unless the list is modified. Even when elements are repeated, their positions remain fixed.</li>
+                <li><strong>Mutable:</strong> Lists can be changed after they are created — you can add, remove, or modify elements dynamically during program execution.</li>
+                <li><strong>Heterogeneous:</strong> Lists can store multiple data types within the same structure, such as integers, strings, floats, booleans, or even other lists.</li>
+                <li><strong>Indexed:</strong> Every element can be accessed using its position, starting from index 0 for the first element.</li>
+                <li><strong>Dynamic:</strong> Lists can grow or shrink depending on your needs, making them suitable for processing data that varies in size.</li>
+            </ul>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p>Lists are foundational, flexible sequences that combine order, mutability, and the ability to hold mixed data types, making them an essential tool in every Python program.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Creating Lists -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎨</div>
+                <h2>Creating Lists</h2>
+            </div>
+
+            <p>Python offers several straightforward ways to create lists, allowing both initialization with values and creation of empty lists for later use. Lists are extremely common in applications such as data analysis, API response handling, and algorithm implementation.</p>
+
+            <h3>Basic List Creation</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Empty list</span>
+empty = []
+print(empty)  <span class="code-comment"># []</span>
+
+<span class="code-comment"># List of integers</span>
+numbers = [1, 2, 3, 4, 5]
+print(numbers)  <span class="code-comment"># [1, 2, 3, 4, 5]</span>
+
+<span class="code-comment"># List with mixed data types</span>
+mixed = [1, "hello", 3.5, True]
+print(mixed)  <span class="code-comment"># [1, 'hello', 3.5, True]</span>
+
+<span class="code-comment"># Nested list (2D structure)</span>
+nested = [[1, 2], [3, 4], [5, 6]]
+print(nested)  <span class="code-comment"># [[1, 2], [3, 4], [5, 6]]</span></pre>
+                </div>
+            </div>
+
+            <h3>Creating Lists Using Constructors</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Converting string to list</span>
+list_from_str = list("Python")
+print(list_from_str)  <span class="code-comment"># ['P', 'y', 't', 'h', 'o', 'n']</span>
+
+<span class="code-comment"># Creating list from range</span>
+list_from_range = list(range(5))
+print(list_from_range)  <span class="code-comment"># [0, 1, 2, 3, 4]</span>
+
+<span class="code-comment"># List from range with step</span>
+list_with_step = list(range(0, 10, 2))
+print(list_with_step)  <span class="code-comment"># [0, 2, 4, 6, 8]</span>
+
+<span class="code-comment"># Creating list from tuple</span>
+tuple_data = (1, 2, 3)
+list_from_tuple = list(tuple_data)
+print(list_from_tuple)  <span class="code-comment"># [1, 2, 3]</span></pre>
+                </div>
+            </div>
+
+            <h3>List Initialization with Repetition</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Create list with repeated values</span>
+zeros = [0] * 5
+print(zeros)  <span class="code-comment"># [0, 0, 0, 0, 0]</span>
+
+<span class="code-comment"># Create list with repeated strings</span>
+greetings = ["Hi"] * 3
+print(greetings)  <span class="code-comment"># ['Hi', 'Hi', 'Hi']</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Key Insight</span>
+                </div>
+                <p>Lists can be created from scratch, converted from other iterables, or built dynamically. They form the backbone of most Python programs due to their simplicity and adaptability.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Indexing and Slicing -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h2>Indexing and Slicing</h2>
+            </div>
+
+            <p>Lists allow direct access to elements through <strong>indexing</strong> and partial retrieval through <strong>slicing</strong>.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-purple">Indexing</span>
+                <span class="badge badge-cyan">Slicing</span>
+                <span class="badge badge-green">Negative Indices</span>
+            </div>
+
+            <h3>Indexing</h3>
+            <p>Each element's position starts at <strong>0</strong> (for the first item), and <strong>negative indices</strong> count backward from the end.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [10, 20, 30, 40, 50]
+
+<span class="code-comment"># Positive indexing (0-based)</span>
+print(lst[0])     <span class="code-comment"># 10 (first element)</span>
+print(lst[2])     <span class="code-comment"># 30 (third element)</span>
+print(lst[4])     <span class="code-comment"># 50 (fifth element)</span>
+
+<span class="code-comment"># Negative indexing (from end)</span>
+print(lst[-1])    <span class="code-comment"># 50 (last element)</span>
+print(lst[-2])    <span class="code-comment"># 40 (second-to-last)</span>
+print(lst[-5])    <span class="code-comment"># 10 (first element)</span></pre>
+                </div>
+            </div>
+
+            <h3>Slicing</h3>
+            <p>Extract ranges of elements or generate reversed lists using slicing syntax: <code>list[start:end:step]</code></p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [10, 20, 30, 40, 50, 60, 70]
+
+<span class="code-comment"># Basic slicing</span>
+print(lst[1:4])     <span class="code-comment"># [20, 30, 40] (indices 1 to 3)</span>
+print(lst[:3])      <span class="code-comment"># [10, 20, 30] (from start to index 3)</span>
+print(lst[3:])      <span class="code-comment"># [40, 50, 60, 70] (from index 3 to end)</span>
+
+<span class="code-comment"># Step-based slicing</span>
+print(lst[::2])     <span class="code-comment"># [10, 30, 50, 70] (every 2nd element)</span>
+print(lst[1::2])    <span class="code-comment"># [20, 40, 60] (every 2nd, starting at 1)</span>
+
+<span class="code-comment"># Reversing with slicing</span>
+print(lst[::-1])    <span class="code-comment"># [70, 60, 50, 40, 30, 20, 10] (reversed)</span>
+
+<span class="code-comment"># Negative indices in slicing</span>
+print(lst[-3:])     <span class="code-comment"># [50, 60, 70] (last 3 elements)</span>
+print(lst[:-2])     <span class="code-comment"># [10, 20, 30, 40, 50] (all except last 2)</span></pre>
+                </div>
+            </div>
+
+            <h3>Slicing Syntax Breakdown</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Syntax</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>lst[start:end]</code></td>
+                        <td>From start to end-1</td>
+                        <td><code>lst[1:4]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>lst[:end]</code></td>
+                        <td>From beginning to end-1</td>
+                        <td><code>lst[:3]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>lst[start:]</code></td>
+                        <td>From start to end</td>
+                        <td><code>lst[2:]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>lst[::step]</code></td>
+                        <td>Every step-th element</td>
+                        <td><code>lst[::2]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>lst[::-1]</code></td>
+                        <td>Reverse the list</td>
+                        <td><code>lst[::-1]</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p>Indexing gives pinpoint control over individual elements, while slicing enables quick extraction, reversal, or step-based selection of sublists.</p>
+            </div>
+        </div>
+
+        <!-- Section 4: Basic Operations -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2>Basic List Operations</h2>
+            </div>
+
+            <p>Lists support a wide variety of operations that make them both intuitive and expressive.</p>
+
+            <h3>Concatenation (+)</h3>
+            <p>Combine two or more lists into a single list.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = [1, 2, 3]
+b = [4, 5, 6]
+c = a + b
+print(c)  <span class="code-comment"># [1, 2, 3, 4, 5, 6]</span>
+
+<span class="code-comment"># Multiple concatenations</span>
+result = [1] + [2, 3] + [4, 5]
+print(result)  <span class="code-comment"># [1, 2, 3, 4, 5]</span></pre>
+                </div>
+            </div>
+
+            <h3>Repetition (*)</h3>
+            <p>Repeat list elements multiple times.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = [1, 2, 3]
+print(a * 2)  <span class="code-comment"># [1, 2, 3, 1, 2, 3]</span>
+print(a * 3)  <span class="code-comment"># [1, 2, 3, 1, 2, 3, 1, 2, 3]</span>
+
+<span class="code-comment"># Creating patterns</span>
+pattern = [0, 1] * 5
+print(pattern)  <span class="code-comment"># [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]</span></pre>
+                </div>
+            </div>
+
+            <h3>Membership Testing (in / not in)</h3>
+            <p>Check if an element exists in the list.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>fruits = ["apple", "banana", "cherry"]
+
+print("apple" in fruits)      <span class="code-comment"># True</span>
+print("grape" in fruits)      <span class="code-comment"># False</span>
+print("grape" not in fruits)  <span class="code-comment"># True</span>
+
+<span class="code-comment"># Using in conditional statements</span>
+if "banana" in fruits:
+    print("We have bananas!")  <span class="code-comment"># We have bananas!</span></pre>
+                </div>
+            </div>
+
+            <h3>Length (len())</h3>
+            <p>Get the number of elements in a list.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>numbers = [10, 20, 30, 40, 50]
+print(len(numbers))  <span class="code-comment"># 5</span>
+
+empty = []
+print(len(empty))    <span class="code-comment"># 0</span></pre>
+                </div>
+            </div>
+
+            <h3>Built-in Functions</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>numbers = [5, 2, 9, 1, 7]
+
+print(max(numbers))   <span class="code-comment"># 9 (maximum value)</span>
+print(min(numbers))   <span class="code-comment"># 1 (minimum value)</span>
+print(sum(numbers))   <span class="code-comment"># 24 (sum of all elements)</span>
+
+<span class="code-comment"># Other useful functions</span>
+print(sorted(numbers))  <span class="code-comment"># [1, 2, 5, 7, 9] (returns new sorted list)</span>
+print(any([0, 0, 1]))   <span class="code-comment"># True (at least one truthy value)</span>
+print(all([1, 2, 3]))   <span class="code-comment"># True (all values truthy)</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Summary</span>
+                </div>
+                <p>Lists behave much like mathematical sequences — supporting combination, repetition, and membership checks — making them ideal for collection-based computations.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Updating Elements -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">✏️</div>
+                <h2>Updating List Elements</h2>
+            </div>
+
+            <p>Since lists are <strong>mutable</strong>, you can modify individual or multiple elements in place without creating a new list.</p>
+
+            <h3>Modifying Single Elements</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [10, 20, 30, 40, 50]
+
+<span class="code-comment"># Update single element</span>
+lst[1] = 200
+print(lst)  <span class="code-comment"># [10, 200, 30, 40, 50]</span>
+
+<span class="code-comment"># Update using negative index</span>
+lst[-1] = 500
+print(lst)  <span class="code-comment"># [10, 200, 30, 40, 500]</span></pre>
+                </div>
+            </div>
+
+            <h3>Modifying Multiple Elements (Slices)</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [10, 20, 30, 40, 50]
+
+<span class="code-comment"># Update slice</span>
+lst[0:2] = [1000, 2000]
+print(lst)  <span class="code-comment"># [1000, 2000, 30, 40, 50]</span>
+
+<span class="code-comment"># Replace multiple elements with different number</span>
+lst[1:4] = [100]
+print(lst)  <span class="code-comment"># [1000, 100, 50]</span>
+
+<span class="code-comment"># Insert elements using slicing</span>
+lst = [1, 2, 5, 6]
+lst[2:2] = [3, 4]
+print(lst)  <span class="code-comment"># [1, 2, 3, 4, 5, 6]</span></pre>
+                </div>
+            </div>
+
+            <h3>Modifying Nested Lists</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+<span class="code-comment"># Update element in nested list</span>
+matrix[0][1] = 99
+print(matrix)  <span class="code-comment"># [[1, 99, 3], [4, 5, 6], [7, 8, 9]]</span>
+
+<span class="code-comment"># Update entire row</span>
+matrix[1] = [40, 50, 60]
+print(matrix)  <span class="code-comment"># [[1, 99, 3], [40, 50, 60], [7, 8, 9]]</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p>Mutation enables high flexibility, allowing partial edits or batch updates without recreating a list from scratch.</p>
+            </div>
+        </div>
+
+        <!-- Section 6: List Methods - Part 1 -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🛠️</div>
+                <h2>List Methods - Adding Elements</h2>
+            </div>
+
+            <p>Python provides extensive list methods for adding, removing, sorting, searching, and duplicating elements.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-green">append()</span>
+                <span class="badge badge-blue">insert()</span>
+                <span class="badge badge-orange">extend()</span>
+            </div>
+
+            <h3>append() - Add Single Element at End</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 3]
+lst.append(4)
+print(lst)  <span class="code-comment"># [1, 2, 3, 4]</span>
+
+<span class="code-comment"># Append different data types</span>
+lst.append("hello")
+print(lst)  <span class="code-comment"># [1, 2, 3, 4, 'hello']</span>
+
+<span class="code-comment"># Append another list as single element</span>
+lst.append([5, 6])
+print(lst)  <span class="code-comment"># [1, 2, 3, 4, 'hello', [5, 6]]</span></pre>
+                </div>
+            </div>
+
+            <h3>insert() - Add Element at Specific Position</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 4, 5]
+
+<span class="code-comment"># Insert at index 2</span>
+lst.insert(2, 3)
+print(lst)  <span class="code-comment"># [1, 2, 3, 4, 5]</span>
+
+<span class="code-comment"># Insert at beginning</span>
+lst.insert(0, 0)
+print(lst)  <span class="code-comment"># [0, 1, 2, 3, 4, 5]</span>
+
+<span class="code-comment"># Insert at end (like append)</span>
+lst.insert(len(lst), 6)
+print(lst)  <span class="code-comment"># [0, 1, 2, 3, 4, 5, 6]</span></pre>
+                </div>
+            </div>
+
+            <h3>extend() - Add Multiple Elements</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 3]
+
+<span class="code-comment"># Extend with another list</span>
+lst.extend([4, 5, 6])
+print(lst)  <span class="code-comment"># [1, 2, 3, 4, 5, 6]</span>
+
+<span class="code-comment"># Extend with tuple</span>
+lst.extend((7, 8))
+print(lst)  <span class="code-comment"># [1, 2, 3, 4, 5, 6, 7, 8]</span>
+
+<span class="code-comment"># Extend with string (adds each character)</span>
+lst = ['a', 'b']
+lst.extend("cd")
+print(lst)  <span class="code-comment"># ['a', 'b', 'c', 'd']</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p><strong>append() vs extend():</strong> Use <code>append()</code> to add a single element (even if it's a list). Use <code>extend()</code> to add multiple elements from an iterable. This is a common interview question!</p>
+            </div>
+        </div>
+
+        <!-- Section 7: List Methods - Part 2 -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🗑️</div>
+                <h2>List Methods - Removing Elements</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge">remove()</span>
+                <span class="badge badge-blue">pop()</span>
+                <span class="badge badge-orange">clear()</span>
+                <span class="badge badge-purple">del</span>
+            </div>
+
+            <h3>remove() - Remove by Value</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 3, 4, 3, 5]
+
+<span class="code-comment"># Remove first occurrence of value 3</span>
+lst.remove(3)
+print(lst)  <span class="code-comment"># [1, 2, 4, 3, 5]</span>
+
+<span class="code-comment"># Remove another occurrence</span>
+lst.remove(3)
+print(lst)  <span class="code-comment"># [1, 2, 4, 5]</span>
+
+<span class="code-comment"># Trying to remove non-existent value raises error</span>
+<span class="code-comment"># lst.remove(10)  # ValueError!</span></pre>
+                </div>
+            </div>
+
+            <h3>pop() - Remove by Index and Return Value</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [10, 20, 30, 40, 50]
+
+<span class="code-comment"># Pop last element (default)</span>
+removed = lst.pop()
+print(removed)  <span class="code-comment"># 50</span>
+print(lst)      <span class="code-comment"># [10, 20, 30, 40]</span>
+
+<span class="code-comment"># Pop element at specific index</span>
+removed = lst.pop(1)
+print(removed)  <span class="code-comment"># 20</span>
+print(lst)      <span class="code-comment"># [10, 30, 40]</span>
+
+<span class="code-comment"># Pop first element</span>
+removed = lst.pop(0)
+print(removed)  <span class="code-comment"># 10</span>
+print(lst)      <span class="code-comment"># [30, 40]</span></pre>
+                </div>
+            </div>
+
+            <h3>del - Delete Elements or Slices</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 3, 4, 5, 6, 7]
+
+<span class="code-comment"># Delete single element</span>
+del lst[0]
+print(lst)  <span class="code-comment"># [2, 3, 4, 5, 6, 7]</span>
+
+<span class="code-comment"># Delete slice</span>
+del lst[1:3]
+print(lst)  <span class="code-comment"># [2, 5, 6, 7]</span>
+
+<span class="code-comment"># Delete entire list</span>
+<span class="code-comment"># del lst  # List no longer exists</span></pre>
+                </div>
+            </div>
+
+            <h3>clear() - Remove All Elements</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 3, 4, 5]
+lst.clear()
+print(lst)  <span class="code-comment"># []</span>
+
+<span class="code-comment"># List still exists, just empty</span>
+print(type(lst))  <span class="code-comment"># &lt;class 'list'&gt;</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Important Differences</span>
+                </div>
+                <ul>
+                    <li><code>remove(value)</code> - Removes first occurrence of value, raises error if not found</li>
+                    <li><code>pop(index)</code> - Removes and returns element, raises error if index invalid</li>
+                    <li><code>del list[index]</code> - Deletes element but doesn't return it</li>
+                    <li><code>clear()</code> - Empties list but keeps the list object</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 8: List Methods - Part 3 -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h2>List Methods - Searching, Sorting & Copying</h2>
+            </div>
+
+            <h3>index() - Find Position of Element</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [10, 20, 30, 20, 40]
+
+<span class="code-comment"># Find first occurrence</span>
+print(lst.index(20))  <span class="code-comment"># 1</span>
+
+<span class="code-comment"># Find in specific range</span>
+print(lst.index(20, 2))  <span class="code-comment"># 3 (start searching from index 2)</span>
+
+<span class="code-comment"># Element not found raises error</span>
+<span class="code-comment"># print(lst.index(100))  # ValueError!</span></pre>
+                </div>
+            </div>
+
+            <h3>count() - Count Occurrences</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 2, 3, 2, 4, 2]
+
+print(lst.count(2))  <span class="code-comment"># 4</span>
+print(lst.count(5))  <span class="code-comment"># 0 (not found)</span>
+
+<span class="code-comment"># Count in nested list</span>
+nested = [1, [2, 3], 2, [2, 3]]
+print(nested.count(2))      <span class="code-comment"># 1 (only top-level)</span>
+print(nested.count([2, 3])) <span class="code-comment"># 2</span></pre>
+                </div>
+            </div>
+
+            <h3>sort() - Sort List In Place</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>numbers = [3, 1, 4, 1, 5, 9, 2]
+
+<span class="code-comment"># Sort in ascending order</span>
+numbers.sort()
+print(numbers)  <span class="code-comment"># [1, 1, 2, 3, 4, 5, 9]</span>
+
+<span class="code-comment"># Sort in descending order</span>
+numbers.sort(reverse=True)
+print(numbers)  <span class="code-comment"># [9, 5, 4, 3, 2, 1, 1]</span>
+
+<span class="code-comment"># Sort strings</span>
+words = ["banana", "apple", "cherry"]
+words.sort()
+print(words)  <span class="code-comment"># ['apple', 'banana', 'cherry']</span>
+
+<span class="code-comment"># Sort by length</span>
+words.sort(key=len)
+print(words)  <span class="code-comment"># ['apple', 'banana', 'cherry']</span></pre>
+                </div>
+            </div>
+
+            <h3>reverse() - Reverse List In Place</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>lst = [1, 2, 3, 4, 5]
+lst.reverse()
+print(lst)  <span class="code-comment"># [5, 4, 3, 2, 1]</span>
+
+<span class="code-comment"># Alternative: using slicing (creates new list)</span>
+lst2 = [1, 2, 3, 4, 5]
+reversed_lst = lst2[::-1]
+print(reversed_lst)  <span class="code-comment"># [5, 4, 3, 2, 1]</span>
+print(lst2)          <span class="code-comment"># [1, 2, 3, 4, 5] (original unchanged)</span></pre>
+                </div>
+            </div>
+
+            <h3>copy() - Create Shallow Copy</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>original = [1, 2, 3, 4]
+
+<span class="code-comment"># Create independent copy</span>
+copy1 = original.copy()
+copy1[0] = 100
+print(original)  <span class="code-comment"># [1, 2, 3, 4] (unchanged)</span>
+print(copy1)     <span class="code-comment"># [100, 2, 3, 4]</span>
+
+<span class="code-comment"># Alternative copying methods</span>
+copy2 = original[:]
+copy3 = list(original)</pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p><strong>sort() vs sorted():</strong> <code>list.sort()</code> modifies the list in place and returns <code>None</code>. <code>sorted(list)</code> returns a new sorted list without modifying the original. Know the difference!</p>
+            </div>
+        </div>
+
+        <!-- Section 9: Complete Method Reference Table -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Complete List Methods Reference</h2>
+            </div>
+
+            <p>Comprehensive table of all list methods with syntax, definitions, and examples.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Syntax</th>
+                        <th>Description</th>
+                        <th>Example Output</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>append()</code></td>
+                        <td><code>list.append(item)</code></td>
+                        <td>Adds element to end</td>
+                        <td><code>[1,2,3] → [1,2,3,4]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>extend()</code></td>
+                        <td><code>list.extend(iterable)</code></td>
+                        <td>Adds multiple elements</td>
+                        <td><code>[1,2] → [1,2,3,4]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>insert()</code></td>
+                        <td><code>list.insert(i, item)</code></td>
+                        <td>Inserts at position</td>
+                        <td><code>[1,3] → [1,2,3]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>remove()</code></td>
+                        <td><code>list.remove(item)</code></td>
+                        <td>Removes first occurrence</td>
+                        <td><code>[1,2,3,2] → [1,3,2]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>pop()</code></td>
+                        <td><code>list.pop(index)</code></td>
+                        <td>Removes & returns element</td>
+                        <td><code>[1,2,3] → 3, [1,2]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>clear()</code></td>
+                        <td><code>list.clear()</code></td>
+                        <td>Removes all items</td>
+                        <td><code>[1,2,3] → []</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>index()</code></td>
+                        <td><code>list.index(item)</code></td>
+                        <td>Returns first index</td>
+                        <td><code>[1,2,3].index(2) → 1</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>count()</code></td>
+                        <td><code>list.count(item)</code></td>
+                        <td>Counts occurrences</td>
+                        <td><code>[1,2,2,3].count(2) → 2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>sort()</code></td>
+                        <td><code>list.sort()</code></td>
+                        <td>Sorts in place</td>
+                        <td><code>[3,1,2] → [1,2,3]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>reverse()</code></td>
+                        <td><code>list.reverse()</code></td>
+                        <td>Reverses order</td>
+                        <td><code>[1,2,3] → [3,2,1]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>copy()</code></td>
+                        <td><code>list.copy()</code></td>
+                        <td>Creates shallow copy</td>
+                        <td><code>new_list = [1,2,3]</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Built-in Functions for Lists</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>len(list)</code></td>
+                        <td>Returns number of elements</td>
+                        <td><code>len([1,2,3]) → 3</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>max(list)</code></td>
+                        <td>Returns largest element</td>
+                        <td><code>max([1,5,3]) → 5</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>min(list)</code></td>
+                        <td>Returns smallest element</td>
+                        <td><code>min([1,5,3]) → 1</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>sum(list)</code></td>
+                        <td>Returns sum of elements</td>
+                        <td><code>sum([1,2,3]) → 6</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>sorted(list)</code></td>
+                        <td>Returns new sorted list</td>
+                        <td><code>sorted([3,1,2]) → [1,2,3]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>any(list)</code></td>
+                        <td>True if any element is truthy</td>
+                        <td><code>any([0,1,0]) → True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>all(list)</code></td>
+                        <td>True if all elements truthy</td>
+                        <td><code>all([1,2,3]) → True</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 10: List Comprehensions -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h2>List Comprehensions</h2>
+            </div>
+
+            <p>List comprehensions offer a <strong>fast and expressive</strong> way to generate lists from existing iterables in a single line. They're a hallmark of Python's readable syntax.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-purple">Concise</span>
+                <span class="badge badge-green">Readable</span>
+                <span class="badge badge-cyan">Efficient</span>
+            </div>
+
+            <h3>Basic Syntax</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">SYNTAX</span>
+                    <pre>[expression for item in iterable]</pre>
+                </div>
+            </div>
+
+            <h3>Basic Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Create list of squares</span>
+squares = [x**2 for x in range(5)]
+print(squares)  <span class="code-comment"># [0, 1, 4, 9, 16]</span>
+
+<span class="code-comment"># Create list of doubled values</span>
+numbers = [1, 2, 3, 4, 5]
+doubled = [x * 2 for x in numbers]
+print(doubled)  <span class="code-comment"># [2, 4, 6, 8, 10]</span>
+
+<span class="code-comment"># Convert to uppercase</span>
+words = ["hello", "world", "python"]
+upper = [word.upper() for word in words]
+print(upper)  <span class="code-comment"># ['HELLO', 'WORLD', 'PYTHON']</span></pre>
+                </div>
+            </div>
+
+            <h3>List Comprehensions with Conditions</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Filter even numbers</span>
+evens = [x for x in range(10) if x % 2 == 0]
+print(evens)  <span class="code-comment"># [0, 2, 4, 6, 8]</span>
+
+<span class="code-comment"># Filter and transform</span>
+numbers = [1, 2, 3, 4, 5, 6]
+even_squares = [x**2 for x in numbers if x % 2 == 0]
+print(even_squares)  <span class="code-comment"># [4, 16, 36]</span>
+
+<span class="code-comment"># Filter strings by length</span>
+words = ["a", "hello", "hi", "world", "python"]
+long_words = [w for w in words if len(w) > 2]
+print(long_words)  <span class="code-comment"># ['hello', 'world', 'python']</span></pre>
+                </div>
+            </div>
+
+            <h3>If-Else in List Comprehension</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Even or odd labels</span>
+labels = ["even" if x % 2 == 0 else "odd" for x in range(5)]
+print(labels)  <span class="code-comment"># ['even', 'odd', 'even', 'odd', 'even']</span>
+
+<span class="code-comment"># Replace negative numbers with zero</span>
+numbers = [5, -3, 2, -8, 10]
+positive = [x if x > 0 else 0 for x in numbers]
+print(positive)  <span class="code-comment"># [5, 0, 2, 0, 10]</span></pre>
+                </div>
+            </div>
+
+            <h3>Nested List Comprehensions</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Create 3x3 matrix</span>
+matrix = [[j for j in range(3)] for i in range(3)]
+print(matrix)
+<span class="code-comment"># [[0, 1, 2], [0, 1, 2], [0, 1, 2]]</span>
+
+<span class="code-comment"># Flatten a nested list</span>
+nested = [[1, 2], [3, 4], [5, 6]]
+flat = [num for row in nested for num in row]
+print(flat)  <span class="code-comment"># [1, 2, 3, 4, 5, 6]</span></pre>
+                </div>
+            </div>
+
+            <h3>Traditional Loop vs List Comprehension</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">COMPARISON</span>
+                    <pre><span class="code-comment"># Traditional approach (5 lines)</span>
+squares = []
+for x in range(5):
+    squares.append(x**2)
+print(squares)
+
+<span class="code-comment"># List comprehension (1 line)</span>
+squares = [x**2 for x in range(5)]
+print(squares)</pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Advantages of List Comprehensions</span>
+                </div>
+                <ul>
+                    <li><strong>Clearer syntax</strong> - More readable than traditional loops</li>
+                    <li><strong>Compact form</strong> - Express complex logic in one line</li>
+                    <li><strong>High performance</strong> - Faster than equivalent for loops</li>
+                    <li><strong>Pythonic</strong> - Considered best practice in Python</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 11: Nested Lists -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Nested Lists (Multi-dimensional Lists)</h2>
+            </div>
+
+            <p>A <strong>nested list</strong> is a list inside another list, allowing multi-dimensional data management such as matrices, tables, or hierarchical structures.</p>
+
+            <h3>Creating Nested Lists</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># 2D list (matrix)</span>
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+print(matrix)
+<span class="code-comment"># [[1, 2, 3], [4, 5, 6], [7, 8, 9]]</span>
+
+<span class="code-comment"># Jagged array (different lengths)</span>
+jagged = [[1, 2], [3, 4, 5], [6]]
+print(jagged)
+<span class="code-comment"># [[1, 2], [3, 4, 5], [6]]</span></pre>
+                </div>
+            </div>
+
+            <h3>Accessing Nested List Elements</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+<span class="code-comment"># Access row</span>
+print(matrix[0])      <span class="code-comment"># [1, 2, 3]</span>
+print(matrix[1])      <span class="code-comment"># [4, 5, 6]</span>
+
+<span class="code-comment"># Access specific element</span>
+print(matrix[1][0])   <span class="code-comment"># 4 (row 1, column 0)</span>
+print(matrix[2][2])   <span class="code-comment"># 9 (row 2, column 2)</span>
+
+<span class="code-comment"># Negative indexing</span>
+print(matrix[-1][-1]) <span class="code-comment"># 9 (last element of last row)</span></pre>
+                </div>
+            </div>
+
+            <h3>Iterating Through Nested Lists</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+<span class="code-comment"># Iterate through rows</span>
+for row in matrix:
+    print(row)
+
+<span class="code-comment"># Iterate through all elements</span>
+for row in matrix:
+    for element in row:
+        print(element, end=" ")
+<span class="code-comment"># Output: 1 2 3 4 5 6 7 8 9</span>
+
+<span class="code-comment"># Using enumerate for indices</span>
+for i, row in enumerate(matrix):
+    for j, value in enumerate(row):
+        print(f"matrix[{i}][{j}] = {value}")</pre>
+                </div>
+            </div>
+
+            <h3>Practical Example: Student Grades</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Student grades: [Math, Science, English]</span>
+grades = [
+    [85, 90, 88],  <span class="code-comment"># Student 1</span>
+    [92, 88, 95],  <span class="code-comment"># Student 2</span>
+    [78, 85, 82]   <span class="code-comment"># Student 3</span>
+]
+
+<span class="code-comment"># Calculate average for each student</span>
+for i, student in enumerate(grades):
+    avg = sum(student) / len(student)
+    print(f"Student {i+1} average: {avg:.2f}")
+
+<span class="code-comment"># Output:
+# Student 1 average: 87.67
+# Student 2 average: 91.67
+# Student 3 average: 81.67</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Summary</span>
+                </div>
+                <p>Nested lists grant Python multidimensional storage capability — ideal for matrix computation, tabular data, game boards, or hierarchical structures.</p>
+            </div>
+        </div>
+
+        <!-- Section 12: Mutability and Copying -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚠️</div>
+                <h2>Mutability and Copying Behavior</h2>
+            </div>
+
+            <p>Lists are <strong>mutable and reference-based</strong>, meaning they share memory when assigned rather than being duplicated automatically. This is a critical concept for avoiding bugs!</p>
+
+            <h3>The Reference Problem</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Assignment creates reference, not copy</span>
+a = [1, 2, 3]
+b = a           <span class="code-comment"># b points to same list as a</span>
+
+b[0] = 100
+print(a)        <span class="code-comment"># [100, 2, 3] ⚠️ CHANGED!</span>
+print(b)        <span class="code-comment"># [100, 2, 3]</span>
+
+<span class="code-comment"># They're the same object</span>
+print(a is b)   <span class="code-comment"># True</span></pre>
+                </div>
+            </div>
+
+            <h3>Creating Independent Copies</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Method 1: Using .copy()</span>
+a = [1, 2, 3]
+b = a.copy()
+b[0] = 100
+print(a)        <span class="code-comment"># [1, 2, 3] ✓ unchanged</span>
+print(b)        <span class="code-comment"># [100, 2, 3]</span>
+
+<span class="code-comment"># Method 2: Using slicing</span>
+c = a[:]
+c[0] = 200
+print(a)        <span class="code-comment"># [1, 2, 3] ✓ unchanged</span>
+
+<span class="code-comment"># Method 3: Using list() constructor</span>
+d = list(a)
+d[0] = 300
+print(a)        <span class="code-comment"># [1, 2, 3] ✓ unchanged</span></pre>
+                </div>
+            </div>
+
+            <h3>Shallow Copy vs Deep Copy</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Shallow copy - nested lists still shared</span>
+a = [[1, 2], [3, 4]]
+b = a.copy()
+
+b[0][0] = 100
+print(a)        <span class="code-comment"># [[100, 2], [3, 4]] ⚠️ CHANGED!</span>
+print(b)        <span class="code-comment"># [[100, 2], [3, 4]]</span>
+
+<span class="code-comment"># Deep copy - completely independent</span>
+import copy
+
+a = [[1, 2], [3, 4]]
+b = copy.deepcopy(a)
+
+b[0][0] = 100
+print(a)        <span class="code-comment"># [[1, 2], [3, 4]] ✓ unchanged</span>
+print(b)        <span class="code-comment"># [[100, 2], [3, 4]]</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Critical Warning</span>
+                </div>
+                <p><strong>Be mindful of reference behavior!</strong> Always use <code>.copy()</code> or <code>copy.deepcopy()</code> when you want independent objects rather than linked ones. This is a common source of bugs in Python programs.</p>
+            </div>
+
+            <div class="comparison-table">
+                <div class="comparison-header">Copy Methods Comparison</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>Type</th>
+                            <th>Nested Lists</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>b = a</code></td>
+                            <td>Reference</td>
+                            <td>Shared</td>
+                            <td>When you want same object</td>
+                        </tr>
+                        <tr>
+                            <td><code>b = a.copy()</code></td>
+                            <td>Shallow</td>
+                            <td>Shared</td>
+                            <td>Simple lists without nesting</td>
+                        </tr>
+                        <tr>
+                            <td><code>b = a[:]</code></td>
+                            <td>Shallow</td>
+                            <td>Shared</td>
+                            <td>Simple lists without nesting</td>
+                        </tr>
+                        <tr>
+                            <td><code>b = copy.deepcopy(a)</code></td>
+                            <td>Deep</td>
+                            <td>Independent</td>
+                            <td>Nested lists or complex structures</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 13: Lists vs Tuples -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>Lists vs Tuples - Complete Comparison</h2>
+            </div>
+
+            <p>Understanding when to use lists versus tuples is crucial for writing efficient and correct Python code.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>List</th>
+                        <th>Tuple</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Definition</strong></td>
+                        <td>Ordered, mutable, uses <code>[ ]</code></td>
+                        <td>Ordered, immutable, uses <code>( )</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mutability</strong></td>
+                        <td>Can be modified</td>
+                        <td>Cannot be changed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Methods</strong></td>
+                        <td>Many (append, remove, sort, etc.)</td>
+                        <td>Few (count, index only)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td>Slightly slower, more memory</td>
+                        <td>Faster, compact memory</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use Case</strong></td>
+                        <td>Dynamic, changeable datasets</td>
+                        <td>Fixed, constant collections</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dict Keys</strong></td>
+                        <td>Cannot be used</td>
+                        <td>Can be used as keys</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Example Comparison</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># List - Mutable</span>
+my_list = [10, 20, 30]
+my_list[1] = 200
+print(my_list)  <span class="code-comment"># [10, 200, 30] ✓ Works</span>
+
+<span class="code-comment"># Tuple - Immutable</span>
+my_tuple = (10, 20, 30)
+<span class="code-comment"># my_tuple[1] = 200  # ❌ TypeError!</span>
+print(my_tuple)  <span class="code-comment"># (10, 20, 30)</span></pre>
+                </div>
+            </div>
+
+            <h3>Performance Comparison</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>import sys
+import timeit
+
+list_ex = [1, 2, 3, 4, 5]
+tuple_ex = (1, 2, 3, 4, 5)
+
+<span class="code-comment"># Memory comparison</span>
+print(f"List size: {sys.getsizeof(list_ex)} bytes")
+print(f"Tuple size: {sys.getsizeof(tuple_ex)} bytes")
+<span class="code-comment"># Tuple uses less memory</span>
+
+<span class="code-comment"># Speed comparison</span>
+list_time = timeit.timeit(stmt="[1,2,3,4,5]", number=1000000)
+tuple_time = timeit.timeit(stmt="(1,2,3,4,5)", number=1000000)
+
+print(f"List creation: {list_time:.4f}s")
+print(f"Tuple creation: {tuple_time:.4f}s")
+<span class="code-comment"># Tuple is faster</span></pre>
+                </div>
+            </div>
+
+            <h3>When to Use Each</h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>📝 Use Lists For</h4>
+                    <p>Shopping carts, dynamic menus, data that changes</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔒 Use Tuples For</h4>
+                    <p>Coordinates, database records, dictionary keys</p>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Key Differences</h4>
+                <ul>
+                    <li><strong>Lists:</strong> For mutable, dynamic data that needs modification</li>
+                    <li><strong>Tuples:</strong> For immutable, structured constants needing speed</li>
+                    <li><strong>Performance:</strong> Tuples are faster and use less memory</li>
+                    <li><strong>Safety:</strong> Tuples prevent accidental modifications</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 14: Practice Exercises -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💪</div>
+                <h2>Practice Exercises</h2>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 1: List Basics</h4>
+                <p>Create a list of your 5 favorite movies. Add a new movie at the beginning, remove the 3rd movie, and print the final list in reverse order.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 2: List Comprehension</h4>
+                <p>Create a list of numbers from 1 to 100. Use list comprehension to create a new list containing only numbers divisible by both 3 and 5.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 3: Nested Lists</h4>
+                <p>Create a 4x4 multiplication table using nested lists. Print it in a formatted manner showing the products.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 4: List Operations</h4>
+                <p>Given two lists of numbers, create a new list containing elements that appear in both lists (intersection), without duplicates.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 5: Data Analysis</h4>
+                <p>Create a list of student scores. Calculate and display: average, highest score, lowest score, and count of students who passed (>= 50).</p>
+            </div>
+        </div>
+
+        <!-- Section 15: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Final Summary</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Key Takeaways</h4>
+                <ul>
+                    <li><strong>Lists</strong> are Python's most flexible, ordered, and mutable sequence type</li>
+                    <li><strong>Rich methods</strong> for adding, removing, sorting, and transforming data</li>
+                    <li><strong>Indexing and slicing</strong> provide powerful data access patterns</li>
+                    <li><strong>List comprehensions</strong> make operations concise and readable</li>
+                    <li><strong>Nested lists</strong> enable multi-dimensional data structures</li>
+                    <li><strong>Mutability</strong> requires careful handling of references and copies</li>
+                    <li><strong>Tuples</strong> serve as efficient, immutable counterparts</li>
+                    <li><strong>Built-in functions</strong> simplify common operations</li>
+                </ul>
+            </div>
+
+            <h3>Essential Concepts Recap</h3>
+            <ul>
+                <li><strong>Creation:</strong> <code>[]</code>, <code>list()</code>, comprehensions</li>
+                <li><strong>Access:</strong> Indexing <code>[i]</code>, slicing <code>[start:end:step]</code></li>
+                <li><strong>Modification:</strong> Assignment, methods (append, insert, remove, pop)</li>
+                <li><strong>Analysis:</strong> len(), sum(), min(), max(), count(), index()</li>
+                <li><strong>Ordering:</strong> sort(), reverse(), sorted()</li>
+                <li><strong>Copying:</strong> .copy(), [:], deepcopy()</li>
+                <li><strong>Iteration:</strong> for loops, comprehensions, enumerate()</li>
+            </ul>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Lists, Master Python!</span>
+                </div>
+                <p>Lists are fundamental to Python programming. Together with tuples, they form the backbone of data sequence handling. Mastering lists opens the door to advanced data manipulation, algorithm implementation, and efficient program design.</p>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Final Interview Tips</div>
+                <ul>
+                    <li><strong>Time Complexity:</strong> Know that append is O(1), insert is O(n), and search is O(n)</li>
+                    <li><strong>append() vs extend():</strong> Common interview question about the difference</li>
+                    <li><strong>Shallow vs Deep Copy:</strong> Always asked for nested structures</li>
+                    <li><strong>List Comprehensions:</strong> Preferred over loops in Python interviews</li>
+                    <li><strong>sort() vs sorted():</strong> In-place vs returning new list</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Keep practicing with lists — they're everywhere in Python! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Python Lists — Complete Classroom Notes</strong></p>
+        <p>Mastering List Data Structures in Python</p>
+        <p style="margin-top: 1rem;">© 2025 Python Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

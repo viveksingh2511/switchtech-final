@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Airflow for Data Engineers - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+
+        .badge-red {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+        }
+
+        .badge-yellow {
+            background: linear-gradient(135deg, #fbbf24, #fcd34d);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .best-practice-header {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice-header::before {
+            content: '💎';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .architecture-diagram {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .architecture-title {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .component-card {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .component-card h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.75rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .component-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .operator-section {
+            background: rgba(45, 55, 72, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .operator-header {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .use-case-box {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .use-case-header {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .use-case-header::before {
+            content: '🎯';
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="airflowGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#017cee;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#00c7d4;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="airflowGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00c7d4;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#11e1a1;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- Circular flow representation -->
+                <circle cx="100" cy="100" r="70" fill="none" stroke="url(#airflowGrad1)" stroke-width="8" opacity="0.6"/>
+                <circle cx="100" cy="100" r="50" fill="none" stroke="url(#airflowGrad2)" stroke-width="6" opacity="0.8"/>
+                <!-- Nodes representing tasks -->
+                <circle cx="100" cy="30" r="12" fill="url(#airflowGrad1)"/>
+                <circle cx="150" cy="100" r="12" fill="url(#airflowGrad1)"/>
+                <circle cx="100" cy="170" r="12" fill="url(#airflowGrad1)"/>
+                <circle cx="50" cy="100" r="12" fill="url(#airflowGrad1)"/>
+                <!-- Center hub -->
+                <circle cx="100" cy="100" r="18" fill="url(#airflowGrad2)"/>
+                <!-- Connection lines -->
+                <line x1="100" y1="42" x2="100" y2="82" stroke="url(#airflowGrad1)" stroke-width="3"/>
+                <line x1="138" y1="100" x2="118" y2="100" stroke="url(#airflowGrad1)" stroke-width="3"/>
+                <line x1="100" y1="158" x2="100" y2="118" stroke="url(#airflowGrad1)" stroke-width="3"/>
+                <line x1="62" y1="100" x2="82" y2="100" stroke="url(#airflowGrad1)" stroke-width="3"/>
+            </svg>
+        </div>
+        <h1>Apache Airflow for Data Engineers</h1>
+        <p class="subtitle">Complete Classroom Notes — Workflow Orchestration & Pipeline Management</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🌊</div>
+                <h2>What is Apache Airflow?</h2>
+            </div>
+
+            <p>Apache Airflow is an <strong>open-source platform</strong> for programmatically authoring, scheduling, and monitoring workflows. It allows data engineers to define complex data pipelines as <strong>Directed Acyclic Graphs (DAGs)</strong> using Python code.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-cyan">Workflow Orchestration</span>
+                <span class="badge badge-green">Python-Based</span>
+                <span class="badge badge-purple">Scalable</span>
+                <span class="badge badge-blue">Extensible</span>
+            </div>
+
+            <h3>Why Airflow?</h3>
+            <div class="key-points">
+                <h4>🎯 Key Benefits</h4>
+                <ul>
+                    <li><strong>Dynamic Pipeline Generation:</strong> DAGs are defined in Python, enabling dynamic workflow creation</li>
+                    <li><strong>Extensible:</strong> Rich ecosystem of operators for various data sources and destinations</li>
+                    <li><strong>Elegant UI:</strong> Monitor, manage, and troubleshoot pipelines visually</li>
+                    <li><strong>Scalable:</strong> Supports multiple executors for horizontal scaling</li>
+                    <li><strong>Versioned as Code:</strong> Workflows are code, enabling CI/CD, testing, and version control</li>
+                    <li><strong>Rich Scheduling:</strong> Cron-based, event-driven, and dataset-aware scheduling</li>
+                    <li><strong>Backfills & Retries:</strong> Automatic retry logic and historical data reprocessing</li>
+                </ul>
+            </div>
+
+            <h3>Core Concepts</h3>
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>📊 DAG</h4>
+                    <p><strong>Directed Acyclic Graph</strong></p>
+                    <p>Workflow definition with tasks and dependencies</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>⚙️ Task</h4>
+                    <p><strong>Unit of Work</strong></p>
+                    <p>Individual operation in a workflow (extract, transform, load)</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🔄 Operator</h4>
+                    <p><strong>Task Template</strong></p>
+                    <p>Defines what a task does (Python, Bash, SQL, etc.)</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>📅 Schedule</h4>
+                    <p><strong>When to Run</strong></p>
+                    <p>Cron expressions, intervals, or event-driven triggers</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>What Airflow Is NOT</span>
+                </div>
+                <p>Airflow is <strong>NOT a data streaming solution</strong> like Kafka or Spark Streaming. It's designed for <strong>batch workflows</strong> with scheduled or event-driven execution. For real-time streaming, use dedicated streaming platforms.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Architecture -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🏗️</div>
+                <h2>Airflow Architecture</h2>
+            </div>
+
+            <p>Airflow follows a <strong>control-plane / data-plane split</strong>. The control plane holds orchestration state and UIs; the data plane executes tasks.</p>
+
+            <div class="architecture-diagram">
+                <div class="architecture-title">🏗️ Airflow Architecture Overview</div>
+                <pre>
+             ┌─────────────────────┐
+             │     Webserver       │
+             │  (RBAC UI / API)    │
+             └──────────┬──────────┘
+                        │
+                        │ reads/writes
+                        ▼
+┌─────────────┐   parses/enqueues   ┌──────────────────┐
+│   DAGs Dir  │────────────────────▶│    Scheduler     │
+│ (Git/Sync)  │                     │  + Triggerer     │
+└──────┬──────┘                     └────┬─────────────┘
+       │                                 │
+       │                                 │ enqueue tasks
+       │                                 ▼
+       │                           ┌─────┴──────┐
+       │                           │  Executor  │
+       │          Local/Celery/K8s └─────┬──────┘
+       │                                 │
+       │                    Celery: Broker/Backend
+       │                     K8s: API Server/Pods
+       │                                 │
+       ▼                                 ▼
+┌──────┴───────────────────────┐  ┌────┴─────────────┐
+│   Metadata Database          │  │  Workers/Pods    │
+│ (runs, tasks, xcom, conns)   │  │  run operators   │
+└──────────────────────────────┘  └──────────────────┘
+                       ▲
+                       │ store URIs / tail logs
+                 ┌─────┴──────┐
+                 │ Log Store  │ (local/NFS/S3/GCS)
+                 └────────────┘
+</pre>
+            </div>
+
+            <h3>Key Components</h3>
+
+            <h4>1. Metadata Database</h4>
+            <p>The central repository storing all Airflow state:</p>
+            <ul>
+                <li><strong>DAG definitions:</strong> Parsed structure and configuration</li>
+                <li><strong>Task instances:</strong> Execution state, start/end times, retries</li>
+                <li><strong>DagRuns:</strong> Workflow execution instances</li>
+                <li><strong>Connections & Variables:</strong> Configuration and credentials</li>
+                <li><strong>XCom:</strong> Small data passed between tasks</li>
+                <li><strong>Logs URIs:</strong> Pointers to execution logs</li>
+            </ul>
+
+            <div class="best-practice">
+                <div class="best-practice-header">Database Choice</div>
+                <p>Use <strong>PostgreSQL</strong> or <strong>MySQL</strong> for production. SQLite is only for development. Consider managed services like AWS RDS or Google Cloud SQL for high availability.</p>
+            </div>
+
+            <h4>2. Scheduler</h4>
+            <p>The brain of Airflow that:</p>
+            <ul>
+                <li>Parses DAG files from the DAGs folder at regular intervals</li>
+                <li>Creates DagRuns based on schedules or external triggers</li>
+                <li>Identifies tasks ready to run (dependencies satisfied)</li>
+                <li>Enqueues TaskInstances to the Executor</li>
+                <li>Updates task state in the metadata database</li>
+            </ul>
+
+            <h4>3. Webserver</h4>
+            <p>The user interface providing:</p>
+            <ul>
+                <li><strong>DAG visualization:</strong> Graph view, tree view, Gantt charts</li>
+                <li><strong>Task monitoring:</strong> Real-time status and logs</li>
+                <li><strong>Manual triggers:</strong> Ad-hoc runs and backfills</li>
+                <li><strong>Configuration:</strong> Connections, variables, pools</li>
+                <li><strong>RBAC:</strong> Role-based access control</li>
+            </ul>
+
+            <h4>4. Executor</h4>
+            <p>Determines <strong>how</strong> tasks are executed:</p>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>🔧 LocalExecutor</h4>
+                    <p>Runs tasks in local processes</p>
+                    <p><strong>Use:</strong> Single-node development</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🐝 CeleryExecutor</h4>
+                    <p>Distributes tasks via message queue</p>
+                    <p><strong>Use:</strong> Multi-node production</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>☸️ KubernetesExecutor</h4>
+                    <p>Each task runs in its own Pod</p>
+                    <p><strong>Use:</strong> Cloud-native deployments</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>⚡ Sequential</h4>
+                    <p>Runs one task at a time</p>
+                    <p><strong>Use:</strong> Debugging only</p>
+                </div>
+            </div>
+
+            <h4>5. Workers</h4>
+            <p>Execute the actual task logic. In CeleryExecutor, workers are long-running processes pulling from a queue. In KubernetesExecutor, each task spawns a new Pod.</p>
+
+            <h4>6. Triggerer (Deferrable Operators)</h4>
+            <p>A lightweight, asynchronous event loop that handles deferrable operators efficiently. Instead of occupying a worker slot while waiting for external events (HTTP responses, file arrivals), tasks can defer and the Triggerer wakes them when the event occurs.</p>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Architecture Benefits</span>
+                </div>
+                <p>This separation of concerns allows Airflow to scale horizontally, handle thousands of tasks concurrently, and provide resilience through database-backed state management.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: How Airflow Helps Data Engineers -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>How Airflow Helps Data Engineers</h2>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">1. Reliable Orchestration</div>
+                <p>Express complex dependencies, implement automatic retries, set SLAs, and perform backfills. Ensure pipelines run in the correct order and recover gracefully from transient failures.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">PYTHON</span>
+                        <pre>task_extract >> task_transform >> task_load
+<span class="code-comment"># Automatic retry with exponential backoff</span>
+task_transform.retries = 3
+task_transform.retry_delay = timedelta(minutes=5)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">2. Extensible Operators</div>
+                <p>Rich provider ecosystem to move data between cloud storage (S3/GCS/Azure), data warehouses (Snowflake/BigQuery/Redshift), compute engines (Spark/Databricks/EMR), streaming platforms (Kafka), and REST APIs.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">3. Version Control & CI/CD</div>
+                <p>DAGs are Python code, enabling standard software engineering practices: code reviews, unit tests, integration tests, and automated deployments through CI/CD pipelines.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">BASH</span>
+                        <pre><span class="code-comment"># Test DAGs</span>
+pytest tests/test_dags.py
+
+<span class="code-comment"># Deploy via Git</span>
+git push origin main
+<span class="code-comment"># Triggers sync to Airflow DAGs folder</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">4. Flexible Scheduling</div>
+                <p>Support for cron-based schedules, dataset-aware scheduling (trigger when upstream data arrives), external sensors, and deferrable operators for efficient I/O waits.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">5. Rich Observability</div>
+                <p>UI timelines, Gantt charts, task logs, metrics exports (StatsD/Prometheus), email/Slack alerts, and audit logs enable quick root-cause analysis and proactive monitoring.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">6. Horizontal Scalability</div>
+                <p>Choose executors (Celery/Kubernetes) to scale horizontally. Isolate workloads by task queues or dedicated pods. Handle thousands of concurrent tasks across distributed workers.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">7. Governance & Security</div>
+                <p>Centralized connection management, secrets backends (Vault/AWS/GCP), role-based access control (RBAC), resource pools/quotas, and SLA monitoring ensure secure and governed data operations.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">8. Backfills & Reprocessing</div>
+                <p>Deterministic reruns for late-arriving data and historical loads. Backfill specific date ranges without affecting production schedules.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">BASH</span>
+                        <pre><span class="code-comment"># Backfill last 7 days</span>
+airflow dags backfill daily_sales \
+  --start-date 2025-10-23 \
+  --end-date 2025-10-30</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Real-World Impact</h4>
+                <ul>
+                    <li>Reduce manual intervention in data pipeline management</li>
+                    <li>Improve pipeline reliability with automatic retries and monitoring</li>
+                    <li>Accelerate development with reusable operators and providers</li>
+                    <li>Enable data-driven decisions with timely, reliable data delivery</li>
+                    <li>Scale data operations from hundreds to thousands of tasks</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4: Core Components -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🧩</div>
+                <h2>Core Components Explained</h2>
+            </div>
+
+            <h3>1. DAGs (Directed Acyclic Graphs)</h3>
+            <p>Python files describing workflows with tasks and dependencies.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>from airflow import DAG
+from airflow.operators.python import PythonOperator
+from datetime import datetime, timedelta
+
+default_args = {
+    'owner': 'data-team',
+    'retries': 2,
+    'retry_delay': timedelta(minutes=5),
+    'email_on_failure': True,
+    'email': ['alerts@company.com']
+}
+
+with DAG(
+    dag_id='daily_sales_pipeline',
+    default_args=default_args,
+    description='Daily sales ETL pipeline',
+    schedule='0 2 * * *',  <span class="code-comment"># Run at 2 AM daily</span>
+    start_date=datetime(2025, 1, 1),
+    catchup=False,  <span class="code-comment"># Don't backfill</span>
+    tags=['sales', 'etl']
+) as dag:
+    
+    extract = PythonOperator(
+        task_id='extract_sales',
+        python_callable=extract_sales_data
+    )
+    
+    transform = PythonOperator(
+        task_id='transform_sales',
+        python_callable=transform_sales_data
+    )
+    
+    load = PythonOperator(
+        task_id='load_to_warehouse',
+        python_callable=load_to_snowflake
+    )
+    
+    <span class="code-comment"># Define dependencies</span>
+    extract >> transform >> load</pre>
+                </div>
+            </div>
+
+            <h3>2. Operators & Tasks</h3>
+            <p>Operators define what a task does. Airflow provides dozens of built-in operators.</p>
+
+            <div class="operator-section">
+                <div class="operator-header">🐍 PythonOperator</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>def my_function(ti, **context):
+    execution_date = context['execution_date']
+    print(f"Running for {execution_date}")
+    return "Success"
+
+task = PythonOperator(
+    task_id='run_python',
+    python_callable=my_function,
+    provide_context=True
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">💻 BashOperator</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.operators.bash import BashOperator
+
+task = BashOperator(
+    task_id='run_script',
+    bash_command='python /scripts/process_data.py'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">🔀 BranchPythonOperator</div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.operators.python import BranchPythonOperator
+
+def decide_branch(**context):
+    hour = datetime.now().hour
+    if hour < 12:
+        return 'morning_task'
+    else:
+        return 'afternoon_task'
+
+branch = BranchPythonOperator(
+    task_id='decide',
+    python_callable=decide_branch
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>3. TaskFlow API (@task Decorator)</h3>
+            <p>Modern, Pythonic way to define tasks using decorators.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>from airflow.decorators import dag, task
+from datetime import datetime
+
+@dag(
+    schedule='@daily',
+    start_date=datetime(2025, 1, 1),
+    catchup=False
+)
+def modern_etl_pipeline():
+    
+    @task
+    def extract():
+        <span class="code-comment"># Extract data from source</span>
+        data = fetch_from_api()
+        return data
+    
+    @task
+    def transform(data):
+        <span class="code-comment"># Transform data</span>
+        cleaned = clean_data(data)
+        return cleaned
+    
+    @task
+    def load(cleaned_data):
+        <span class="code-comment"># Load to warehouse</span>
+        save_to_warehouse(cleaned_data)
+    
+    <span class="code-comment"># Define flow</span>
+    data = extract()
+    cleaned = transform(data)
+    load(cleaned)
+
+dag = modern_etl_pipeline()</pre>
+                </div>
+            </div>
+
+            <h3>4. XCom (Cross-Communication)</h3>
+            <p>Pass small data between tasks. Use external storage (S3, GCS, databases) for large data.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>@task
+def get_file_path():
+    path = "s3://bucket/sales/2025-10-30.csv"
+    return path  <span class="code-comment"># Automatically pushed to XCom</span>
+
+@task
+def process_file(file_path):
+    print(f"Processing {file_path}")
+    <span class="code-comment"># Download and process file</span>
+
+<span class="code-comment"># Usage</span>
+path = get_file_path()
+process_file(path)</pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>XCom Size Limits</span>
+                </div>
+                <p>XCom is stored in the metadata database and should only contain small, JSON-serializable data (IDs, paths, configs). For large datasets, pass references (S3 URIs, table names) instead of actual data.</p>
+            </div>
+
+            <h3>5. Connections</h3>
+            <p>Store credentials and connection information securely.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Create connection in UI or CLI</span>
+airflow connections add 'snowflake_prod' \
+    --conn-type 'snowflake' \
+    --conn-login 'user' \
+    --conn-password 'pass' \
+    --conn-schema 'analytics' \
+    --conn-extra '{"account": "xy12345", "warehouse": "compute_wh"}'
+
+<span class="code-comment"># Use in operator</span>
+from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
+
+task = SnowflakeOperator(
+    task_id='run_query',
+    snowflake_conn_id='snowflake_prod',
+    sql='SELECT COUNT(*) FROM sales'
+)</pre>
+                </div>
+            </div>
+
+            <h3>6. Variables</h3>
+            <p>Store configuration values accessible across DAGs.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>from airflow.models import Variable
+
+<span class="code-comment"># Set variable</span>
+Variable.set("data_lake_bucket", "s3://company-data-lake")
+
+<span class="code-comment"># Get variable</span>
+bucket = Variable.get("data_lake_bucket")
+
+<span class="code-comment"># Use in DAG</span>
+file_path = f"{bucket}/sales/{{{{ ds }}}}.csv"</pre>
+                </div>
+            </div>
+
+            <h3>7. Pools & Queues</h3>
+            <p>Control resource usage and route tasks to specific workers.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Create pool in UI: snowflake_pool with 5 slots</span>
+
+task = SnowflakeOperator(
+    task_id='load_data',
+    snowflake_conn_id='snowflake_prod',
+    sql='COPY INTO sales FROM @stage',
+    pool='snowflake_pool',  <span class="code-comment"># Limit concurrent queries</span>
+    queue='high_priority'   <span class="code-comment"># Route to specific workers</span>
+)</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Operators -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2>Airflow Operators Guide</h2>
+            </div>
+
+            <p>Operators are the building blocks of Airflow workflows. Each operator represents a specific type of task.</p>
+
+            <h3>Core Operators</h3>
+
+            <div class="operator-section">
+                <div class="operator-header">🐍 PythonOperator</div>
+                <p>Execute Python functions</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.operators.python import PythonOperator
+
+def clean_data(**context):
+    data = context['ti'].xcom_pull(task_ids='extract')
+    cleaned = data.dropna()
+    return cleaned
+
+task = PythonOperator(
+    task_id='clean',
+    python_callable=clean_data,
+    provide_context=True
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">💻 BashOperator</div>
+                <p>Execute shell commands</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.operators.bash import BashOperator
+
+task = BashOperator(
+    task_id='run_script',
+    bash_command='python /scripts/process.py --date {{ ds }}'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">⭕ EmptyOperator</div>
+                <p>Placeholder for control flow</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.operators.empty import EmptyOperator
+
+start = EmptyOperator(task_id='start')
+join = EmptyOperator(
+    task_id='join',
+    trigger_rule='none_failed_min_one_success'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Transfer & ETL Operators</h3>
+
+            <div class="operator-section">
+                <div class="operator-header">🪣 S3ToRedshiftOperator</div>
+                <p>Load data from S3 to Redshift</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.providers.amazon.aws.transfers.s3_to_redshift import S3ToRedshiftOperator
+
+load = S3ToRedshiftOperator(
+    task_id='s3_to_redshift',
+    s3_bucket='company-data',
+    s3_key='sales/2025-10-30.csv',
+    schema='public',
+    table='sales',
+    copy_options=['CSV', 'IGNOREHEADER 1'],
+    aws_conn_id='aws_default',
+    redshift_conn_id='redshift_default'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">☁️ GCSToBigQueryOperator</div>
+                <p>Load data from Google Cloud Storage to BigQuery</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
+
+load = GCSToBigQueryOperator(
+    task_id='gcs_to_bigquery',
+    bucket='company-data',
+    source_objects=['sales/*.csv'],
+    destination_project_dataset_table='analytics.sales',
+    schema_fields=[
+        {'name': 'date', 'type': 'DATE'},
+        {'name': 'amount', 'type': 'FLOAT64'}
+    ],
+    write_disposition='WRITE_TRUNCATE',
+    gcp_conn_id='google_cloud_default'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">❄️ SnowflakeOperator</div>
+                <p>Execute SQL in Snowflake</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
+
+load = SnowflakeOperator(
+    task_id='load_to_snowflake',
+    snowflake_conn_id='snowflake_default',
+    sql='''
+        COPY INTO sales
+        FROM @external_stage/sales/
+        FILE_FORMAT = (TYPE = 'CSV')
+    ''',
+    warehouse='COMPUTE_WH',
+    database='ANALYTICS'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Compute Operators</h3>
+
+            <div class="operator-section">
+                <div class="operator-header">🧱 DatabricksSubmitRunOperator</div>
+                <p>Submit Spark jobs to Databricks</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.providers.databricks.operators.databricks import DatabricksSubmitRunOperator
+
+spark_job = DatabricksSubmitRunOperator(
+    task_id='run_spark',
+    databricks_conn_id='databricks_default',
+    new_cluster={
+        'spark_version': '11.3.x-scala2.12',
+        'node_type_id': 'i3.xlarge',
+        'num_workers': 2
+    },
+    spark_python_task={
+        'python_file': 'dbfs:/scripts/process_sales.py',
+        'parameters': ['--date', '{{ ds }}']
+    }
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">☸️ KubernetesPodOperator</div>
+                <p>Run tasks in Kubernetes pods</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+
+k8s_task = KubernetesPodOperator(
+    task_id='run_in_pod',
+    name='data-processing',
+    namespace='airflow',
+    image='company/data-processor:v1.0',
+    cmds=['python'],
+    arguments=['/app/process.py', '--date', '{{ ds }}'],
+    env_vars={'ENV': 'production'},
+    resources={'request_memory': '2Gi', 'limit_memory': '4Gi'}
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Sensor Operators</h3>
+
+            <div class="operator-section">
+                <div class="operator-header">📁 S3KeySensor</div>
+                <p>Wait for a file in S3</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
+
+wait_for_file = S3KeySensor(
+    task_id='wait_for_file',
+    bucket_name='company-data',
+    bucket_key='sales/{{ ds }}.csv',
+    aws_conn_id='aws_default',
+    timeout=3600,
+    poke_interval=300
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">🔗 ExternalTaskSensor</div>
+                <p>Wait for another DAG's task to complete</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.sensors.external_task import ExternalTaskSensor
+
+wait_for_upstream = ExternalTaskSensor(
+    task_id='wait_for_upstream',
+    external_dag_id='data_ingestion',
+    external_task_id='load_complete',
+    timeout=7200,
+    mode='reschedule'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Notification Operators</h3>
+
+            <div class="operator-section">
+                <div class="operator-header">📧 EmailOperator</div>
+                <p>Send email notifications</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.operators.email import EmailOperator
+
+notify = EmailOperator(
+    task_id='send_alert',
+    to='team@company.com',
+    subject='Pipeline Complete - {{ ds }}',
+    html_content='''
+        <h3>Sales Pipeline Complete</h3>
+        <p>Date: {{ ds }}</p>
+        <p>All tasks finished successfully.</p>
+    '''
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="operator-section">
+                <div class="operator-header">💬 SlackWebhookOperator</div>
+                <p>Send Slack notifications</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
+
+slack_alert = SlackWebhookOperator(
+    task_id='slack_alert',
+    slack_webhook_conn_id='slack_webhook',
+    message='✅ Pipeline completed successfully for {{ ds }}',
+    channel='#data-alerts'
+)</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Operator Best Practices</h4>
+                <ul>
+                    <li>Keep operators lightweight - move heavy processing to external systems</li>
+                    <li>Use appropriate operators for each data source/destination</li>
+                    <li>Leverage deferrable/async operators for I/O waits</li>
+                    <li>Pass data references (paths, IDs) via XCom, not actual data</li>
+                    <li>Set appropriate retries and timeouts for each operator</li>
+                    <li>Use pools to throttle resource-intensive operations</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 6: Getting Started -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Getting Started with Airflow</h2>
+            </div>
+
+            <h3>Installation</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">BASH</span>
+                    <pre><span class="code-comment"># Install Airflow with constraints</span>
+AIRFLOW_VERSION=2.7.3
+PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
+CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
+
+pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+
+<span class="code-comment"># Initialize database</span>
+airflow db init
+
+<span class="code-comment"># Create admin user</span>
+airflow users create \
+    --username admin \
+    --firstname Admin \
+    --lastname User \
+    --role Admin \
+    --email admin@company.com
+
+<span class="code-comment"># Start webserver</span>
+airflow webserver --port 8080
+
+<span class="code-comment"># Start scheduler (in another terminal)</span>
+airflow scheduler</pre>
+                </div>
+            </div>
+
+            <h3>Configuration</h3>
+            <p>Key configurations in <code>airflow.cfg</code> or environment variables:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">CONFIG</span>
+                    <pre><span class="code-comment"># Database</span>
+sql_alchemy_conn = postgresql+psycopg2://airflow:pass@localhost/airflow
+
+<span class="code-comment"># Executor</span>
+executor = CeleryExecutor  <span class="code-comment"># or LocalExecutor, KubernetesExecutor</span>
+
+<span class="code-comment"># Celery Broker (if using CeleryExecutor)</span>
+broker_url = redis://localhost:6379/0
+result_backend = db+postgresql://airflow:pass@localhost/airflow
+
+<span class="code-comment"># DAGs folder</span>
+dags_folder = /opt/airflow/dags
+
+<span class="code-comment"># Logging</span>
+base_log_folder = /opt/airflow/logs
+remote_logging = True
+remote_log_conn_id = aws_default
+remote_base_log_folder = s3://airflow-logs
+
+<span class="code-comment"># Security</span>
+auth_backend = airflow.api.auth.backend.basic_auth
+rbac = True</pre>
+                </div>
+            </div>
+
+            <h3>Project Structure</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">STRUCTURE</span>
+                    <pre>airflow-project/
+├── dags/
+│   ├── sales_pipeline.py
+│   ├── marketing_pipeline.py
+│   └── utils/
+│       └── helpers.py
+├── plugins/
+│   └── custom_operators/
+│       └── custom_s3_operator.py
+├── tests/
+│   ├── test_dags.py
+│   └── test_operators.py
+├── config/
+│   └── airflow.cfg
+├── docker-compose.yml
+└── requirements.txt</pre>
+                </div>
+            </div>
+
+            <h3>Testing DAGs</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>import pytest
+from airflow.models import DagBag
+
+def test_dag_loaded():
+    dagbag = DagBag()
+    assert len(dagbag.import_errors) == 0, "DAG import errors found"
+
+def test_dag_structure():
+    dagbag = DagBag()
+    dag = dagbag.get_dag('sales_pipeline')
+    
+    assert dag is not None
+    assert len(dag.tasks) == 5
+    assert 'extract' in dag.task_ids
+    assert 'transform' in dag.task_ids
+    assert 'load' in dag.task_ids
+
+<span class="code-comment"># Run tests</span>
+pytest tests/test_dags.py</pre>
+                </div>
+            </div>
+
+            <h3>Running Tasks Manually</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">BASH</span>
+                    <pre><span class="code-comment"># Test a specific task</span>
+airflow tasks test sales_pipeline extract 2025-10-30
+
+<span class="code-comment"># Trigger a DAG manually</span>
+airflow dags trigger sales_pipeline
+
+<span class="code-comment"># Backfill date range</span>
+airflow dags backfill sales_pipeline \
+  --start-date 2025-10-01 \
+  --end-date 2025-10-30
+
+<span class="code-comment"># List DAGs</span>
+airflow dags list
+
+<span class="code-comment"># List tasks in a DAG</span>
+airflow tasks list sales_pipeline</pre>
+                </div>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">Production Deployment</div>
+                <ul>
+                    <li>Use <strong>PostgreSQL</strong> or <strong>MySQL</strong> for metadata database (not SQLite)</li>
+                    <li>Deploy with <strong>Docker</strong> or <strong>Kubernetes</strong> for consistency</li>
+                    <li>Set up <strong>secrets backend</strong> (Vault, AWS Secrets Manager, GCP Secret Manager)</li>
+                    <li>Configure <strong>remote logging</strong> (S3, GCS, Azure Blob)</li>
+                    <li>Enable <strong>RBAC</strong> and implement least-privilege access</li>
+                    <li>Export metrics to <strong>Prometheus</strong> or <strong>StatsD</strong></li>
+                    <li>Set up <strong>alerts</strong> for failed tasks and SLA misses</li>
+                    <li>Use <strong>Git</strong> for DAG version control and CI/CD</li>
+                    <li>Implement <strong>monitoring</strong> and <strong>logging</strong> for observability</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Real-World Example -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Real-World Example: E-Commerce Pipeline</h2>
+            </div>
+
+            <p>Complete ETL pipeline for processing daily e-commerce sales data.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>from airflow.decorators import dag, task
+from airflow.providers.amazon.aws.sensors.s3 import S3KeySensor
+from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
+from airflow.operators.email import EmailOperator
+from datetime import datetime, timedelta
+
+default_args = {
+    'owner': 'data-engineering',
+    'retries': 3,
+    'retry_delay': timedelta(minutes=5),
+    'email_on_failure': True,
+    'email': ['data-team@company.com']
+}
+
+@dag(
+    dag_id='ecommerce_sales_etl',
+    default_args=default_args,
+    description='Daily e-commerce sales processing pipeline',
+    schedule='0 2 * * *',
+    start_date=datetime(2025, 1, 1),
+    catchup=False,
+    tags=['sales', 'production', 'etl']
+)
+def ecommerce_pipeline():
+    
+    <span class="code-comment"># Step 1: Wait for raw data file</span>
+    wait_for_file = S3KeySensor(
+        task_id='wait_for_sales_file',
+        bucket_name='raw-data-lake',
+        bucket_key='sales/{{ ds }}/sales.csv',
+        aws_conn_id='aws_default',
+        timeout=3600,
+        poke_interval=300
+    )
+    
+    <span class="code-comment"># Step 2: Extract and validate data</span>
+    @task
+    def extract_and_validate():
+        import boto3
+        import pandas as pd
+        from datetime import datetime
+        
+        <span class="code-comment"># Download from S3</span>
+        s3 = boto3.client('s3')
+        execution_date = "{{ ds }}"
+        
+        obj = s3.get_object(
+            Bucket='raw-data-lake',
+            Key=f'sales/{execution_date}/sales.csv'
+        )
+        
+        df = pd.read_csv(obj['Body'])
+        
+        <span class="code-comment"># Validate data</span>
+        assert len(df) > 0, "No data found"
+        assert df['amount'].sum() > 0, "Invalid amounts"
+        
+        print(f"Extracted {len(df)} records")
+        return f"s3://raw-data-lake/sales/{execution_date}/sales.csv"
+    
+    <span class="code-comment"># Step 3: Transform data</span>
+    @task
+    def transform_data(s3_path: str):
+        import boto3
+        import pandas as pd
+        from io import StringIO
+        
+        <span class="code-comment"># Read from S3</span>
+        s3 = boto3.client('s3')
+        bucket, key = s3_path.replace('s3://', '').split('/', 1)
+        obj = s3.get_object(Bucket=bucket, Key=key)
+        df = pd.read_csv(obj['Body'])
+        
+        <span class="code-comment"># Transformations</span>
+        df['order_date'] = pd.to_datetime(df['order_date'])
+        df['revenue'] = df['quantity'] * df['price']
+        df['discount_amount'] = df['revenue'] * df['discount_pct']
+        df['net_revenue'] = df['revenue'] - df['discount_amount']
+        
+        <span class="code-comment"># Add metadata</span>
+        df['processed_at'] = datetime.now()
+        
+        <span class="code-comment"># Save to staging area</span>
+        csv_buffer = StringIO()
+        df.to_csv(csv_buffer, index=False)
+        
+        staging_key = f"staging/sales/{execution_date}/transformed.csv"
+        s3.put_object(
+            Bucket='processed-data-lake',
+            Key=staging_key,
+            Body=csv_buffer.getvalue()
+        )
+        
+        return f"s3://processed-data-lake/{staging_key}"
+    
+    <span class="code-comment"># Step 4: Load to Snowflake staging</span>
+    load_to_staging = SnowflakeOperator(
+        task_id='load_to_staging',
+        snowflake_conn_id='snowflake_prod',
+        sql='''
+            TRUNCATE TABLE staging.sales_daily;
+            
+            COPY INTO staging.sales_daily
+            FROM @external_s3_stage/staging/sales/{{ ds }}/
+            FILE_FORMAT = (TYPE = 'CSV' SKIP_HEADER = 1)
+            ON_ERROR = 'ABORT_STATEMENT';
+        ''',
+        warehouse='COMPUTE_WH',
+        database='ANALYTICS'
+    )
+    
+    <span class="code-comment"># Step 5: Merge into production table</span>
+    merge_to_prod = SnowflakeOperator(
+        task_id='merge_to_production',
+        snowflake_conn_id='snowflake_prod',
+        sql='''
+            MERGE INTO prod.sales_fact AS target
+            USING staging.sales_daily AS source
+            ON target.order_id = source.order_id
+            WHEN MATCHED THEN
+                UPDATE SET
+                    target.net_revenue = source.net_revenue,
+                    target.discount_amount = source.discount_amount,
+                    target.updated_at = CURRENT_TIMESTAMP()
+            WHEN NOT MATCHED THEN
+                INSERT (
+                    order_id, order_date, customer_id,
+                    revenue, discount_amount, net_revenue,
+                    created_at
+                )
+                VALUES (
+                    source.order_id, source.order_date, source.customer_id,
+                    source.revenue, source.discount_amount, source.net_revenue,
+                    CURRENT_TIMESTAMP()
+                );
+        ''',
+        warehouse='COMPUTE_WH',
+        database='ANALYTICS'
+    )
+    
+    <span class="code-comment"># Step 6: Data quality checks</span>
+    @task
+    def quality_checks():
+        from airflow.providers.snowflake.hooks.snowflake import SnowflakeHook
+        
+        hook = SnowflakeHook(snowflake_conn_id='snowflake_prod')
+        
+        <span class="code-comment"># Check record count</span>
+        result = hook.get_first("SELECT COUNT(*) FROM staging.sales_daily")
+        record_count = result[0]
+        assert record_count > 0, "No records in staging"
+        
+        <span class="code-comment"># Check for nulls in critical fields</span>
+        result = hook.get_first("""
+            SELECT COUNT(*) FROM staging.sales_daily
+            WHERE order_id IS NULL OR net_revenue IS NULL
+        """)
+        null_count = result[0]
+        assert null_count == 0, f"Found {null_count} records with nulls"
+        
+        print(f"✓ Quality checks passed. {record_count} records validated")
+        return record_count
+    
+    <span class="code-comment"># Step 7: Send success notification</span>
+    @task
+    def send_summary(record_count: int):
+        from airflow.providers.slack.hooks.slack_webhook import SlackWebhookHook
+        
+        message = f"""
+        ✅ *Sales ETL Pipeline Completed*
+        
+        📅 Date: {{ ds }}
+        📊 Records Processed: {record_count:,}
+        ⏱️ Duration: {{ task_instance.duration }}s
+        
+        Pipeline ran successfully!
+        """
+        
+        hook = SlackWebhookHook(slack_webhook_conn_id='slack_webhook')
+        hook.send_text(message)
+    
+    <span class="code-comment"># Define task dependencies</span>
+    file_path = extract_and_validate()
+    transformed_path = transform_data(file_path)
+    
+    (
+        wait_for_file
+        >> file_path
+        >> transformed_path
+        >> load_to_staging
+        >> merge_to_prod
+        >> quality_checks()
+        >> send_summary(quality_checks())
+    )
+
+<span class="code-comment"># Instantiate DAG</span>
+dag = ecommerce_pipeline()</pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Pipeline Features</span>
+                </div>
+                <ul>
+                    <li><strong>Sensor-based triggering:</strong> Waits for data availability</li>
+                    <li><strong>Data validation:</strong> Quality checks at multiple stages</li>
+                    <li><strong>Incremental loading:</strong> Merge pattern for upserts</li>
+                    <li><strong>Error handling:</strong> Retries and email alerts</li>
+                    <li><strong>Monitoring:</strong> Slack notifications on completion</li>
+                    <li><strong>Idempotent:</strong> Safe to rerun for same date</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 8: Best Practices -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💎</div>
+                <h2>Airflow Best Practices</h2>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">1. Keep Tasks Idempotent</div>
+                <p>Tasks should produce the same result when run multiple times with the same inputs. Use <code>MERGE</code> instead of <code>INSERT</code>, or partition by date.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">2. Use Meaningful Task IDs</div>
+                <p>Task IDs should clearly describe what the task does: <code>extract_sales_data</code> instead of <code>task1</code>.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">3. Keep Operators Lightweight</div>
+                <p>Don't process large datasets in PythonOperator. Use Spark, Databricks, or warehouse compute. Airflow orchestrates, not computes.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">4. Use XCom Sparingly</div>
+                <p>Pass only small data (IDs, paths, configs) through XCom. For large data, use external storage and pass references.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">5. Set Appropriate Retries</div>
+                <p>Configure retries based on task type. Transient failures (network) benefit from retries; logic errors don't.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">6. Use Connections & Variables</div>
+                <p>Never hardcode credentials. Store them in Airflow Connections with secrets backend integration.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">7. Implement Data Quality Checks</div>
+                <p>Add validation tasks between ETL stages to catch data issues early.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">8. Monitor & Alert</div>
+                <p>Set up email/Slack alerts for failures. Export metrics to Prometheus. Monitor scheduler lag.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">9. Use Pools for Resource Control</div>
+                <p>Prevent overwhelming downstream systems by using pools to limit concurrent tasks.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">10. Test DAGs Locally</div>
+                <p>Use <code>airflow tasks test</code> and unit tests before deploying to production.</p>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Anti-Patterns to Avoid</span>
+                </div>
+                <ul>
+                    <li><strong>Processing large data in PythonOperator:</strong> Use external compute</li>
+                    <li><strong>Using top-level code in DAG files:</strong> Slows scheduler parsing</li>
+                    <li><strong>Not setting catchup=False:</strong> May trigger unwanted backfills</li>
+                    <li><strong>Hardcoding dates:</strong> Use templated variables like <code>{{ ds }}</code></li>
+                    <li><strong>Ignoring task timeouts:</strong> Can cause hung tasks</li>
+                    <li><strong>Not using task groups:</strong> Makes complex DAGs hard to read</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 9: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Summary & Key Takeaways</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Airflow Essentials</h4>
+                <ul>
+                    <li><strong>Orchestration Platform:</strong> Schedule, monitor, and manage data workflows</li>
+                    <li><strong>Python-Based:</strong> DAGs defined as code, enabling version control and testing</li>
+                    <li><strong>Scalable Architecture:</strong> Control plane (scheduler, webserver) + data plane (executors, workers)</li>
+                    <li><strong>Rich Operators:</strong> Extensive library for data movement and transformation</li>
+                    <li><strong>Flexible Scheduling:</strong> Cron, datasets, sensors, and event-driven triggers</li>
+                    <li><strong>Production-Ready:</strong> Retries, backfills, monitoring, alerts, and RBAC</li>
+                </ul>
+            </div>
+
+            <h3>Quick Reference</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Purpose</th>
+                        <th>Key Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Scheduler</strong></td>
+                        <td>Parse DAGs and enqueue tasks</td>
+                        <td>Brain of Airflow</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Webserver</strong></td>
+                        <td>UI and API</td>
+                        <td>Monitoring & management</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Executor</strong></td>
+                        <td>Determines task execution</td>
+                        <td>Local, Celery, Kubernetes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Workers</strong></td>
+                        <td>Execute task logic</td>
+                        <td>Scalable horizontally</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Metadata DB</strong></td>
+                        <td>Store all state</td>
+                        <td>Single source of truth</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DAG</strong></td>
+                        <td>Workflow definition</td>
+                        <td>Python code</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Operators</strong></td>
+                        <td>Task templates</td>
+                        <td>Extensible library</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sensors</strong></td>
+                        <td>Wait for conditions</td>
+                        <td>Event-driven triggers</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>When to Use Airflow</h3>
+            <div class="component-grid">
+                <div class="component-card" style="border-color: var(--accent-green);">
+                    <h4 style="color: var(--accent-green);">✅ Perfect For</h4>
+                    <p>• Batch data pipelines</p>
+                    <p>• Scheduled ETL/ELT jobs</p>
+                    <p>• Multi-step workflows</p>
+                    <p>• Data warehouse loading</p>
+                    <p>• ML pipeline orchestration</p>
+                </div>
+                
+                <div class="component-card" style="border-color: var(--accent-red);">
+                    <h4 style="color: var(--accent-red);">❌ Not Ideal For</h4>
+                    <p>• Real-time streaming</p>
+                    <p>• Sub-second latency needs</p>
+                    <p>• Event streaming (use Kafka)</p>
+                    <p>• Compute-heavy processing</p>
+                    <p>• Request-response APIs</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Airflow for Data Engineering Success!</span>
+                </div>
+                <p>Apache Airflow is the industry standard for workflow orchestration in data engineering. Master its concepts, follow best practices, and you'll build reliable, scalable, and maintainable data pipelines that power data-driven organizations.</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Build robust data pipelines with Airflow! 🌊🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🌊</div>
+        <p><strong>Apache Airflow for Data Engineers — Complete Classroom Notes</strong></p>
+        <p>Workflow Orchestration & Pipeline Management Mastery</p>
+        <p style="margin-top: 1rem;">© 2025 Data Engineering Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

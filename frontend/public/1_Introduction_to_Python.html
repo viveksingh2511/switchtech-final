@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Header Section */
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Card Section */
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-purple);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.15rem;
+            margin: 1.75rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Badge Styles */
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Example Box */
+        .example-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1rem 1.25rem;
+            border-radius: 6px;
+            margin: 1.25rem 0;
+        }
+
+        .example-box .label {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Code Block */
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border: 1px solid rgba(124, 111, 214, 0.3);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .info-box strong {
+            color: var(--secondary-purple);
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid #f97316;
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box strong {
+            color: #fb923c;
+        }
+
+        /* Success Box */
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .success-box strong {
+            color: var(--accent-green);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        /* Practice Section */
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .practice-card p {
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-card {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Introduction to Python</h1>
+        <p>Master the fundamentals of Python programming with beautiful, easy-to-follow notes</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction to Python -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🐍</div>
+                <h2>Introduction to Python</h2>
+            </div>
+            <p>Python is one of the most popular and beginner-friendly programming languages in the world. Created by <strong>Guido van Rossum</strong> and first released in <strong>1991</strong>, Python's design philosophy emphasizes readability and simplicity, allowing new learners to focus on solving problems rather than struggling with complex syntax.</p>
+            <p>What makes Python especially appealing for beginners is that it reads almost like plain English. The combination of clear structure, extensive libraries, and community support makes Python a perfect first programming language for anyone getting started in computer science or data engineering.</p>
+            
+            <div class="info-box">
+                <p><strong>Why Learn Python?</strong> It's versatile and used in web development, data analysis, artificial intelligence, automation, game development, and more. Python is one of the most sought-after programming skills in the job market!</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Understanding Python Syntax -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h2>Understanding Python Syntax</h2>
+            </div>
+            <p>When learning Python, the best place to start is with its <strong>syntax</strong>, which simply means the set of rules that define how Python code must be written so that the computer can understand it. Unlike human language, where you might still understand a sentence even if a word is missing, computers follow rules rigidly—any small mistake in syntax, such as a missing quote or a misplaced colon, will result in an error.</p>
+
+            <div class="example-box">
+                <div class="label">Example:</div>
+                <p>To display the word "world" on the screen, use the <code>print()</code> function:</p>
+            </div>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>print("world")</pre>
+                </div>
+            </div>
+
+            <p>Here, <code>print</code> is a built-in Python function that sends the given text to the output. The parentheses <code>()</code> contain the content you want to display, and the text itself is enclosed in quotation marks so that Python knows it's a string of characters, not a variable or a command.</p>
+
+            <p>You can use either single quotes <code>'world'</code> or double quotes <code>"world"</code>, and Python will treat them the same.</p>
+
+            <h3>Numbers vs Strings</h3>
+            <p>Understanding the difference between numbers and text is crucial:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>print(42)      <span class="code-comment"># Displays a number</span>
+print("42")    <span class="code-comment"># Displays the number as text</span></pre>
+                </div>
+            </div>
+
+            <p>This difference might seem small now, but it becomes important when you start performing calculations or manipulating text.</p>
+        </div>
+
+        <!-- Section 3: Comments in Python -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💬</div>
+                <h2>Comments in Python</h2>
+            </div>
+            <p>Comments are notes in your code that Python ignores when running the program. They help you or others reading your code understand its purpose.</p>
+
+            <div class="badge-container">
+                <span class="badge">Single-line Comments</span>
+                <span class="badge">Multi-line Comments</span>
+            </div>
+
+            <h3>Single-line Comments</h3>
+            <p>Create a single-line comment by starting with <code>#</code>:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># This prints a greeting</span>
+print("Hello")</pre>
+                </div>
+            </div>
+
+            <h3>Multi-line Comments</h3>
+            <p>For longer explanations, use triple quotes <code>""" ... """</code>:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>"""
+This is a longer explanation
+that spans multiple lines.
+"""</pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <p><strong>Best Practice:</strong> Write comments that explain WHY you're doing something, not WHAT the code does. The code itself shows what it does!</p>
+            </div>
+        </div>
+
+        <!-- Section 4: Indentation in Python -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">↹</div>
+                <h2>Indentation in Python</h2>
+            </div>
+            <p>Indentation is how Python groups related lines of code. Instead of curly braces <code>{}</code> like in some other languages, Python uses spaces at the beginning of a line to show that certain statements belong together.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = 500
+if a > 100:
+    print('The value is greater than 100')</pre>
+                </div>
+            </div>
+
+            <p>The line under <code>if</code> is indented by four spaces, meaning it is part of that block.</p>
+
+            <div class="warning-box">
+                <p><strong>Important:</strong> Without proper indentation, Python will show an error. This structure makes Python code neat and readable, but also requires you to be careful and consistent. Use 4 spaces for each indentation level.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Variables -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📦</div>
+                <h2>Variables</h2>
+            </div>
+            <p>Variables act like containers for storing information. Imagine you have a box labeled "x" and you put the number 10 inside it. In Python, you do this by writing:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 10
+print(x)  <span class="code-comment"># Displays: 10</span></pre>
+                </div>
+            </div>
+
+            <p>Whenever you write <code>print(x)</code>, Python looks into the "box" and displays its contents. You can store different kinds of data in these variables:</p>
+
+            <ul>
+                <li><strong>Numbers</strong> for calculations</li>
+                <li><strong>Text</strong> (strings) for messages</li>
+                <li><strong>Lists</strong> and <strong>dictionaries</strong> for complex data</li>
+            </ul>
+
+            <div class="info-box">
+                <p><strong>Flexibility:</strong> Python doesn't require you to declare the type of a variable beforehand; it figures it out automatically! This is called dynamic typing.</p>
+            </div>
+        </div>
+
+        <!-- Section 6: Data Types -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔤</div>
+                <h2>Data Types</h2>
+            </div>
+            <p>Python provides several built-in data types to work with different kinds of information:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>int</code></td>
+                        <td>Whole numbers</td>
+                        <td><code>5, -2, 1000</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>float</code></td>
+                        <td>Decimal numbers</td>
+                        <td><code>3.14, -0.5, 2.0</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>str</code></td>
+                        <td>Text values</td>
+                        <td><code>"Python", 'Hello'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>bool</code></td>
+                        <td>Logical values</td>
+                        <td><code>True, False</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>list</code></td>
+                        <td>Ordered, mutable collection</td>
+                        <td><code>[1, 2, 3]</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>tuple</code></td>
+                        <td>Ordered, immutable collection</td>
+                        <td><code>(1, 2, 3)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>dict</code></td>
+                        <td>Key-value pairs</td>
+                        <td><code>{"name": "Alice"}</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>set</code></td>
+                        <td>Unordered unique items</td>
+                        <td><code>{1, 2, 3}</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>You can check a variable's type with:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = 42
+print(type(x))  <span class="code-comment"># Output: &lt;class 'int'&gt;</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Input and Output -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>Input and Output</h2>
+            </div>
+            <p>In programs, data often comes from user input. Python's <code>input()</code> function allows interaction:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>name = input("Enter your name: ")
+print("Welcome,", name)</pre>
+                </div>
+            </div>
+
+            <p>The <code>input()</code> function always returns a string. You can convert it to another type when needed:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = int(input("Enter your age: "))
+print("Next year you will be", age + 1)</pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <p><strong>Remember:</strong> The <code>input()</code> function always returns a string, even if the user types a number. To use it as a number, you must convert it using <code>int()</code> or <code>float()</code>.</p>
+            </div>
+        </div>
+
+        <!-- Section 8: Type Casting -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>Type Casting</h2>
+            </div>
+            <p>Sometimes you need to convert values from one type to another. Python supports:</p>
+
+            <ul>
+                <li><code>int()</code> – converts to integer</li>
+                <li><code>float()</code> – converts to float</li>
+                <li><code>str()</code> – converts to string</li>
+                <li><code>bool()</code> – converts to boolean</li>
+            </ul>
+
+            <h3>Example:</h3>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = "5"
+y = int(x)
+print(y + 10)  <span class="code-comment"># Output: 15</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Converting Numbers to Strings:</strong> When you want to combine numbers with text, convert the number to a string: <code>message = "I am " + str(age) + " years old"</code></p>
+            </div>
+        </div>
+
+        <!-- Section 9: Mathematical Operations -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h2>Mathematical Operations</h2>
+            </div>
+            <p>Python supports common arithmetic operators:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Name</th>
+                        <th>Example</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>+</code></td>
+                        <td>Addition</td>
+                        <td><code>5 + 3</code></td>
+                        <td><code>8</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>-</code></td>
+                        <td>Subtraction</td>
+                        <td><code>10 - 4</code></td>
+                        <td><code>6</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>*</code></td>
+                        <td>Multiplication</td>
+                        <td><code>6 * 7</code></td>
+                        <td><code>42</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>/</code></td>
+                        <td>Division</td>
+                        <td><code>15 / 4</code></td>
+                        <td><code>3.75</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>//</code></td>
+                        <td>Floor Division</td>
+                        <td><code>15 // 4</code></td>
+                        <td><code>3</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%</code></td>
+                        <td>Modulus</td>
+                        <td><code>15 % 4</code></td>
+                        <td><code>3</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>**</code></td>
+                        <td>Exponentiation</td>
+                        <td><code>2 ** 3</code></td>
+                        <td><code>8</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = 12
+b = 5
+
+print(a + b)   <span class="code-comment"># 17</span>
+print(a - b)   <span class="code-comment"># 7</span>
+print(a * b)   <span class="code-comment"># 60</span>
+print(a / b)   <span class="code-comment"># 2.4</span></pre>
+                </div>
+            </div>
+
+            <h3>Logical Comparisons</h3>
+            <p>Python supports comparison operators that return boolean values:</p>
+
+            <ul>
+                <li><code>==</code> (equal to)</li>
+                <li><code>!=</code> (not equal to)</li>
+                <li><code>></code> (greater than)</li>
+                <li><code><</code> (less than)</li>
+                <li><code>>=</code> (greater or equal)</li>
+                <li><code><=</code> (less or equal)</li>
+            </ul>
+
+            <p>You can combine conditions using <strong>and</strong>, <strong>or</strong>, and <strong>not</strong>.</p>
+        </div>
+
+        <!-- Section 10: Conditional Statements -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔀</div>
+                <h2>Conditional Statements</h2>
+            </div>
+            <p>Conditional logic helps control program flow based on conditions:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>age = 18
+if age >= 18:
+    print("You are an adult")
+else:
+    print("You are a minor")</pre>
+                </div>
+            </div>
+
+            <p>You can chain multiple conditions using <code>elif</code>:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>score = 85
+
+if score >= 90:
+    print("Grade: A - Excellent!")
+elif score >= 80:
+    print("Grade: B - Very Good!")
+elif score >= 70:
+    print("Grade: C - Good")
+elif score >= 60:
+    print("Grade: D - Pass")
+else:
+    print("Grade: F - Fail")</pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>How it Works:</strong> Python evaluates conditions from top to bottom and stops at the first true condition. Once a block executes, Python skips the remaining elif and else blocks.</p>
+            </div>
+        </div>
+
+        <!-- Section 11: Loops -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔁</div>
+                <h2>Loops</h2>
+            </div>
+            <p>Loops allow you to repeat code multiple times efficiently.</p>
+
+            <h3>For Loops</h3>
+            <p>A <code>for</code> loop is used when you know how many times to repeat:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>friends = ["Alice", "Bob", "Charlie"]
+
+for friend in friends:
+    print("Hello,", friend)</pre>
+                </div>
+            </div>
+
+            <p>Using <code>range()</code> for counting:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>for i in range(5):
+    print("Iteration", i)
+<span class="code-comment"># Output: 0, 1, 2, 3, 4</span></pre>
+                </div>
+            </div>
+
+            <h3>While Loops</h3>
+            <p>A <code>while</code> loop runs as long as a condition is true:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>count = 0
+while count < 3:
+    print("Counting", count)
+    count += 1</pre>
+                </div>
+            </div>
+
+            <p>You can break out of loops with <code>break</code> or skip an iteration with <code>continue</code>.</p>
+
+            <div class="warning-box">
+                <p><strong>Avoid Infinite Loops:</strong> Always ensure your while loop's condition will eventually become false. Forgetting to update the loop variable can create an infinite loop!</p>
+            </div>
+        </div>
+
+        <!-- Section 12: Functions -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2>Functions</h2>
+            </div>
+            <p>Functions encapsulate reusable blocks of logic. You define a function using <code>def</code>:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>def greet(name):
+    print("Hello", name)
+
+greet("Alice")  <span class="code-comment"># Output: Hello Alice</span></pre>
+                </div>
+            </div>
+
+            <h3>Functions with Return Values</h3>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>def square(num):
+    return num * num
+
+result = square(5)
+print(result)  <span class="code-comment"># Output: 25</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <p><strong>Benefits:</strong> Functions make code modular, reusable, and easier to maintain. They help you avoid writing the same code multiple times!</p>
+            </div>
+        </div>
+
+        <!-- Section 13: Data Collections -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🗂️</div>
+                <h2>Data Collections</h2>
+            </div>
+            <p>Python's data collections provide flexible ways to store multiple values:</p>
+
+            <h3>Lists</h3>
+            <p>Ordered, mutable collections:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>fruits = ["apple", "banana", "cherry"]
+fruits.append("mango")
+print(fruits[0])  <span class="code-comment"># Output: apple</span></pre>
+                </div>
+            </div>
+
+            <h3>Tuples</h3>
+            <p>Ordered, immutable collections:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>coordinates = (10, 20)
+print(coordinates[0])  <span class="code-comment"># Output: 10</span></pre>
+                </div>
+            </div>
+
+            <h3>Dictionaries</h3>
+            <p>Key-value pairs for structured data:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>student = {
+    "name": "John",
+    "age": 21,
+    "major": "CS"
+}
+print(student["name"])  <span class="code-comment"># Output: John</span></pre>
+                </div>
+            </div>
+
+            <h3>Sets</h3>
+            <p>Unordered collections of unique items:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>languages = {"Python", "Java", "C++"}
+languages.add("JavaScript")
+print("Python" in languages)  <span class="code-comment"># Output: True</span></pre>
+                </div>
+            </div>
+
+            <h3>String Manipulation</h3>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>text = "Hello"
+print(text.upper())              <span class="code-comment"># HELLO</span>
+print("apple,banana".split(",")) <span class="code-comment"># ['apple', 'banana']</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 14: Error Handling -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🛡️</div>
+                <h2>Error Handling</h2>
+            </div>
+            <p>Errors (exceptions) may occur during runtime. Instead of crashing, Python lets you handle them gracefully using <code>try</code> and <code>except</code>:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>try:
+    num = int(input("Enter a number: "))
+    print(10 / num)
+except ValueError:
+    print("Please enter a valid number!")
+except ZeroDivisionError:
+    print("Cannot divide by zero!")</pre>
+                </div>
+            </div>
+
+            <p>This prevents program termination from unexpected input and provides user-friendly error messages.</p>
+
+            <div class="info-box">
+                <p><strong>Common Exceptions:</strong> ValueError, TypeError, ZeroDivisionError, IndexError, KeyError, FileNotFoundError</p>
+            </div>
+        </div>
+
+        <!-- Section 15: Importing Modules -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <h2>Importing Modules</h2>
+            </div>
+            <p>Python's strength lies in its vast library ecosystem. You can import built-in or third-party modules:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>import math
+print(math.sqrt(16))  <span class="code-comment"># Output: 4.0</span>
+
+import datetime as dt
+print(dt.date.today())</pre>
+                </div>
+            </div>
+
+            <h3>Popular Modules</h3>
+            <ul>
+                <li><code>math</code> - Mathematical functions</li>
+                <li><code>random</code> - Random number generation</li>
+                <li><code>datetime</code> - Date and time operations</li>
+                <li><code>os</code> - Operating system operations</li>
+            </ul>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>import random
+
+dice = random.randint(1, 6)
+print(f"You rolled: {dice}")</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Practice Exercises</h2>
+            </div>
+
+            <div class="practice-card">
+                <h4>Try This #1</h4>
+                <p>Write a line of Python code that prints your name. Then, write another line that prints your age as a number and another that prints it as text. Observe the difference between <code>print(25)</code> and <code>print("25")</code>.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Try This #2</h4>
+                <p>Write a short program that prints your favorite food, and add a comment above it explaining why it's your favorite. Then, add a multi-line comment at the start of your code describing what the program does.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Try This #3</h4>
+                <p>Create a variable called <code>city</code> that stores the name of your hometown and another variable called <code>population</code> that stores its population as a number. Print both in one sentence using <code>print()</code>.</p>
+            </div>
+        </div>
+
+        <!-- Final Note -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Final Note</h2>
+            </div>
+            <p>When you combine all these concepts — printing, comments, indentation, variables, data types, conditions, loops, functions, and collections — you can start building real programs. This might mean a simple calculator, a tool that processes a text file, or even a script that analyzes a dataset.</p>
+
+            <div class="success-box">
+                <p><strong>The Beauty of Python:</strong> The same building blocks you use as a beginner are still used in professional, large-scale applications. The key is to start small, practice often, and make a habit of reading and explaining your own code until the logic becomes second nature.</p>
+            </div>
+
+            <p>The real secret is to <strong>experiment</strong> often, <strong>read code daily</strong>, and <strong>keep building</strong> — that's how you truly learn Python.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Happy Python Learning!</strong></p>
+        <p>Keep coding and exploring! 🚀</p>
+        <p style="margin-top: 1rem;">© 2025 Python Notes | Designed for learners</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Data Types - Comprehensive Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip {
+            background: rgba(236, 72, 153, 0.1);
+            border-left: 3px solid var(--accent-pink);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .interview-tip-header {
+            color: var(--accent-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip-header::before {
+            content: '🎯';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .type-card {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .type-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .type-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .type-badge {
+            background: var(--gradient-purple);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .category-item {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .category-item h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .category-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Python Data Types</h1>
+        <p class="subtitle">Comprehensive Classroom Notes — Master the Building Blocks of Python Programming</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Overview -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Overview of Data Types</h2>
+            </div>
+            <p>Python provides several built-in data types used to represent different kinds of values. Understanding data types is fundamental to writing efficient, bug-free code and is crucial for technical interviews.</p>
+
+            <p>Data types in Python are categorized into several groups based on their characteristics and use cases:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Data Types</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Numerical</strong></td>
+                        <td><code>int</code>, <code>float</code>, <code>complex</code></td>
+                        <td>Represent numeric values</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Text</strong></td>
+                        <td><code>str</code></td>
+                        <td>Represents text data</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sequence</strong></td>
+                        <td><code>list</code>, <code>tuple</code>, <code>range</code></td>
+                        <td>Ordered collections of items</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mapping</strong></td>
+                        <td><code>dict</code></td>
+                        <td>Key–value pairs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Set Types</strong></td>
+                        <td><code>set</code>, <code>frozenset</code></td>
+                        <td>Unordered collection of unique items</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Boolean</strong></td>
+                        <td><code>bool</code></td>
+                        <td>Logical True or False values</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NoneType</strong></td>
+                        <td><code>None</code></td>
+                        <td>Represents the absence of value</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p><strong>Key Points to Remember:</strong></p>
+                <ul style="margin-top: 0.5rem;">
+                    <li>Python is <strong>dynamically typed</strong> — you don't need to declare types explicitly</li>
+                    <li>Use <code>type()</code> to check a variable's data type</li>
+                    <li>Mutability is crucial: <strong>list</strong>, <strong>dict</strong>, <strong>set</strong> are mutable; <strong>tuple</strong>, <strong>str</strong>, <strong>int</strong>, <strong>float</strong> are immutable</li>
+                </ul>
+            </div>
+
+            <h3>Visual Category Overview</h3>
+            <div class="category-grid">
+                <div class="category-item">
+                    <h4>Numerical</h4>
+                    <p>int, float, complex</p>
+                </div>
+                <div class="category-item">
+                    <h4>Text</h4>
+                    <p>str</p>
+                </div>
+                <div class="category-item">
+                    <h4>Sequence</h4>
+                    <p>list, tuple, range</p>
+                </div>
+                <div class="category-item">
+                    <h4>Mapping</h4>
+                    <p>dict</p>
+                </div>
+                <div class="category-item">
+                    <h4>Set</h4>
+                    <p>set, frozenset</p>
+                </div>
+                <div class="category-item">
+                    <h4>Boolean</h4>
+                    <p>bool</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Numerical Types -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h2>Numerical Types</h2>
+            </div>
+            
+            <div class="badge-container">
+                <span class="badge badge-green">int</span>
+                <span class="badge badge-blue">float</span>
+                <span class="badge badge-purple">complex</span>
+            </div>
+
+            <h3>1. Integers (int)</h3>
+            <p>Integers represent whole numbers, positive or negative, without decimals. Python 3 integers have <strong>arbitrary precision</strong>, meaning they're not limited by 32 or 64 bits like in many other languages.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = 1000000000000000
+print(a)                    <span class="code-comment"># 1000000000000000</span>
+print(type(a))              <span class="code-comment"># &lt;class 'int'&gt;</span>
+print(a.bit_length())       <span class="code-comment"># Bits used to store the number</span>
+
+<span class="code-comment"># Negative integers</span>
+b = -42
+print(b, type(b))           <span class="code-comment"># -42 &lt;class 'int'&gt;</span>
+
+<span class="code-comment"># Integer operations</span>
+x = 10
+y = 3
+print(x + y)                <span class="code-comment"># 13</span>
+print(x * y)                <span class="code-comment"># 30</span>
+print(x ** y)               <span class="code-comment"># 1000 (exponentiation)</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>Python's ability to handle large integers is leveraged in <strong>cryptography</strong>, <strong>finance</strong>, and <strong>machine learning</strong> (e.g., computing factorials or big primes). The integer grows dynamically depending on available system memory.</p>
+            </div>
+
+            <h3>2. Floating Point Numbers (float)</h3>
+            <p>Floats represent real numbers with decimals, stored using <strong>IEEE 754 double precision</strong> (~15–16 significant digits).</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = 10.25
+print(a, type(a))           <span class="code-comment"># 10.25 &lt;class 'float'&gt;</span>
+
+<span class="code-comment"># Scientific notation</span>
+b = 1.5e3                   <span class="code-comment"># 1500.0</span>
+c = 2.5e-4                  <span class="code-comment"># 0.00025</span>
+
+<span class="code-comment"># Float operations</span>
+pi = 3.14159
+radius = 5.0
+area = pi * radius ** 2
+print(f"Area: {area}")      <span class="code-comment"># Area: 78.53975</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Floating Point Precision Warning</span>
+                </div>
+                <p>Floating-point arithmetic can produce unexpected results due to binary representation:</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>print(0.1 + 0.2)  <span class="code-comment"># 0.30000000000000004 (not exactly 0.3!)</span>
+
+<span class="code-comment"># For precise decimal calculations, use the decimal module:</span>
+from decimal import Decimal
+result = Decimal('0.1') + Decimal('0.2')
+print(result)  <span class="code-comment"># 0.3 (exact)</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>3. Complex Numbers (complex)</h3>
+            <p>Complex numbers are represented as <code>a + bj</code>, where <code>a</code> is the real part and <code>b</code> is the imaginary part (denoted by <code>j</code> in Python).</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>z = 3 + 5j
+print(z)                    <span class="code-comment"># (3+5j)</span>
+print(type(z))              <span class="code-comment"># &lt;class 'complex'&gt;</span>
+
+<span class="code-comment"># Accessing real and imaginary parts</span>
+print(z.real)               <span class="code-comment"># 3.0</span>
+print(z.imag)               <span class="code-comment"># 5.0</span>
+
+<span class="code-comment"># Complex operations</span>
+z1 = 2 + 3j
+z2 = 1 + 2j
+print(z1 + z2)              <span class="code-comment"># (3+5j)</span>
+print(z1 * z2)              <span class="code-comment"># (-4+7j)</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Use Cases</span>
+                </div>
+                <p>Complex numbers are used in <strong>scientific computing</strong>, <strong>signal processing</strong>, <strong>electrical engineering</strong>, and <strong>quantum computing</strong> applications.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Arithmetic Operators -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">➕</div>
+                <h2>Arithmetic Operators</h2>
+            </div>
+            <p>Python supports a comprehensive set of arithmetic operators for performing mathematical calculations:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                        <th>Output</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>+</code></td>
+                        <td>Addition</td>
+                        <td><code>5 + 3</code></td>
+                        <td><code>8</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>-</code></td>
+                        <td>Subtraction</td>
+                        <td><code>5 - 3</code></td>
+                        <td><code>2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>*</code></td>
+                        <td>Multiplication</td>
+                        <td><code>4 * 3</code></td>
+                        <td><code>12</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>/</code></td>
+                        <td>Float division</td>
+                        <td><code>5 / 2</code></td>
+                        <td><code>2.5</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>//</code></td>
+                        <td>Floor division</td>
+                        <td><code>5 // 2</code></td>
+                        <td><code>2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>%</code></td>
+                        <td>Modulus (remainder)</td>
+                        <td><code>5 % 2</code></td>
+                        <td><code>1</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>**</code></td>
+                        <td>Exponentiation</td>
+                        <td><code>2 ** 3</code></td>
+                        <td><code>8</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Complete Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = 17
+b = 5
+
+print(f"Addition: {a} + {b} = {a + b}")           <span class="code-comment"># 22</span>
+print(f"Subtraction: {a} - {b} = {a - b}")        <span class="code-comment"># 12</span>
+print(f"Multiplication: {a} * {b} = {a * b}")     <span class="code-comment"># 85</span>
+print(f"Division: {a} / {b} = {a / b}")           <span class="code-comment"># 3.4</span>
+print(f"Floor Division: {a} // {b} = {a // b}")   <span class="code-comment"># 3</span>
+print(f"Modulus: {a} % {b} = {a % b}")            <span class="code-comment"># 2</span>
+print(f"Exponentiation: {a} ** 2 = {a ** 2}")     <span class="code-comment"># 289</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Tricky Case: Floor Division with Negatives</span>
+                </div>
+                <p>Floor division <code>//</code> rounds <strong>down</strong> (toward negative infinity) for negative results:</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>print(5 // 2)    <span class="code-comment"># 2</span>
+print(-5 // 2)   <span class="code-comment"># -3 (rounds down, not toward zero!)</span>
+print(-5 / 2)    <span class="code-comment"># -2.5</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Type Conversion -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>Type Conversion (Type Casting)</h2>
+            </div>
+            <p>Python provides built-in functions to convert between different data types. This is essential when working with user input, file operations, or mixing different types in calculations.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>From → To</th>
+                        <th>Function</th>
+                        <th>Example</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>int → float</td>
+                        <td><code>float()</code></td>
+                        <td><code>float(5)</code></td>
+                        <td><code>5.0</code></td>
+                    </tr>
+                    <tr>
+                        <td>float → int</td>
+                        <td><code>int()</code></td>
+                        <td><code>int(9.8)</code></td>
+                        <td><code>9</code></td>
+                    </tr>
+                    <tr>
+                        <td>int/float → complex</td>
+                        <td><code>complex()</code></td>
+                        <td><code>complex(3)</code></td>
+                        <td><code>(3+0j)</code></td>
+                    </tr>
+                    <tr>
+                        <td>str → int</td>
+                        <td><code>int()</code></td>
+                        <td><code>int("123")</code></td>
+                        <td><code>123</code></td>
+                    </tr>
+                    <tr>
+                        <td>int → str</td>
+                        <td><code>str()</code></td>
+                        <td><code>str(50)</code></td>
+                        <td><code>"50"</code></td>
+                    </tr>
+                    <tr>
+                        <td>str → float</td>
+                        <td><code>float()</code></td>
+                        <td><code>float("3.14")</code></td>
+                        <td><code>3.14</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Practical Type Conversion Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Integer to Float</span>
+x = 10
+y = float(x)
+print(y, type(y))           <span class="code-comment"># 10.0 &lt;class 'float'&gt;</span>
+
+<span class="code-comment"># Float to Integer (truncates decimal)</span>
+pi = 3.14159
+pi_int = int(pi)
+print(pi_int)               <span class="code-comment"># 3</span>
+
+<span class="code-comment"># String to Integer</span>
+age_str = "25"
+age = int(age_str)
+print(age + 5)              <span class="code-comment"># 30</span>
+
+<span class="code-comment"># Number to String (for concatenation)</span>
+score = 95
+message = "Your score is: " + str(score)
+print(message)              <span class="code-comment"># Your score is: 95</span>
+
+<span class="code-comment"># Creating Complex Numbers</span>
+c = complex(3, 4)           <span class="code-comment"># 3 + 4j</span>
+print(c)</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Type Conversion Errors</span>
+                </div>
+                <p>Invalid conversions will raise exceptions:</p>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>int("4a7")      <span class="code-comment"># ❌ ValueError: invalid literal</span>
+int("3.14")     <span class="code-comment"># ❌ ValueError: invalid literal</span>
+float("hello")  <span class="code-comment"># ❌ ValueError: could not convert</span>
+
+<span class="code-comment"># Correct approaches:</span>
+int(float("3.14"))  <span class="code-comment"># ✅ 3 (convert to float first, then to int)</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Strings -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h2>Strings (str)</h2>
+            </div>
+            <p>Strings are <strong>immutable sequences</strong> of Unicode characters. They can be wrapped in single quotes, double quotes, or triple quotes for multi-line strings.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "Python"
+print(s)                    <span class="code-comment"># Python</span>
+print(type(s))              <span class="code-comment"># &lt;class 'str'&gt;</span>
+
+<span class="code-comment"># String indexing (0-based)</span>
+print(s[0])                 <span class="code-comment"># P (first character)</span>
+print(s[-1])                <span class="code-comment"># n (last character)</span>
+
+<span class="code-comment"># String slicing</span>
+print(s[0:3])               <span class="code-comment"># Pyt</span>
+print(s[2:])                <span class="code-comment"># thon</span>
+print(s[:4])                <span class="code-comment"># Pyth</span></pre>
+                </div>
+            </div>
+
+            <h3>String Immutability</h3>
+            <p>Strings are immutable — any modification creates a new string object:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>text = "Hello"
+<span class="code-comment"># text[0] = "h"  # ❌ TypeError: 'str' object does not support item assignment</span>
+
+<span class="code-comment"># To modify, create a new string:</span>
+text = "h" + text[1:]
+print(text)                 <span class="code-comment"># hello</span></pre>
+                </div>
+            </div>
+
+            <h3>String Operations</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Concatenation</span>
+first = "Hello"
+last = "World"
+full = first + " " + last
+print(full)                 <span class="code-comment"># Hello World</span>
+
+<span class="code-comment"># Repetition</span>
+print("Python! " * 3)       <span class="code-comment"># Python! Python! Python!</span>
+
+<span class="code-comment"># Length</span>
+print(len("Python"))        <span class="code-comment"># 6</span>
+
+<span class="code-comment"># Membership</span>
+print("Py" in "Python")     <span class="code-comment"># True</span>
+print("Java" in "Python")   <span class="code-comment"># False</span></pre>
+                </div>
+            </div>
+
+            <h3>Useful String Methods</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>text = "  Python Programming  "
+
+print(text.upper())         <span class="code-comment"># PYTHON PROGRAMMING</span>
+print(text.lower())         <span class="code-comment"># python programming</span>
+print(text.strip())         <span class="code-comment"># Python Programming (removes spaces)</span>
+print(text.replace("Python", "Java"))  <span class="code-comment"># Java Programming</span>
+print(text.split())         <span class="code-comment"># ['Python', 'Programming']</span>
+print("Hello".startswith("He"))  <span class="code-comment"># True</span>
+print("World".endswith("ld"))    <span class="code-comment"># True</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>Python <strong>interns</strong> small strings (typically those containing ASCII letters only) for memory optimization and faster comparisons. This is why <code>"hello" is "hello"</code> returns <code>True</code>, but it's not guaranteed for all strings.</p>
+            </div>
+        </div>
+
+        <!-- Section 6: Sequence Types -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <h2>Sequence Types</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge badge-green">list</span>
+                <span class="badge badge-blue">tuple</span>
+                <span class="badge badge-orange">range</span>
+            </div>
+
+            <h3>1. Lists (list)</h3>
+            <p>Lists are <strong>ordered, mutable</strong> collections that allow duplicates. They're one of the most versatile data structures in Python.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Creating lists</span>
+numbers = [1, 2, 3, 4, 5]
+mixed = [1, "hello", 3.5, True]
+nested = [[1, 2], [3, 4], [5, 6]]
+
+print(numbers)              <span class="code-comment"># [1, 2, 3, 4, 5]</span>
+print(type(numbers))        <span class="code-comment"># &lt;class 'list'&gt;</span>
+
+<span class="code-comment"># Accessing elements</span>
+print(numbers[0])           <span class="code-comment"># 1</span>
+print(numbers[-1])          <span class="code-comment"># 5</span>
+
+<span class="code-comment"># Modifying lists (mutable)</span>
+numbers[1] = 10
+print(numbers)              <span class="code-comment"># [1, 10, 3, 4, 5]</span>
+
+<span class="code-comment"># Adding elements</span>
+numbers.append(6)           <span class="code-comment"># Add to end</span>
+numbers.insert(0, 0)        <span class="code-comment"># Insert at position</span>
+print(numbers)              <span class="code-comment"># [0, 1, 10, 3, 4, 5, 6]</span>
+
+<span class="code-comment"># Removing elements</span>
+numbers.remove(10)          <span class="code-comment"># Remove specific value</span>
+popped = numbers.pop()      <span class="code-comment"># Remove and return last item</span>
+print(numbers)              <span class="code-comment"># [0, 1, 3, 4, 5]</span></pre>
+                </div>
+            </div>
+
+            <h3>2. Tuples (tuple)</h3>
+            <p>Tuples are <strong>ordered, immutable</strong> collections. Once created, their elements cannot be modified.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Creating tuples</span>
+t = (1, 2, 3)
+print(t, type(t))           <span class="code-comment"># (1, 2, 3) &lt;class 'tuple'&gt;</span>
+
+<span class="code-comment"># Accessing elements</span>
+print(t[0])                 <span class="code-comment"># 1</span>
+
+<span class="code-comment"># Tuples are immutable</span>
+<span class="code-comment"># t[0] = 10  # ❌ TypeError: 'tuple' object does not support item assignment</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Important: Comma Creates Tuple, Not Parentheses!</span>
+                </div>
+                <div class="code-container">
+                    <div class="code-block">
+                        <pre>x = (5)      <span class="code-comment"># int (just parentheses for grouping)</span>
+y = (5,)     <span class="code-comment"># tuple (comma makes it a tuple)</span>
+
+print(type(x))  <span class="code-comment"># &lt;class 'int'&gt;</span>
+print(type(y))  <span class="code-comment"># &lt;class 'tuple'&gt;</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3>3. Range (range)</h3>
+            <p>Range represents an immutable sequence of numbers, commonly used in loops.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Creating ranges</span>
+r1 = range(5)               <span class="code-comment"># 0, 1, 2, 3, 4</span>
+r2 = range(1, 6)            <span class="code-comment"># 1, 2, 3, 4, 5</span>
+r3 = range(0, 10, 2)        <span class="code-comment"># 0, 2, 4, 6, 8 (step of 2)</span>
+
+<span class="code-comment"># Using in loops</span>
+for i in range(5):
+    print(i, end=" ")       <span class="code-comment"># 0 1 2 3 4</span>
+
+<span class="code-comment"># Converting to list</span>
+print(list(range(5)))       <span class="code-comment"># [0, 1, 2, 3, 4]</span></pre>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 List vs Tuple Comparison</h4>
+                <ul>
+                    <li><strong>Lists:</strong> Mutable, use when you need to modify data</li>
+                    <li><strong>Tuples:</strong> Immutable, faster, use for fixed data or as dict keys</li>
+                    <li><strong>Syntax:</strong> Lists use [], tuples use ()</li>
+                    <li><strong>Use tuples</strong> for returning multiple values from functions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Dictionaries -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🗂️</div>
+                <h2>Dictionaries (dict)</h2>
+            </div>
+            <p>Dictionaries are <strong>mutable collections of key-value pairs</strong>. They provide fast lookup times and are fundamental to Python programming.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Creating dictionaries</span>
+student = {
+    "name": "Ajay",
+    "age": 25,
+    "course": "Python",
+    "grade": "A"
+}
+
+print(student)              <span class="code-comment"># {'name': 'Ajay', 'age': 25, ...}</span>
+print(type(student))        <span class="code-comment"># &lt;class 'dict'&gt;</span>
+
+<span class="code-comment"># Accessing values</span>
+print(student["name"])      <span class="code-comment"># Ajay</span>
+print(student.get("age"))   <span class="code-comment"># 25</span>
+
+<span class="code-comment"># Adding/Modifying entries</span>
+student["email"] = "ajay@example.com"
+student["age"] = 26
+
+<span class="code-comment"># Removing entries</span>
+del student["course"]
+popped = student.pop("grade")
+
+<span class="code-comment"># Dictionary methods</span>
+print(student.keys())       <span class="code-comment"># dict_keys(['name', 'age', 'email'])</span>
+print(student.values())     <span class="code-comment"># dict_values(['Ajay', 26, 'ajay@...'])</span>
+print(student.items())      <span class="code-comment"># dict_items([('name', 'Ajay'), ...])</span></pre>
+                </div>
+            </div>
+
+            <h3>Dictionary Iteration</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Iterate over keys</span>
+for key in student:
+    print(key)
+
+<span class="code-comment"># Iterate over key-value pairs</span>
+for key, value in student.items():
+    print(f"{key}: {value}")</pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Dictionary Requirements</span>
+                </div>
+                <p>Keys must be <strong>hashable</strong> (immutable types like str, int, tuple). Lists and dictionaries cannot be used as keys because they're mutable.</p>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>Dictionaries use <strong>hash tables</strong> internally, providing average <strong>O(1) time complexity</strong> for lookups, insertions, and deletions. They form the foundation of <strong>JSON data</strong> and <strong>object serialization</strong> in Python.</p>
+            </div>
+        </div>
+
+        <!-- Section 8: Sets -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔶</div>
+                <h2>Sets (set)</h2>
+            </div>
+            <p>Sets are <strong>unordered, mutable</strong> collections of <strong>unique items</strong>. They're perfect for membership testing and removing duplicates.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Creating sets</span>
+numbers = {1, 2, 3, 2, 4, 3, 5}
+print(numbers)              <span class="code-comment"># {1, 2, 3, 4, 5} (duplicates removed)</span>
+print(type(numbers))        <span class="code-comment"># &lt;class 'set'&gt;</span>
+
+<span class="code-comment"># Creating empty set (use set(), not {})</span>
+empty = set()               <span class="code-comment"># Correct</span>
+<span class="code-comment"># empty = {}  # This creates an empty dict!</span>
+
+<span class="code-comment"># Adding elements</span>
+numbers.add(6)
+numbers.update([7, 8, 9])
+
+<span class="comment"># Removing elements</span>
+numbers.remove(9)           <span class="code-comment"># Raises KeyError if not found</span>
+numbers.discard(10)         <span class="code-comment"># Does not raise error if not found</span></pre>
+                </div>
+            </div>
+
+            <h3>Set Operations</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+
+<span class="code-comment"># Union (all elements from both)</span>
+print(a | b)                <span class="code-comment"># {1, 2, 3, 4, 5, 6}</span>
+print(a.union(b))
+
+<span class="code-comment"># Intersection (common elements)</span>
+print(a & b)                <span class="code-comment"># {3, 4}</span>
+print(a.intersection(b))
+
+<span class="code-comment"># Difference (in a but not in b)</span>
+print(a - b)                <span class="code-comment"># {1, 2}</span>
+print(a.difference(b))
+
+<span class="code-comment"># Symmetric Difference (in either, but not both)</span>
+print(a ^ b)                <span class="code-comment"># {1, 2, 5, 6}</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Common Use Cases</span>
+                </div>
+                <p><strong>Removing duplicates:</strong> Convert list to set and back<br>
+                <strong>Membership testing:</strong> <code>x in set</code> is O(1) on average<br>
+                <strong>Mathematical operations:</strong> Union, intersection, difference</p>
+            </div>
+        </div>
+
+        <!-- Section 9: Boolean -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">✔️</div>
+                <h2>Boolean (bool)</h2>
+            </div>
+            <p>Boolean type represents two logical values: <strong>True</strong> and <strong>False</strong>. Booleans are actually subclasses of integers in Python.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Boolean values</span>
+is_active = True
+is_valid = False
+
+print(type(is_active))      <span class="code-comment"># &lt;class 'bool'&gt;</span>
+
+<span class="code-comment"># Booleans as integers</span>
+print(True + True)          <span class="code-comment"># 2</span>
+print(True * 5)             <span class="code-comment"># 5</span>
+print(False + 10)           <span class="code-comment"># 10</span>
+
+<span class="code-comment"># Boolean equivalence</span>
+print(True == 1)            <span class="code-comment"># True</span>
+print(False == 0)           <span class="code-comment"># True</span></pre>
+                </div>
+            </div>
+
+            <h3>Boolean Conversion</h3>
+            <p>Any value can be evaluated in a boolean context using <code>bool()</code>:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Truthy values</span>
+print(bool(1))              <span class="code-comment"># True</span>
+print(bool("Python"))       <span class="code-comment"># True</span>
+print(bool([1, 2, 3]))      <span class="code-comment"># True</span>
+
+<span class="code-comment"># Falsy values</span>
+print(bool(0))              <span class="code-comment"># False</span>
+print(bool(""))             <span class="code-comment"># False (empty string)</span>
+print(bool([]))             <span class="code-comment"># False (empty list)</span>
+print(bool(None))           <span class="code-comment"># False</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Falsy Values in Python</span>
+                </div>
+                <p>These values evaluate to False: <code>False</code>, <code>None</code>, <code>0</code>, <code>0.0</code>, <code>''</code> (empty string), <code>[]</code> (empty list), <code>{}</code> (empty dict), <code>set()</code> (empty set)</p>
+            </div>
+        </div>
+
+        <!-- Section 10: NoneType -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⭕</div>
+                <h2>NoneType (None)</h2>
+            </div>
+            <p><code>None</code> represents the <strong>absence of value</strong> or <strong>null equivalent</strong> in Python. It's a singleton object — there's only one None in Python.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>x = None
+print(x)                    <span class="code-comment"># None</span>
+print(type(x))              <span class="code-comment"># &lt;class 'NoneType'&gt;</span>
+
+<span class="code-comment"># Checking for None (use 'is', not '==')</span>
+if x is None:
+    print("x is None")      <span class="code-comment"># Correct way</span>
+
+if x == None:
+    print("x is None")      <span class="code-comment"># Works but not recommended</span></pre>
+                </div>
+            </div>
+
+            <h3>Common Use Cases</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Default function arguments</span>
+def greet(name=None):
+    if name is None:
+        name = "Guest"
+    print(f"Hello, {name}!")
+
+greet()                     <span class="code-comment"># Hello, Guest!</span>
+greet("Alice")              <span class="code-comment"># Hello, Alice!</span>
+
+<span class="code-comment"># Placeholder for variables</span>
+result = None
+<span class="code-comment"># ... some processing ...</span>
+if result is not None:
+    print(result)</pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Why Use 'is' with None?</span>
+                </div>
+                <p>Use <code>is None</code> instead of <code>== None</code> because <code>is</code> checks object identity (faster), while <code>==</code> checks equality (can be overridden).</p>
+            </div>
+        </div>
+
+        <!-- Section 11: Mutability -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔐</div>
+                <h2>Mutability: A Critical Concept</h2>
+            </div>
+            <p>Understanding mutability is crucial for avoiding bugs and writing efficient Python code.</p>
+
+            <h3>Mutable Data Types</h3>
+            <p>Can be modified after creation:</p>
+            <div class="badge-container">
+                <span class="badge badge-orange">list</span>
+                <span class="badge badge-orange">dict</span>
+                <span class="badge badge-orange">set</span>
+            </div>
+
+            <h3>Immutable Data Types</h3>
+            <p>Cannot be modified after creation (modifications create new objects):</p>
+            <div class="badge-container">
+                <span class="badge badge-green">int</span>
+                <span class="badge badge-green">float</span>
+                <span class="badge badge-green">complex</span>
+                <span class="badge badge-green">str</span>
+                <span class="badge badge-green">tuple</span>
+                <span class="badge badge-green">bool</span>
+                <span class="badge badge-green">NoneType</span>
+            </div>
+
+            <h3>Demonstration</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Mutable: Changes affect original</span>
+x = [1, 2, 3]
+y = x
+y.append(4)
+print(x)                    <span class="code-comment"># [1, 2, 3, 4] (changed!)</span>
+
+<span class="code-comment"># Immutable: Creates new object</span>
+a = "Hello"
+b = a
+b = b + " World"
+print(a)                    <span class="code-comment"># Hello (unchanged)</span>
+print(b)                    <span class="code-comment"># Hello World</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>This is a common interview question! Understanding mutability helps you predict behavior when passing arguments to functions and prevents unexpected modifications to data.</p>
+            </div>
+        </div>
+
+        <!-- Practice Exercises -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <h2>Practice Exercises</h2>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 1: Type Checking</h4>
+                <p>Create variables of each numeric type (int, float, complex) and print their types. Then convert each to the other types and observe the results.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 2: String Manipulation</h4>
+                <p>Create a string with your full name. Use slicing to extract your first name, last name, and initials. Convert to uppercase and count the number of characters.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 3: List Operations</h4>
+                <p>Create a list of numbers from 1 to 10. Remove all even numbers, add the numbers 11-15, and sort in descending order.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 4: Dictionary Challenge</h4>
+                <p>Create a dictionary representing a student with keys: name, age, courses (list), and grades (dict). Add a new course, update a grade, and print all information.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 5: Set Operations</h4>
+                <p>Create two sets of numbers. Find the union, intersection, difference, and symmetric difference. Remove duplicates from a list using a set.</p>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Summary</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Key Takeaways</h4>
+                <ul>
+                    <li>Python has 7 main data type categories: Numerical, Text, Sequence, Mapping, Set, Boolean, NoneType</li>
+                    <li>Use <code>type()</code> to check data types and type conversion functions to convert between types</li>
+                    <li>Understand mutability: lists, dicts, sets are mutable; tuples, strings, numbers are immutable</li>
+                    <li>Strings are immutable sequences supporting slicing, indexing, and many methods</li>
+                    <li>Lists are versatile, mutable sequences; tuples are immutable and faster</li>
+                    <li>Dictionaries provide O(1) average lookup time with key-value pairs</li>
+                    <li>Sets automatically remove duplicates and support mathematical operations</li>
+                    <li>Choose the right data type for the task to write efficient code</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Data Types, Master Python!</span>
+                </div>
+                <p>Understanding data types is fundamental to all Python programming. With this knowledge, you're ready to build complex data structures, optimize performance, and ace technical interviews!</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Keep practicing and exploring! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Python Data Types — Comprehensive Classroom Notes</strong></p>
+        <p>Master the Building Blocks of Python Programming</p>
+        <p style="margin-top: 1rem;">© 2025 Python Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

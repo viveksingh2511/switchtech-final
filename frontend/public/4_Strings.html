@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Strings - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip {
+            background: rgba(236, 72, 153, 0.1);
+            border-left: 3px solid var(--accent-pink);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .interview-tip-header {
+            color: var(--accent-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip-header::before {
+            content: '🎯';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .property-item {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .property-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .property-item h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .property-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .star {
+            color: var(--accent-yellow);
+            font-size: 1.2em;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Python Strings</h1>
+        <p class="subtitle">Complete Classroom Notes — Mastering Text Processing in Python</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h2>Introduction to Strings</h2>
+            </div>
+
+            <h3>What is a String?</h3>
+            <p>A string in Python is a <strong>sequence of characters</strong> (letters, digits, symbols, spaces, etc.) enclosed within quotes. Strings are one of the most used data types for storing and manipulating textual data.</p>
+
+            <p>You can declare a string using:</p>
+            <ul>
+                <li><strong>Single quotes</strong> <code>'...'</code></li>
+                <li><strong>Double quotes</strong> <code>"..."</code></li>
+                <li><strong>Triple quotes</strong> <code>'''...'''</code> or <code>"""..."""</code> for multi-line strings</li>
+            </ul>
+
+            <p>Strings can represent names, sentences, identifiers, or even code blocks.</p>
+
+            <h3>Creating Strings</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s1 = 'Hello'
+s2 = "Welcome to Python"
+s3 = '''This is
+a multi-line
+string example'''
+
+print(s1)       <span class="code-comment"># Hello</span>
+print(s2)       <span class="code-comment"># Welcome to Python</span>
+print(s3)       <span class="code-comment"># Multi-line output</span></pre>
+                </div>
+            </div>
+
+            <p>Python treats everything between the quotes as text data, regardless of its content.</p>
+
+            <h3>String Immutability</h3>
+            <p>Strings are <strong>immutable</strong>, meaning once a string is created, its content cannot be changed directly. Any modification creates a new string instead of altering the original one.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "Python"
+<span class="code-comment"># s[0] = 'J'  # ❌ This will raise TypeError</span>
+<span class="code-comment">#               'str' object does not support item assignment</span>
+
+s = "Jython"  <span class="code-comment"># ✅ This creates a new string object</span>
+print(s)      <span class="code-comment"># Jython</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Key Concept</span>
+                </div>
+                <p>Strings are character sequences enclosed in quotes. They form the backbone of text processing, message display, and data formatting tasks in Python. Immutability ensures data safety and consistency.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Properties of Strings -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h2>Properties of Strings</h2>
+            </div>
+            <p>Python strings come with several important properties that define their behavior:</p>
+
+            <div class="properties-grid">
+                <div class="property-item">
+                    <h4>📍 Ordered</h4>
+                    <p>Characters maintain fixed positions</p>
+                </div>
+                <div class="property-item">
+                    <h4>🔒 Immutable</h4>
+                    <p>Cannot be modified in place</p>
+                </div>
+                <div class="property-item">
+                    <h4>🔄 Iterable</h4>
+                    <p>Can loop through characters</p>
+                </div>
+                <div class="property-item">
+                    <h4>✂️ Sliceable</h4>
+                    <p>Extract substrings easily</p>
+                </div>
+            </div>
+
+            <h3>1. Ordered (Indexing)</h3>
+            <p>Each character has a fixed index position, starting from <strong>0</strong> for the first character. Indexing allows direct access to specific characters.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "Interview"
+print(s[0])     <span class="code-comment"># I (first character)</span>
+print(s[4])     <span class="code-comment"># r</span>
+print(s[-1])    <span class="code-comment"># w (last character)</span>
+print(s[-2])    <span class="code-comment"># e (second from last)</span></pre>
+                </div>
+            </div>
+
+            <p>Indexes can be negative, where <code>-1</code> represents the last character, <code>-2</code> the second-to-last, and so on.</p>
+
+            <h3>2. Immutable</h3>
+            <p>Once created, a string cannot be modified in place. Any operation that seems to change a string actually creates a new string object.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>text = "Hello"
+<span class="code-comment"># Attempting to modify</span>
+<span class="code-comment"># text[0] = "h"  # ❌ TypeError</span>
+
+<span class="code-comment"># Creating a new string instead</span>
+new_text = "h" + text[1:]
+print(new_text)     <span class="code-comment"># hello</span>
+print(text)         <span class="code-comment"># Hello (original unchanged)</span></pre>
+                </div>
+            </div>
+
+            <h3>3. Iterable</h3>
+            <p>A string can be iterated character by character using loops.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>for ch in "Python":
+    print(ch, end=" ")  <span class="code-comment"># P y t h o n</span>
+
+<span class="code-comment"># Using enumerate for index and character</span>
+for index, char in enumerate("AI"):
+    print(f"Index {index}: {char}")</pre>
+                </div>
+            </div>
+
+            <h3>4. Supports Slicing</h3>
+            <p>We can extract parts of a string using slicing syntax: <code>s[start:end:step]</code></p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "Interview"
+
+print(s[2:6])       <span class="code-comment"># terv</span>
+print(s[:5])        <span class="code-comment"># Inter (from start to index 5)</span>
+print(s[5:])        <span class="code-comment"># view (from index 5 to end)</span>
+print(s[::2])       <span class="code-comment"># Itrir (every 2nd character)</span>
+print(s[::-1])      <span class="code-comment"># weivretnI (reverse)</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Summary</span>
+                </div>
+                <p>Strings are ordered, immutable, and iterable sequences. With slicing, we can extract and manipulate sections efficiently while maintaining data safety.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Basic Operations -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔧</div>
+                <h2>Basic Operations on Strings</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge badge-green">Concatenation</span>
+                <span class="badge badge-blue">Repetition</span>
+                <span class="badge badge-orange">Membership</span>
+            </div>
+
+            <h3>1. Concatenation (+)</h3>
+            <p>Joining two or more strings together using the <code>+</code> operator.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>first = "Google"
+second = " Cloud"
+result = first + second
+print(result)           <span class="code-comment"># Google Cloud</span>
+
+<span class="code-comment"># Multiple concatenations</span>
+full_name = "John" + " " + "Doe"
+print(full_name)        <span class="code-comment"># John Doe</span>
+
+<span class="code-comment"># Using += operator</span>
+message = "Hello"
+message += " World"
+print(message)          <span class="code-comment"># Hello World</span></pre>
+                </div>
+            </div>
+
+            <h3>2. Repetition (*)</h3>
+            <p>Repeat a string multiple times using the <code>*</code> operator.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>print("AI " * 3)            <span class="code-comment"># AI AI AI</span>
+print("=" * 20)             <span class="code-comment"># ====================</span>
+print("-" * 10)             <span class="code-comment"># ----------</span>
+
+<span class="code-comment"># Creating patterns</span>
+print("*" * 5)              <span class="code-comment"># *****</span>
+print(("*-" * 5))           <span class="code-comment"># *-*-*-*-*-</span></pre>
+                </div>
+            </div>
+
+            <h3>3. Membership Testing (in / not in)</h3>
+            <p>Check if a substring exists using <code>in</code> or <code>not in</code>.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>print("A" in "AI")              <span class="code-comment"># True</span>
+print("Z" not in "AI")          <span class="code-comment"># True</span>
+
+<span class="code-comment"># Case-sensitive checking</span>
+print("python" in "Python")     <span class="code-comment"># False (case matters!)</span>
+print("Python" in "Python")     <span class="code-comment"># True</span>
+
+<span class="code-comment"># Practical example</span>
+email = "user@example.com"
+if "@" in email and "." in email:
+    print("Valid email format")  <span class="code-comment"># Valid email format</span></pre>
+                </div>
+            </div>
+
+            <h3>4. Length (len())</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>text = "Python Programming"
+print(len(text))            <span class="code-comment"># 18</span>
+
+<span class="code-comment"># Empty string</span>
+print(len(""))              <span class="code-comment"># 0</span>
+
+<span class="code-comment"># With spaces</span>
+print(len("  hello  "))     <span class="code-comment"># 9 (spaces count!)</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Summary</span>
+                </div>
+                <p>Concatenation, repetition, and membership checks are fundamental string operations used in loops, data creation, and condition-based processing.</p>
+            </div>
+        </div>
+
+        <!-- Section 4: Case Conversion Methods -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔤</div>
+                <h2>Case Conversion Methods</h2>
+            </div>
+            <p>Used for formatting, validation, or text standardization.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>upper()</code> <span class="star">★</span></td>
+                        <td>Converts all letters to uppercase</td>
+                        <td><code>"hello".upper()</code> → <code>'HELLO'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>lower()</code> <span class="star">★</span></td>
+                        <td>Converts all letters to lowercase</td>
+                        <td><code>"HELLO".lower()</code> → <code>'hello'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>title()</code> <span class="star">★</span></td>
+                        <td>Capitalizes first letter of each word</td>
+                        <td><code>"welcome to python".title()</code> → <code>'Welcome To Python'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>capitalize()</code></td>
+                        <td>Capitalizes only the first letter</td>
+                        <td><code>"python tutorial".capitalize()</code> → <code>'Python tutorial'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>swapcase()</code></td>
+                        <td>Swaps uppercase ↔ lowercase</td>
+                        <td><code>"PyTHon".swapcase()</code> → <code>'pYthON'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>casefold()</code></td>
+                        <td>Aggressive lowercase (Unicode-aware)</td>
+                        <td><code>"ẞ".casefold()</code> → <code>'ss'</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Practical Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>text = "python programming"
+
+print(text.upper())         <span class="code-comment"># PYTHON PROGRAMMING</span>
+print(text.lower())         <span class="code-comment"># python programming</span>
+print(text.title())         <span class="code-comment"># Python Programming</span>
+print(text.capitalize())    <span class="code-comment"># Python programming</span>
+
+<span class="code-comment"># Case-insensitive comparison</span>
+user_input = "YES"
+if user_input.lower() == "yes":
+    print("Confirmed!")     <span class="code-comment"># Confirmed!</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Practical Uses</span>
+                </div>
+                <p><strong>• Data Standardization:</strong> Preparing data for case-insensitive comparison<br>
+                <strong>• UI Formatting:</strong> Formatting text titles, names, and messages<br>
+                <strong>• Validation:</strong> Normalizing user input before processing</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Validation Methods -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">✔️</div>
+                <h2>Validation Methods</h2>
+            </div>
+            <p>These methods return <code>True</code> or <code>False</code> depending on the string content.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>isalpha()</code> <span class="star">★</span></td>
+                        <td>True if only alphabets</td>
+                        <td><code>"Google".isalpha()</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>isdigit()</code> <span class="star">★</span></td>
+                        <td>True if only digits</td>
+                        <td><code>"123".isdigit()</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>isalnum()</code> <span class="star">★</span></td>
+                        <td>True if alphabets or numbers</td>
+                        <td><code>"Hello123".isalnum()</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>isspace()</code></td>
+                        <td>True if only whitespace</td>
+                        <td><code>"   ".isspace()</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>istitle()</code> <span class="star">★</span></td>
+                        <td>True if title case</td>
+                        <td><code>"Python Basics".istitle()</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>islower()</code> <span class="star">★</span></td>
+                        <td>All characters lowercase</td>
+                        <td><code>"python".islower()</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>isupper()</code> <span class="star">★</span></td>
+                        <td>All characters uppercase</td>
+                        <td><code>"HELLO".isupper()</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>isprintable()</code></td>
+                        <td>Printable characters only</td>
+                        <td><code>"hello\n".isprintable()</code> → <code>False</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>isascii()</code></td>
+                        <td>Only ASCII characters</td>
+                        <td><code>"©".isascii()</code> → <code>False</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Practical Validation Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Username validation</span>
+username = "user123"
+if username.isalnum():
+    print("Valid username")     <span class="code-comment"># Valid username</span>
+
+<span class="code-comment"># Phone number validation (basic)</span>
+phone = "9876543210"
+if phone.isdigit() and len(phone) == 10:
+    print("Valid phone number")
+
+<span class="code-comment"># Password strength check</span>
+password = "Pass123"
+has_digit = any(c.isdigit() for c in password)
+has_alpha = any(c.isalpha() for c in password)
+if has_digit and has_alpha:
+    print("Strong password")</pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Important Note</span>
+                </div>
+                <p>Even Unicode digits like ² (superscript 2) are recognized by <code>isdigit()</code>. Use <code>isdecimal()</code> for stricter digit validation that only accepts 0-9.</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Use Cases</span>
+                </div>
+                <p>Validation methods are used in data cleaning, form validation, and input checking before transformations.</p>
+            </div>
+        </div>
+
+        <!-- Section 6: Search, Replace & Count -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h2>Search, Replace & Count Methods</h2>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>find()</code> <span class="star">★</span></td>
+                        <td>Returns lowest index; -1 if not found</td>
+                        <td><code>"hello".find("l")</code> → <code>2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>rfind()</code></td>
+                        <td>Returns highest index</td>
+                        <td><code>"hello".rfind("l")</code> → <code>3</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>index()</code></td>
+                        <td>Like find() but raises ValueError</td>
+                        <td><code>"hello".index("l")</code> → <code>2</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>rindex()</code></td>
+                        <td>Reverse of index()</td>
+                        <td><code>"hello".rindex("l")</code> → <code>3</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>count()</code> <span class="star">★</span></td>
+                        <td>Counts substring occurrences</td>
+                        <td><code>"banana".count("a")</code> → <code>3</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>replace()</code> <span class="star">★</span></td>
+                        <td>Replaces substring</td>
+                        <td><code>"data".replace("a", "o")</code> → <code>'doto'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>startswith()</code> <span class="star">★</span></td>
+                        <td>Checks prefix</td>
+                        <td><code>"machine".startswith("mach")</code> → <code>True</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>endswith()</code> <span class="star">★</span></td>
+                        <td>Checks suffix</td>
+                        <td><code>"learning".endswith("ing")</code> → <code>True</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Detailed Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Finding substrings</span>
+text = "Python Programming"
+print(text.find("Pro"))         <span class="code-comment"># 7</span>
+print(text.find("Java"))        <span class="code-comment"># -1 (not found)</span>
+
+<span class="code-comment"># Counting occurrences</span>
+sentence = "google cloud platform"
+print(sentence.count("o"))      <span class="code-comment"># 3</span>
+print(sentence.count("cloud"))  <span class="code-comment"># 1</span>
+
+<span class="code-comment"># Replacing text</span>
+s = "data science data"
+print(s.replace("data", "AI"))          <span class="code-comment"># AI science AI</span>
+print(s.replace("data", "AI", 1))       <span class="code-comment"># AI science data (1 replacement)</span>
+
+<span class="code-comment"># Checking prefixes and suffixes</span>
+filename = "document.pdf"
+if filename.endswith(".pdf"):
+    print("PDF file detected")  <span class="code-comment"># PDF file detected</span>
+
+url = "https://google.com"
+if url.startswith("https://"):
+    print("Secure connection")  <span class="code-comment"># Secure connection</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>The <code>replace()</code> and <code>find()</code> methods are among the most used in industry work for text analysis, pattern searches, and data cleanup pipelines. Remember that <code>find()</code> returns -1 when not found, while <code>index()</code> raises a ValueError.</p>
+            </div>
+        </div>
+
+        <!-- Section 7: Splitting & Joining -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">✂️</div>
+                <h2>Splitting, Joining & Line Handling</h2>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>split()</code> <span class="star">★</span></td>
+                        <td>Splits into list</td>
+                        <td><code>"a,b,c".split(",")</code> → <code>['a','b','c']</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>rsplit()</code></td>
+                        <td>Splits from right</td>
+                        <td><code>"a b c".rsplit(" ", 1)</code> → <code>['a b','c']</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>splitlines()</code> <span class="star">★</span></td>
+                        <td>Splits on line breaks</td>
+                        <td><code>"hi\nbye".splitlines()</code> → <code>['hi','bye']</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>join()</code> <span class="star">★</span></td>
+                        <td>Joins elements with separator</td>
+                        <td><code>"-".join(["AI","ML"])</code> → <code>'AI-ML'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>partition()</code></td>
+                        <td>Splits into 3 parts</td>
+                        <td><code>"a=b".partition("=")</code> → <code>('a','=','b')</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>rpartition()</code></td>
+                        <td>Reverse partition</td>
+                        <td><code>"a=b".rpartition("=")</code> → <code>('a','=','b')</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Comprehensive Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Splitting strings</span>
+csv_data = "apple,banana,cherry"
+fruits = csv_data.split(",")
+print(fruits)                   <span class="code-comment"># ['apple', 'banana', 'cherry']</span>
+
+<span class="code-comment"># Default split (by whitespace)</span>
+sentence = "Python is awesome"
+words = sentence.split()
+print(words)                    <span class="code-comment"># ['Python', 'is', 'awesome']</span>
+
+<span class="code-comment"># Limiting splits</span>
+text = "a b c d"
+print(text.rsplit(" ", 2))      <span class="code-comment"># ['a b', 'c', 'd']</span>
+
+<span class="code-comment"># Splitting by lines</span>
+multiline = "hello\nworld\npython"
+lines = multiline.splitlines()
+print(lines)                    <span class="code-comment"># ['hello', 'world', 'python']</span>
+
+<span class="code-comment"># Joining elements</span>
+words = ["AI", "Machine", "Learning"]
+print(" ".join(words))          <span class="code-comment"># AI Machine Learning</span>
+print("-".join(words))          <span class="code-comment"># AI-Machine-Learning</span>
+print("".join(words))           <span class="code-comment"># AIMachineLearning</span></pre>
+                </div>
+            </div>
+
+            <h3>Practical Application: CSV Processing</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Processing CSV-like data</span>
+data = "John,25,Engineer\nAlice,30,Designer\nBob,28,Developer"
+
+<span class="code-comment"># Split into lines</span>
+records = data.splitlines()
+
+<span class="code-comment"># Process each record</span>
+for record in records:
+    fields = record.split(",")
+    name, age, role = fields
+    print(f"{name} is a {age}-year-old {role}")
+
+<span class="code-comment"># Output:
+# John is a 25-year-old Engineer
+# Alice is a 30-year-old Designer
+# Bob is a 28-year-old Developer</span></pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Use Cases</span>
+                </div>
+                <p>Essential for text preprocessing, tokenization, CSV/JSON handling, and log parsing. <code>split()</code> and <code>join()</code> are both top-tier frequently used methods.</p>
+            </div>
+        </div>
+
+        <!-- Section 8: Trimming & Alignment -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📐</div>
+                <h2>Trimming, Padding & Alignment</h2>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>strip()</code> <span class="star">★</span></td>
+                        <td>Removes from both ends</td>
+                        <td><code>" hello ".strip()</code> → <code>'hello'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>lstrip()</code></td>
+                        <td>Removes from left</td>
+                        <td><code>"--python".lstrip("-")</code> → <code>'python'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>rstrip()</code></td>
+                        <td>Removes from right</td>
+                        <td><code>"python--".rstrip("-")</code> → <code>'python'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>center()</code> <span class="star">★</span></td>
+                        <td>Centers with padding</td>
+                        <td><code>"AI".center(6, "-")</code> → <code>'--AI--'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ljust()</code></td>
+                        <td>Left aligns</td>
+                        <td><code>"AI".ljust(5, "*")</code> → <code>'AI***'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>rjust()</code></td>
+                        <td>Right aligns</td>
+                        <td><code>"AI".rjust(5, "*")</code> → <code>'***AI'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>zfill()</code></td>
+                        <td>Pads with zeros</td>
+                        <td><code>"42".zfill(5)</code> → <code>'00042'</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Practical Examples</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Cleaning user input</span>
+user_input = "  hello world  "
+cleaned = user_input.strip()
+print(f"'{cleaned}'")           <span class="code-comment"># 'hello world'</span>
+
+<span class="code-comment"># Removing specific characters</span>
+s = "###hello###"
+print(s.strip("#"))             <span class="code-comment"># hello</span>
+
+<span class="code-comment"># Formatting output</span>
+print("Python".center(12, "-")) <span class="code-comment"># ---Python---</span>
+print("Test".rjust(10))         <span class="code-comment">#       Test</span>
+print("Test".ljust(10, "*"))    <span class="code-comment"># Test******</span>
+
+<span class="code-comment"># Zero-padding numbers</span>
+invoice_num = "42"
+print(invoice_num.zfill(5))     <span class="code-comment"># 00042</span>
+
+<span class="code-comment"># Creating formatted tables</span>
+print("ID".ljust(5) + "Name".ljust(15) + "Score".rjust(5))
+print("1".ljust(5) + "Alice".ljust(15) + "95".rjust(5))
+print("2".ljust(5) + "Bob".ljust(15) + "87".rjust(5))</pre>
+                </div>
+            </div>
+
+            <h3>Tabular Output Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Creating aligned tables</span>
+header = f"{'ID':<5}{'Name':<15}{'Score':>5}"
+print(header)
+print("-" * len(header))
+print(f"{1:<5}{'Alice':<15}{95:>5}")
+print(f"{2:<5}{'Bob':<15}{87:>5}")
+print(f"{3:<5}{'Charlie':<15}{92:>5}")
+
+<span class="code-comment"># Output:
+# ID   Name           Score
+# -------------------------
+# 1    Alice             95
+# 2    Bob               87
+# 3    Charlie           92</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Use Cases</span>
+                </div>
+                <p>These methods are used heavily in string formatting, data printing, log alignment, report generation, and creating human-readable outputs.</p>
+            </div>
+        </div>
+
+        <!-- Section 9: String Formatting -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>String Formatting Styles</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge">% Formatting</span>
+                <span class="badge badge-blue">.format()</span>
+                <span class="badge badge-green">f-Strings</span>
+                <span class="badge badge-orange">Template</span>
+            </div>
+
+            <h3>A) Old % Formatting (Legacy)</h3>
+            <p>Simple but outdated style used in legacy Python code.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>name, age = "Alice", 25
+print("My name is %s and I am %d years old." % (name, age))
+<span class="code-comment"># Output: My name is Alice and I am 25 years old.</span>
+
+<span class="code-comment"># Format specifiers</span>
+print("Pi = %.2f" % 3.14159)    <span class="code-comment"># Pi = 3.14</span>
+print("Hex: %x" % 255)          <span class="code-comment"># Hex: ff</span></pre>
+                </div>
+            </div>
+
+            <h3>B) str.format() Method</h3>
+            <p>More powerful and readable than % formatting:</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Positional arguments</span>
+print("My name is {} and I am {}".format("Bob", 30))
+<span class="code-comment"># Output: My name is Bob and I am 30</span>
+
+<span class="code-comment"># Named arguments</span>
+print("My name is {n} and I am {a}".format(n="Bob", a=30))
+
+<span class="code-comment"># Index-based</span>
+print("{0} {1} {0}".format("Hello", "World"))
+<span class="code-comment"># Output: Hello World Hello</span>
+
+<span class="code-comment"># Formatting numbers</span>
+print("Price: ${:.2f}".format(19.99))   <span class="code-comment"># Price: $19.99</span></pre>
+                </div>
+            </div>
+
+            <h3>C) f-Strings (Modern & Recommended) ⭐</h3>
+            <p>Introduced in Python 3.6, f-strings are fast, readable, and allow inline calculations.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>name, age = "Charlie", 35
+print(f"My name is {name} and I am {age}")
+<span class="code-comment"># Output: My name is Charlie and I am 35</span>
+
+<span class="code-comment"># Inline expressions</span>
+print(f"Next year I'll be {age + 1}")
+<span class="code-comment"># Output: Next year I'll be 36</span>
+
+<span class="code-comment"># Calling functions</span>
+print(f"Uppercase: {name.upper()}")
+<span class="code-comment"># Output: Uppercase: CHARLIE</span>
+
+<span class="code-comment"># Mathematical operations</span>
+x, y = 10, 3
+print(f"{x} + {y} = {x + y}")
+<span class="code-comment"># Output: 10 + 3 = 13</span></pre>
+                </div>
+            </div>
+
+            <h3>D) Template Strings (Safe for User Input)</h3>
+            <p>Safe for user input, as they prevent code injection.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>from string import Template
+
+temp = Template("Hello $name, balance: $$${amount}")
+result = temp.substitute(name="Deepak", amount=5000)
+print(result)
+<span class="code-comment"># Output: Hello Deepak, balance: $$$5000</span></pre>
+                </div>
+            </div>
+
+            <h3>E) Advanced f-String Formatting</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>pi = 3.14159
+print(f"Pi = {pi:.2f}")         <span class="code-comment"># Pi = 3.14</span>
+print(f"Pi = {pi:.4f}")         <span class="code-comment"># Pi = 3.1416</span>
+
+<span class="code-comment"># Number formatting</span>
+print(f"Binary: {10:b}")        <span class="code-comment"># Binary: 1010</span>
+print(f"Hex: {255:x}")          <span class="code-comment"># Hex: ff</span>
+print(f"Percent: {0.75:.1%}")   <span class="code-comment"># Percent: 75.0%</span>
+
+<span class="code-comment"># Alignment</span>
+print(f"{'left':<10}|")         <span class="code-comment"># left      |</span>
+print(f"{'center':^10}|")       <span class="code-comment">#   center  |</span>
+print(f"{'right':>10}|")        <span class="code-comment">#      right|</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>f-strings are the <strong>most efficient</strong> way to format text dynamically in Python. They're faster than both % formatting and .format(), and they're the most readable. Always prefer f-strings in modern Python code (Python 3.6+).</p>
+            </div>
+        </div>
+
+        <!-- Section 10: Interview Problems -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Interview-Focused String Applications</h2>
+            </div>
+
+            <h3>1. Reverse Words in Sentence</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "Google interview preparation"
+result = " ".join(s.split()[::-1])
+print(result)
+<span class="code-comment"># Output: preparation interview Google</span></pre>
+                </div>
+            </div>
+
+            <h3>2. Palindrome Check</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "madam"
+is_palindrome = s == s[::-1]
+print(is_palindrome)            <span class="code-comment"># True</span>
+
+<span class="code-comment"># Case-insensitive palindrome</span>
+s2 = "RaceCar"
+is_palindrome2 = s2.lower() == s2.lower()[::-1]
+print(is_palindrome2)           <span class="code-comment"># True</span></pre>
+                </div>
+            </div>
+
+            <h3>3. First Non-Repeating Character</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>from collections import Counter
+
+s = "interview"
+count = Counter(s)
+
+for ch in s:
+    if count[ch] == 1:
+        print(f"First non-repeating: {ch}")
+        break
+<span class="code-comment"># Output: First non-repeating: n</span></pre>
+                </div>
+            </div>
+
+            <h3>4. Anagram Check</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s1, s2 = "listen", "silent"
+is_anagram = sorted(s1) == sorted(s2)
+print(is_anagram)               <span class="code-comment"># True</span>
+
+<span class="code-comment"># Alternative method</span>
+from collections import Counter
+is_anagram2 = Counter(s1) == Counter(s2)
+print(is_anagram2)              <span class="code-comment"># True</span></pre>
+                </div>
+            </div>
+
+            <h3>5. Remove Duplicates (Preserve Order)</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "programming"
+result = ""
+seen = set()
+
+for char in s:
+    if char not in seen:
+        result += char
+        seen.add(char)
+
+print(result)                   <span class="code-comment"># progamin</span></pre>
+                </div>
+            </div>
+
+            <h3>6. Count Vowels and Consonants</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "Hello World"
+vowels = "aeiouAEIOU"
+
+vowel_count = sum(1 for char in s if char in vowels)
+consonant_count = sum(1 for char in s if char.isalpha() and char not in vowels)
+
+print(f"Vowels: {vowel_count}")         <span class="code-comment"># Vowels: 3</span>
+print(f"Consonants: {consonant_count}") <span class="code-comment"># Consonants: 7</span></pre>
+                </div>
+            </div>
+
+            <h3>7. Title Case Conversion (Manual)</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "hello world python"
+words = s.split()
+title_case = " ".join(word.capitalize() for word in words)
+print(title_case)               <span class="code-comment"># Hello World Python</span></pre>
+                </div>
+            </div>
+
+            <h3>8. String Compression</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>s = "aaabbccccaa"
+result = ""
+count = 1
+
+for i in range(1, len(s)):
+    if s[i] == s[i-1]:
+        count += 1
+    else:
+        result += s[i-1] + str(count)
+        count = 1
+
+result += s[-1] + str(count)
+print(result)                   <span class="code-comment"># a3b2c4a2</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p>Common string interview problems include: reversing words, detecting palindromes, counting characters, validating anagrams, and string compression. Combine simple methods like <code>strip()</code>, <code>split()</code>, <code>join()</code>, and slicing for powerful solutions.</p>
+            </div>
+        </div>
+
+        <!-- Section 11: Complete Method Reference -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <h2>Complete Method Reference</h2>
+            </div>
+            <p>Comprehensive list of all Python string methods, organized by category. Methods marked with <span class="star">★</span> are most frequently used.</p>
+
+            <h3>Encoding & Special Methods</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>encode()</code> <span class="star">★</span></td>
+                        <td>Returns bytes representation</td>
+                        <td><code>"hello".encode()</code> → <code>b'hello'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>translate()</code></td>
+                        <td>Uses translation table</td>
+                        <td>Used with <code>maketrans()</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>maketrans()</code></td>
+                        <td>Creates mapping</td>
+                        <td><code>str.maketrans("abc", "123")</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>expandtabs()</code></td>
+                        <td>Expands tab characters</td>
+                        <td><code>"a\tb".expandtabs(4)</code> → <code>'a   b'</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Python 3.9+ Methods</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>removeprefix()</code></td>
+                        <td>Removes prefix if present</td>
+                        <td><code>"unhappy".removeprefix("un")</code> → <code>'happy'</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>removesuffix()</code></td>
+                        <td>Removes suffix if present</td>
+                        <td><code>"world!".removesuffix("!")</code> → <code>'world'</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Character Functions (Built-in)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ord()</code> <span class="star">★</span></td>
+                        <td>Returns Unicode code point</td>
+                        <td><code>ord('A')</code> → <code>65</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>chr()</code> <span class="star">★</span></td>
+                        <td>Returns character from code</td>
+                        <td><code>chr(65)</code> → <code>'A'</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Encoding example</span>
+text = "Hello, World!"
+encoded = text.encode('utf-8')
+print(encoded)                  <span class="code-comment"># b'Hello, World!'</span>
+
+<span class="code-comment"># Character code conversion</span>
+print(ord('A'))                 <span class="code-comment"># 65</span>
+print(chr(65))                  <span class="code-comment"># A</span>
+
+<span class="code-comment"># Translation table</span>
+trans = str.maketrans("aeiou", "12345")
+text = "hello world"
+print(text.translate(trans))    <span class="code-comment"># h2ll4 w4rld</span>
+
+<span class="code-comment"># Remove prefix/suffix (Python 3.9+)</span>
+url = "https://example.com"
+print(url.removeprefix("https://"))  <span class="code-comment"># example.com</span>
+
+filename = "document.pdf"
+print(filename.removesuffix(".pdf")) <span class="code-comment"># document</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 12: Most Frequently Used -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⭐</div>
+                <h2>Most Frequently Used Methods</h2>
+            </div>
+            <p>The top commonly used string methods in daily programming and interviews:</p>
+
+            <div class="key-points">
+                <h4>🎯 Essential String Methods</h4>
+                <ul>
+                    <li><strong>Text Editing:</strong> upper(), lower(), title(), swapcase()</li>
+                    <li><strong>Validation:</strong> isalpha(), isdigit(), isalnum()</li>
+                    <li><strong>Search/Replace:</strong> find(), count(), replace()</li>
+                    <li><strong>Splitting/Joining:</strong> split(), join(), splitlines()</li>
+                    <li><strong>Trimming/Alignment:</strong> strip(), center()</li>
+                    <li><strong>Formatting:</strong> format(), f-strings</li>
+                    <li><strong>Prefix/Suffix:</strong> startswith(), endswith()</li>
+                    <li><strong>Encoding:</strong> encode()</li>
+                </ul>
+            </div>
+
+            <h3>Extended Integration Example</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>text = "  python PROGRAMMING Basics  "
+
+<span class="code-comment"># Chain multiple methods</span>
+cleaned = text.strip().title().replace("Programming", "Development")
+print(cleaned)                          <span class="code-comment"># Python Development Basics</span>
+
+<span class="code-comment"># Checking properties</span>
+print(cleaned.isalpha())                <span class="code-comment"># False (spaces exist)</span>
+print(cleaned.startswith("Python"))     <span class="code-comment"># True</span>
+
+<span class="code-comment"># Splitting and rejoining</span>
+words = cleaned.split()
+print("-".join(words))                  <span class="code-comment"># Python-Development-Basics</span>
+
+<span class="code-comment"># Count occurrences</span>
+print(cleaned.count("e"))               <span class="code-comment"># 3</span>
+
+<span class="code-comment"># Find position</span>
+print(cleaned.find("Dev"))              <span class="code-comment"># 7</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice Exercises -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💡</div>
+                <h2>Practice Exercises</h2>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 1: String Cleaning</h4>
+                <p>Write a function that takes a string with extra spaces and special characters, removes all special characters, converts to lowercase, and returns a cleaned version with single spaces.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 2: Word Frequency</h4>
+                <p>Create a program that counts the frequency of each word in a given sentence (case-insensitive) and displays them in descending order.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 3: Email Validator</h4>
+                <p>Write a function that validates an email address: must contain exactly one '@', have text before and after '@', and end with a valid domain (.com, .org, etc.).</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 4: Caesar Cipher</h4>
+                <p>Implement a Caesar cipher that shifts each letter in a string by a given number. For example, with shift=3, 'abc' becomes 'def'.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 5: Longest Word</h4>
+                <p>Write a function that finds and returns the longest word in a sentence. If there are multiple words with the same longest length, return the first one.</p>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Key Takeaways and Insights</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Essential Concepts</h4>
+                <ul>
+                    <li>Python strings are <strong>immutable</strong> and support a rich set of built-in methods</li>
+                    <li>Strings are <strong>ordered</strong>, <strong>iterable</strong>, and support powerful <strong>slicing</strong></li>
+                    <li>Over <strong>45 built-in methods</strong> make string manipulation extremely powerful</li>
+                    <li><strong>f-strings</strong> are the most efficient way to format text dynamically</li>
+                    <li>Master key skill areas: case handling, validation, search/replace, splitting/joining</li>
+                    <li>Common interview problems: palindromes, anagrams, word reversal, character counting</li>
+                    <li>String immutability promotes consistency and prevents accidental modifications</li>
+                    <li>Combine simple methods for powerful text processing solutions</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Strings, Master Text Processing!</span>
+                </div>
+                <p>Understanding strings is fundamental to Python programming. With this comprehensive knowledge, you're equipped to handle any text processing task, from simple formatting to complex string algorithms. Practice regularly with real-world problems to solidify your understanding!</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Keep coding and exploring the power of strings! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Python Strings — Complete Classroom Notes</strong></p>
+        <p>Mastering Text Processing in Python</p>
+        <p style="margin-top: 1rem;">© 2025 Python Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

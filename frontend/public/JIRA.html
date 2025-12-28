@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jira for Data Engineers - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --jira-blue: #0052cc;
+            --jira-light: #2684ff;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+            --gradient-jira: linear-gradient(135deg, #0052cc 0%, #2684ff 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 65px;
+            height: 65px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+
+        .badge-red {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+        }
+
+        .badge-yellow {
+            background: linear-gradient(135deg, #fbbf24, #fcd34d);
+        }
+
+        .badge-jira {
+            background: linear-gradient(135deg, #0052cc, #2684ff);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid var(--accent-blue);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .best-practice-header {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .best-practice-header::before {
+            content: '💎';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .architecture-diagram {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .architecture-title {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .component-card {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .component-card h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.75rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .component-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .use-case-box {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .use-case-header {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .use-case-header::before {
+            content: '🎯';
+        }
+
+        .workflow-box {
+            background: rgba(6, 182, 212, 0.1);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .workflow-header {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .workflow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .workflow-step {
+            background: rgba(6, 182, 212, 0.2);
+            border: 2px solid var(--accent-cyan);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .workflow-arrow {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .issue-type-card {
+            background: rgba(251, 191, 36, 0.1);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .issue-type-header {
+            color: var(--accent-yellow);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+
+            .workflow-steps {
+                flex-direction: column;
+            }
+
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="jiraGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#0052cc;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#2684ff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- Jira logo inspired design -->
+                <!-- Background square -->
+                <rect x="40" y="40" width="120" height="120" rx="15" fill="url(#jiraGrad1)"/>
+                <!-- Checkmark/tick -->
+                <path d="M 70 100 L 90 120 L 130 75" 
+                      stroke="white" 
+                      stroke-width="12" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      fill="none"/>
+                <!-- Decorative dots -->
+                <circle cx="60" cy="60" r="5" fill="white" opacity="0.6"/>
+                <circle cx="140" cy="60" r="5" fill="white" opacity="0.6"/>
+                <circle cx="60" cy="140" r="5" fill="white" opacity="0.6"/>
+                <circle cx="140" cy="140" r="5" fill="white" opacity="0.6"/>
+            </svg>
+        </div>
+        <h1>Jira for Data Engineers</h1>
+        <p class="subtitle">Complete Classroom Notes — Project Management & Issue Tracking</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h2>What is Jira?</h2>
+            </div>
+
+            <p>Jira is a <strong>project management and issue-tracking tool</strong> developed by Atlassian. It helps teams plan, track, and manage software development projects, tasks, bugs, and workflows efficiently. Originally designed for software teams practicing <strong>Agile methodologies</strong> (Scrum and Kanban), Jira has evolved into a universal platform for managing projects across engineering, data, IT, and business functions.</p>
+
+            <div class="badge-container">
+                <span class="badge badge-jira">Project Management</span>
+                <span class="badge badge-cyan">Issue Tracking</span>
+                <span class="badge badge-purple">Agile/Scrum</span>
+                <span class="badge badge-orange">Collaboration</span>
+            </div>
+
+            <h3>Core Concepts</h3>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>📝 Issues</h4>
+                    <p><strong>Unit of Work</strong></p>
+                    <p>Tasks, bugs, stories, or epics representing work items</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🔄 Workflows</h4>
+                    <p><strong>Process Flow</strong></p>
+                    <p>Defines how issues move through stages (To Do → Done)</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>📊 Boards</h4>
+                    <p><strong>Visual Management</strong></p>
+                    <p>Scrum or Kanban boards for sprint tracking</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>📈 Reports</h4>
+                    <p><strong>Insights</strong></p>
+                    <p>Burndown charts, velocity, and progress metrics</p>
+                </div>
+            </div>
+
+            <h3>How Jira Works</h3>
+            <p>Jira operates on the concept of <strong>issues</strong> — each issue represents a unit of work like a story, bug, or task. These issues move through a defined workflow:</p>
+
+            <div class="workflow-box">
+                <div class="workflow-header">🔄 Standard Workflow</div>
+                <div class="workflow-steps">
+                    <div class="workflow-step">To Do</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">In Progress</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">In Review</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">Done</div>
+                </div>
+            </div>
+
+            <p>Users can assign issues, add comments, attach files, set priorities, and link dependencies. Project managers visualize sprint progress through Kanban or Scrum boards, while leadership monitors metrics via burndown charts, velocity reports, and roadmaps.</p>
+
+            <div class="key-points">
+                <h4>🎯 Key Features</h4>
+                <ul>
+                    <li><strong>Real-time Visibility:</strong> Track progress across projects instantly</li>
+                    <li><strong>Flexible Workflows:</strong> Customize process flows for your team</li>
+                    <li><strong>Rich Integrations:</strong> GitHub, Jenkins, Slack, Confluence, Databricks</li>
+                    <li><strong>Agile Methodology:</strong> Built-in support for Scrum and Kanban</li>
+                    <li><strong>Automation:</strong> Automate repetitive tasks and notifications</li>
+                    <li><strong>Collaboration:</strong> Comments, mentions, file attachments</li>
+                    <li><strong>Reporting:</strong> Comprehensive dashboards and analytics</li>
+                    <li><strong>Traceability:</strong> Complete audit trail of all changes</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Architecture Overview</span>
+                </div>
+                <p>Jira follows a <strong>client-server architecture</strong> with a web-based frontend, REST APIs, and a backend built on Java with a relational database (PostgreSQL, MySQL, or Oracle). Its flexibility lies in custom workflows, automation rules, and extensive integrations.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Architecture -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🏗️</div>
+                <h2>Jira Architecture</h2>
+            </div>
+
+            <p>Jira is built on a robust three-tier architecture that ensures scalability, reliability, and extensibility.</p>
+
+            <div class="architecture-diagram">
+                <div class="architecture-title">🏗️ Jira Architecture Overview</div>
+                <pre>
+                   ┌──────────────────────────┐
+                   │       Jira UI            │
+                   │ (Web, Mobile, REST API)  │
+                   └────────────┬─────────────┘
+                                │
+                                ▼
+                    ┌───────────┴────────────┐
+                    │   Application Layer    │
+                    │ (Business Logic, API)  │
+                    └───────────┬────────────┘
+                                │
+                                ▼
+              ┌─────────────────┴─────────────────┐
+              │    Database (PostgreSQL/MySQL)    │
+              │ Stores Issues, Users, Workflows   │
+              └─────────────────┬─────────────────┘
+                                │
+                                ▼
+           ┌────────────────────┴────────────────────┐
+           │        Integrations & Extensions        │
+           │ Confluence │ Jenkins │ GitHub │ Slack  │
+           │ Email │ Airflow │ Databricks │ APIs    │
+           └────────────────────┬────────────────────┘
+                                │
+                                ▼
+                     ┌──────────┴───────────┐
+                     │  Users / Teams       │
+                     │ (Developers, PMs)    │
+                     └──────────────────────┘
+</pre>
+            </div>
+
+            <h3>Architecture Layers</h3>
+
+            <h4>1. Presentation Layer (Jira UI)</h4>
+            <ul>
+                <li><strong>Web Interface:</strong> Responsive browser-based UI</li>
+                <li><strong>Mobile Apps:</strong> iOS and Android applications</li>
+                <li><strong>REST API:</strong> Programmatic access for automation</li>
+                <li><strong>Features:</strong> Dashboards, boards, reports, issue views</li>
+            </ul>
+
+            <h4>2. Application Layer</h4>
+            <ul>
+                <li><strong>Business Logic:</strong> Core Jira functionality</li>
+                <li><strong>Workflow Engine:</strong> Manages issue state transitions</li>
+                <li><strong>Automation Rules:</strong> Executes automated actions</li>
+                <li><strong>Plugin System:</strong> Extends Jira capabilities</li>
+                <li><strong>Authentication:</strong> User management and security</li>
+            </ul>
+
+            <h4>3. Data Layer</h4>
+            <ul>
+                <li><strong>Database:</strong> PostgreSQL, MySQL, or Oracle</li>
+                <li><strong>Stored Data:</strong> Issues, projects, users, workflows, attachments</li>
+                <li><strong>Indexes:</strong> Optimized for quick searches and queries</li>
+                <li><strong>Backup:</strong> Regular snapshots for disaster recovery</li>
+            </ul>
+
+            <h4>4. Integration Layer</h4>
+            <ul>
+                <li><strong>Git Integration:</strong> Link commits to issues</li>
+                <li><strong>CI/CD Tools:</strong> Jenkins, GitHub Actions</li>
+                <li><strong>Communication:</strong> Slack, Microsoft Teams</li>
+                <li><strong>Documentation:</strong> Confluence wiki integration</li>
+                <li><strong>Data Tools:</strong> Airflow, Databricks, Snowflake</li>
+            </ul>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Deployment Options</span>
+                </div>
+                <ul>
+                    <li><strong>Jira Cloud:</strong> Hosted by Atlassian (SaaS)</li>
+                    <li><strong>Jira Server:</strong> Self-hosted on-premises</li>
+                    <li><strong>Jira Data Center:</strong> Enterprise-grade with high availability</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 3: How Jira Helps Data Engineers -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>How Jira Helps Data Engineers</h2>
+            </div>
+
+            <p>Jira extends beyond traditional software development to provide comprehensive project management for data engineering teams.</p>
+
+            <div class="use-case-box">
+                <div class="use-case-header">1. Task Management</div>
+                <p>Organizes data ingestion, transformation, and pipeline maintenance tasks clearly. Each task becomes a trackable issue with owner, priority, and due date.</p>
+                
+                <div class="issue-type-card">
+                    <div class="issue-type-header">📝 Example Issue</div>
+                    <p><strong>Title:</strong> Build customer churn prediction pipeline</p>
+                    <p><strong>Type:</strong> Story</p>
+                    <p><strong>Assignee:</strong> Data Engineer Team</p>
+                    <p><strong>Priority:</strong> High</p>
+                    <p><strong>Sprint:</strong> Sprint 12</p>
+                    <p><strong>Story Points:</strong> 8</p>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">2. Sprint Planning</div>
+                <p>Data teams can plan and track data migration or ETL backlog items using Scrum or Kanban boards. Organize work into sprints, estimate effort, and track velocity.</p>
+                
+                <div class="workflow-box">
+                    <div class="workflow-header">📅 Sprint Workflow</div>
+                    <ol>
+                        <li><strong>Backlog Grooming:</strong> Prioritize data tasks</li>
+                        <li><strong>Sprint Planning:</strong> Commit to issues</li>
+                        <li><strong>Daily Standups:</strong> Track progress</li>
+                        <li><strong>Sprint Review:</strong> Demo completed work</li>
+                        <li><strong>Retrospective:</strong> Improve processes</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">3. Collaboration</div>
+                <p>Enables coordination between data engineers, analysts, and business users on bug fixes or feature requests. Comment threads provide context and decision history.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">4. Incident Tracking</div>
+                <p>Log data pipeline failures, system errors, or job failures with assigned owners and SLAs. Create automated alerts when critical issues arise.</p>
+                
+                <div class="code-container">
+                    <div class="code-block">
+                        <span class="code-label">EXAMPLE</span>
+                        <pre><span class="code-comment">Incident Example:</span>
+Issue: "Airflow DAG 'daily_sales_etl' Failed"
+Type: Bug
+Priority: Critical
+Assignee: On-call Engineer
+Created: Automatically via webhook
+SLA: 2 hours for resolution
+Labels: production, airflow, etl</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">5. Documentation & Traceability</div>
+                <p>Link issues with Confluence pages for documentation or Git commits for code changes. Provides complete audit trail of pipeline changes and decisions.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">6. Automation</div>
+                <p>Trigger workflows for approvals or notifications. For example, send Slack alerts when data jobs fail or automatically assign issues based on labels.</p>
+                
+                <div class="best-practice">
+                    <div class="best-practice-header">Automation Example</div>
+                    <p><strong>Rule:</strong> When Airflow DAG fails</p>
+                    <p><strong>Trigger:</strong> Webhook from Airflow</p>
+                    <p><strong>Action:</strong> Create Jira issue, assign to on-call engineer, send Slack notification</p>
+                    <p><strong>Result:</strong> Immediate visibility and faster resolution</p>
+                </div>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">7. Reporting</div>
+                <p>Provides dashboards to measure delivery time, issue resolution rates, and workload distribution. Track team velocity and identify bottlenecks.</p>
+            </div>
+
+            <div class="use-case-box">
+                <div class="use-case-header">8. Integration with Data Tools</div>
+                <p>Works seamlessly with Jenkins for CI/CD, Airflow for orchestration, GitHub for version control, and data platforms for pipeline monitoring.</p>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Real-World Impact</h4>
+                <ul>
+                    <li>Reduce communication overhead with centralized issue tracking</li>
+                    <li>Improve accountability with clear issue ownership</li>
+                    <li>Accelerate incident response with automated workflows</li>
+                    <li>Enable better planning with historical velocity data</li>
+                    <li>Maintain audit trails for compliance and troubleshooting</li>
+                    <li>Visualize team workload and capacity</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4: Core Components -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🧩</div>
+                <h2>Jira Components Explained</h2>
+            </div>
+
+            <h3>1. Projects</h3>
+            <p>Represent an entire body of work — e.g., "Data Platform Migration Project." All related tasks, bugs, and stories are tracked within a project.</p>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>📁 Scrum Project</h4>
+                    <p>Sprint-based development</p>
+                    <p>Best for: Time-boxed iterations</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>📊 Kanban Project</h4>
+                    <p>Continuous flow</p>
+                    <p>Best for: Ongoing operations</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>🐛 Bug Tracking</h4>
+                    <p>Issue management</p>
+                    <p>Best for: Support teams</p>
+                </div>
+            </div>
+
+            <h3>2. Issues</h3>
+            <p>The basic unit in Jira — the foundation of all work tracking.</p>
+
+            <h4>Issue Types:</h4>
+            
+            <div class="issue-type-card">
+                <div class="issue-type-header">📖 Story</div>
+                <p>User-facing feature or capability</p>
+                <p><strong>Example:</strong> "Build customer churn prediction model"</p>
+            </div>
+
+            <div class="issue-type-card">
+                <div class="issue-type-header">🐛 Bug</div>
+                <p>Defect or error in existing functionality</p>
+                <p><strong>Example:</strong> "Fix missing values in ETL output"</p>
+            </div>
+
+            <div class="issue-type-card">
+                <div class="issue-type-header">✅ Task</div>
+                <p>Generic work item</p>
+                <p><strong>Example:</strong> "Create S3 data pipeline"</p>
+            </div>
+
+            <div class="issue-type-card">
+                <div class="issue-type-header">🎯 Epic</div>
+                <p>Large body of work spanning multiple sprints</p>
+                <p><strong>Example:</strong> "Migrate data warehouse to Snowflake"</p>
+            </div>
+
+            <h4>Issue Fields:</h4>
+            <ul>
+                <li><strong>Summary:</strong> Brief title of the issue</li>
+                <li><strong>Description:</strong> Detailed explanation with acceptance criteria</li>
+                <li><strong>Assignee:</strong> Person responsible for the work</li>
+                <li><strong>Reporter:</strong> Person who created the issue</li>
+                <li><strong>Priority:</strong> Critical, High, Medium, Low</li>
+                <li><strong>Status:</strong> Current workflow state</li>
+                <li><strong>Labels:</strong> Tags for categorization</li>
+                <li><strong>Components:</strong> Project subsystems</li>
+                <li><strong>Story Points:</strong> Effort estimation</li>
+                <li><strong>Due Date:</strong> Target completion date</li>
+            </ul>
+
+            <h3>3. Workflows</h3>
+            <p>Define how issues move through stages.</p>
+
+            <div class="workflow-box">
+                <div class="workflow-header">🔄 Data Engineering Workflow</div>
+                <div class="workflow-steps">
+                    <div class="workflow-step">Backlog</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">To Do</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">In Progress</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">Code Review</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">Testing</div>
+                    <div class="workflow-arrow">→</div>
+                    <div class="workflow-step">Done</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Custom Workflows</span>
+                </div>
+                <p>Jira allows you to create custom workflows tailored to your team's process. Add custom statuses, transitions, and conditions to match your exact requirements.</p>
+            </div>
+
+            <h3>4. Boards</h3>
+            <p>Visual representation of work in progress.</p>
+
+            <h4>Scrum Board:</h4>
+            <ul>
+                <li>Used for sprint planning and tracking</li>
+                <li>Shows issues in current sprint</li>
+                <li>Includes backlog management</li>
+                <li>Tracks burndown and velocity</li>
+            </ul>
+
+            <h4>Kanban Board:</h4>
+            <ul>
+                <li>Ideal for continuous work flow</li>
+                <li>Shows all active issues</li>
+                <li>WIP (Work In Progress) limits</li>
+                <li>Perfect for operations teams</li>
+            </ul>
+
+            <div class="best-practice">
+                <div class="best-practice-header">Board Usage</div>
+                <p><strong>Data Engineering Team:</strong> Use Kanban board for ongoing ETL maintenance and monitoring tasks</p>
+                <p><strong>Data Platform Team:</strong> Use Scrum board for sprint-based feature development</p>
+            </div>
+
+            <h3>5. Dashboards</h3>
+            <p>Customizable visual summary of project metrics.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">DASHBOARD GADGETS</span>
+                    <pre><span class="code-comment">Common dashboard components:</span>
+• Issues by Status
+• Issues by Assignee
+• Open Bugs
+• Sprint Burndown
+• Velocity Chart
+• Recently Created Issues
+• Activity Stream
+• Time Tracking
+• Custom Filters</pre>
+                </div>
+            </div>
+
+            <h3>6. Sprints & Backlogs</h3>
+            <p>Teams add prioritized stories to a sprint backlog, commit to completing them within a timeframe, and track via burndown charts.</p>
+
+            <div class="workflow-box">
+                <div class="workflow-header">🏃 Sprint Lifecycle</div>
+                <ol>
+                    <li><strong>Backlog Refinement:</strong> Prioritize and estimate issues</li>
+                    <li><strong>Sprint Planning:</strong> Commit to sprint goals</li>
+                    <li><strong>Sprint Execution:</strong> Daily work and standups</li>
+                    <li><strong>Sprint Review:</strong> Demo completed work</li>
+                    <li><strong>Sprint Retrospective:</strong> Process improvement</li>
+                </ol>
+            </div>
+
+            <h3>7. Automation Rules</h3>
+            <p>Automate repetitive tasks and workflows.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">AUTOMATION EXAMPLES</span>
+                    <pre><span class="code-comment">Example 1: Failed Pipeline Alert</span>
+Trigger: Webhook from Airflow
+Condition: DAG status = failed
+Actions:
+  • Create Jira issue with "Critical" priority
+  • Assign to on-call engineer
+  • Add label "production-incident"
+  • Send Slack notification to #data-alerts
+
+<span class="code-comment">Example 2: Auto-transition</span>
+Trigger: All subtasks completed
+Actions:
+  • Transition parent issue to "Done"
+  • Add comment "All subtasks completed"
+  • Notify assignee
+
+<span class="code-comment">Example 3: SLA Warning</span>
+Trigger: Issue open for 24 hours
+Condition: Priority = High
+Actions:
+  • Send email to manager
+  • Add comment with escalation</pre>
+                </div>
+            </div>
+
+            <h3>8. Integrations</h3>
+            <p>Connect Jira with your entire data stack.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Tools</th>
+                        <th>Use Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Version Control</strong></td>
+                        <td>GitHub, GitLab, Bitbucket</td>
+                        <td>Link commits to issues</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CI/CD</strong></td>
+                        <td>Jenkins, GitHub Actions</td>
+                        <td>Track build status</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Communication</strong></td>
+                        <td>Slack, Microsoft Teams</td>
+                        <td>Real-time notifications</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Documentation</strong></td>
+                        <td>Confluence</td>
+                        <td>Link specs and docs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Tools</strong></td>
+                        <td>Airflow, Databricks</td>
+                        <td>Pipeline monitoring</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 5: Getting Started -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Getting Started with Jira</h2>
+            </div>
+
+            <h3>Step 1: Setup Project</h3>
+            <ol>
+                <li>Sign up at <code>jira.atlassian.com</code> or install Jira Server</li>
+                <li>Click <strong>Create Project</strong></li>
+                <li>Choose template: <strong>Scrum</strong>, <strong>Kanban</strong>, or <strong>Bug Tracking</strong></li>
+                <li>Name your project (e.g., "Data Engineering")</li>
+                <li>Set project key (e.g., "DE")</li>
+            </ol>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Template Selection</span>
+                </div>
+                <ul>
+                    <li><strong>Scrum:</strong> For sprint-based development work</li>
+                    <li><strong>Kanban:</strong> For continuous operations and support</li>
+                    <li><strong>Bug Tracking:</strong> For issue management only</li>
+                </ul>
+            </div>
+
+            <h3>Step 2: Create Issues</h3>
+            <p>Each task, bug, or story is an "issue."</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">ISSUE CREATION</span>
+                    <pre><span class="code-comment">Creating an Issue:</span>
+1. Click "Create" button (+ icon)
+2. Select issue type: Story, Bug, Task, Epic
+3. Fill in details:
+   • Summary: "Fix ETL pipeline lag issue"
+   • Description: Detailed explanation
+   • Assignee: Select team member
+   • Priority: High
+   • Labels: etl, performance, production
+   • Story Points: 5
+   • Sprint: Sprint 12
+4. Click "Create"</pre>
+                </div>
+            </div>
+
+            <h3>Step 3: Organize Boards</h3>
+            
+            <h4>Scrum Board Setup:</h4>
+            <ol>
+                <li>Navigate to your project</li>
+                <li>Click <strong>Board</strong> → <strong>Configure</strong></li>
+                <li>Customize columns to match workflow</li>
+                <li>Set up quick filters</li>
+                <li>Configure swimlanes (by assignee, priority, etc.)</li>
+            </ol>
+
+            <h4>Kanban Board Setup:</h4>
+            <ol>
+                <li>Create Kanban board</li>
+                <li>Define columns: To Do, In Progress, Testing, Done</li>
+                <li>Set WIP (Work In Progress) limits</li>
+                <li>Configure column constraints</li>
+            </ol>
+
+            <h3>Step 4: Plan Sprints (Agile Teams)</h3>
+            
+            <div class="workflow-box">
+                <div class="workflow-header">📅 Sprint Planning Steps</div>
+                <ol>
+                    <li><strong>Create Sprint:</strong> Click "Create Sprint" in backlog</li>
+                    <li><strong>Add Issues:</strong> Drag issues from backlog to sprint</li>
+                    <li><strong>Estimate:</strong> Assign story points to each issue</li>
+                    <li><strong>Set Duration:</strong> Typically 2 weeks</li>
+                    <li><strong>Start Sprint:</strong> Click "Start Sprint" button</li>
+                    <li><strong>Track Progress:</strong> Monitor via board and burndown chart</li>
+                </ol>
+            </div>
+
+            <h3>Step 5: Workflows & Automation</h3>
+            
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">AUTOMATION RULE</span>
+                    <pre><span class="code-comment">Create Automation Rule:</span>
+1. Go to Project Settings → Automation
+2. Click "Create Rule"
+3. Set Trigger: "When: issue transitioned"
+4. Add Condition: "If: status equals 'Done'"
+5. Add Action: "Then: add comment"
+   Comment: "Task completed by {{assignee}}"
+6. Add Action: "Send notification to Slack"
+7. Save rule</pre>
+                </div>
+            </div>
+
+            <h3>Step 6: Integrate Tools</h3>
+
+            <h4>GitHub Integration:</h4>
+            <ol>
+                <li>Install GitHub for Jira app</li>
+                <li>Connect GitHub repository</li>
+                <li>Reference Jira issues in commits: <code>DE-123 Fix pipeline bug</code></li>
+                <li>View commits in Jira issue</li>
+            </ol>
+
+            <h4>Slack Integration:</h4>
+            <ol>
+                <li>Install Jira Cloud app in Slack</li>
+                <li>Connect Jira workspace</li>
+                <li>Configure channels for notifications</li>
+                <li>Use <code>/jira create</code> to create issues from Slack</li>
+            </ol>
+
+            <h3>Step 7: Monitor Progress</h3>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <h4>📊 Burndown Chart</h4>
+                    <p>Shows work remaining in sprint</p>
+                    <p>Track if on pace to complete</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>⚡ Velocity Report</h4>
+                    <p>Team's average story points per sprint</p>
+                    <p>Plan future capacity</p>
+                </div>
+                
+                <div class="component-card">
+                    <h4>📈 Cumulative Flow</h4>
+                    <p>Work distribution across statuses</p>
+                    <p>Identify bottlenecks</p>
+                </div>
+
+                <div class="component-card">
+                    <h4>🎯 Sprint Report</h4>
+                    <p>Completed vs committed work</p>
+                    <p>Review in retrospective</p>
+                </div>
+            </div>
+
+            <h3>Step 8: Reporting & Closure</h3>
+            
+            <div class="best-practice">
+                <div class="best-practice-header">Sprint Closure</div>
+                <ol>
+                    <li>Review all issues in sprint</li>
+                    <li>Complete or move unfinished issues</li>
+                    <li>Generate sprint report</li>
+                    <li>Hold retrospective meeting</li>
+                    <li>Close sprint</li>
+                    <li>Plan next sprint</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Section 6: Real-World Example -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Real-World Example: Data Pipeline Project</h2>
+            </div>
+
+            <p>Complete Jira project setup for a data engineering team building a new ETL pipeline.</p>
+
+            <h3>Project Setup</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PROJECT DETAILS</span>
+                    <pre><span class="code-comment">Project Configuration:</span>
+Project Name: Customer Analytics Pipeline
+Project Key: CAP
+Project Type: Scrum
+Project Lead: Senior Data Engineer
+Team Members: 5 data engineers, 2 analysts
+Sprint Duration: 2 weeks
+Initial Velocity: 40 story points</pre>
+                </div>
+            </div>
+
+            <h3>Epic Structure</h3>
+            <div class="issue-type-card">
+                <div class="issue-type-header">🎯 Epic 1: Data Ingestion</div>
+                <p>Build pipelines to ingest customer data from multiple sources</p>
+                <ul>
+                    <li><strong>CAP-1:</strong> Set up PostgreSQL connector</li>
+                    <li><strong>CAP-2:</strong> Build Salesforce API integration</li>
+                    <li><strong>CAP-3:</strong> Create S3 file ingestion pipeline</li>
+                    <li><strong>CAP-4:</strong> Implement CDC for real-time updates</li>
+                </ul>
+            </div>
+
+            <div class="issue-type-card">
+                <div class="issue-type-header">🎯 Epic 2: Data Transformation</div>
+                <p>Transform and clean ingested data for analytics</p>
+                <ul>
+                    <li><strong>CAP-5:</strong> Build customer deduplication logic</li>
+                    <li><strong>CAP-6:</strong> Create data quality checks</li>
+                    <li><strong>CAP-7:</strong> Implement feature engineering</li>
+                    <li><strong>CAP-8:</strong> Build aggregation tables</li>
+                </ul>
+            </div>
+
+            <div class="issue-type-card">
+                <div class="issue-type-header">🎯 Epic 3: Data Loading</div>
+                <p>Load transformed data into Snowflake warehouse</p>
+                <ul>
+                    <li><strong>CAP-9:</strong> Set up Snowflake connection</li>
+                    <li><strong>CAP-10:</strong> Create staging tables</li>
+                    <li><strong>CAP-11:</strong> Build incremental load process</li>
+                    <li><strong>CAP-12:</strong> Implement SCD Type 2 logic</li>
+                </ul>
+            </div>
+
+            <h3>Sample Issue Detail</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">ISSUE: CAP-2</span>
+                    <pre><span class="code-comment">Issue Details:</span>
+<strong>Summary:</strong> Build Salesforce API integration for customer data
+
+<strong>Type:</strong> Story
+
+<strong>Priority:</strong> High
+
+<strong>Assignee:</strong> John Doe (Data Engineer)
+
+<strong>Sprint:</strong> Sprint 1
+
+<strong>Story Points:</strong> 8
+
+<strong>Labels:</strong> api, salesforce, ingestion, sprint-1
+
+<strong>Description:</strong>
+As a data engineer, I need to integrate with Salesforce API 
+to extract customer data daily.
+
+<strong>Acceptance Criteria:</strong>
+✓ Connect to Salesforce REST API using OAuth
+✓ Extract Account, Contact, and Opportunity objects
+✓ Handle pagination for large datasets
+✓ Implement incremental extraction using modified date
+✓ Store raw data in S3 in Parquet format
+✓ Add logging and error handling
+✓ Create unit tests for API connector
+✓ Document API credentials in Confluence
+
+<strong>Technical Notes:</strong>
+- Use simple-salesforce Python library
+- Store credentials in AWS Secrets Manager
+- Schedule daily run at 2 AM via Airflow
+- Partition data by date in S3
+
+<strong>Linked Issues:</strong>
+- Blocks: CAP-5 (Customer deduplication)
+- Related to: CAP-1 (Database connector)
+
+<strong>Attachments:</strong>
+- salesforce_api_spec.pdf
+- data_model_diagram.png</pre>
+                </div>
+            </div>
+
+            <h3>Sprint Board View</h3>
+            <div class="workflow-box">
+                <div class="workflow-header">📊 Sprint 1 Board</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>To Do</th>
+                            <th>In Progress</th>
+                            <th>Code Review</th>
+                            <th>Testing</th>
+                            <th>Done</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CAP-3<br>CAP-4</td>
+                            <td>CAP-2<br>CAP-5</td>
+                            <td>CAP-1</td>
+                            <td>CAP-6</td>
+                            <td>CAP-7<br>CAP-8</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Automation Rules</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">AUTOMATION</span>
+                    <pre><span class="code-comment">Rule 1: Pipeline Failure Alert</span>
+Trigger: Webhook from Airflow
+When: DAG "customer_analytics" fails
+Then:
+  • Create bug issue with title "Pipeline failed: {{dag_name}}"
+  • Set priority to "Critical"
+  • Assign to on-call engineer
+  • Add label "production-incident"
+  • Comment with error details
+  • Notify #data-alerts Slack channel
+
+<span class="code-comment">Rule 2: Code Review Reminder</span>
+Trigger: Issue in "Code Review" for 24 hours
+Then:
+  • Add comment "@reviewer Please review this PR"
+  • Send email to reviewer
+  • Add label "review-overdue"
+
+<span class="code-comment">Rule 3: Sprint Completion</span>
+Trigger: All issues in sprint marked "Done"
+Then:
+  • Post message to Slack: "🎉 Sprint {{sprint.name}} completed!"
+  • Create sprint report
+  • Notify project manager</pre>
+                </div>
+            </div>
+
+            <h3>Integration Examples</h3>
+
+            <h4>GitHub Commits Linked to Issues:</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">GIT COMMIT</span>
+                    <pre>git commit -m "CAP-2: Add Salesforce API authentication
+
+- Implement OAuth 2.0 flow
+- Store tokens in AWS Secrets Manager
+- Add retry logic for API failures
+
+Resolves CAP-2"</pre>
+                </div>
+            </div>
+
+            <h4>Airflow DAG Integration:</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>from airflow.providers.atlassian.jira.operators.jira import JiraOperator
+
+<span class="code-comment"># Create Jira issue on DAG failure</span>
+create_jira_issue = JiraOperator(
+    task_id='create_jira_issue',
+    jira_conn_id='jira_default',
+    jira_method='create_issue',
+    jira_method_args={
+        'fields': {
+            'project': {'key': 'CAP'},
+            'summary': f'DAG {dag.dag_id} failed',
+            'description': f'Check logs at {context["task_instance"].log_url}',
+            'issuetype': {'name': 'Bug'},
+            'priority': {'name': 'Critical'}
+        }
+    },
+    trigger_rule='one_failed'
+)</pre>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Project Success Metrics</span>
+                </div>
+                <ul>
+                    <li><strong>Velocity:</strong> Maintained 40 story points per sprint</li>
+                    <li><strong>Completion Rate:</strong> 95% of committed work finished</li>
+                    <li><strong>Bug Resolution:</strong> Average 4 hours for critical issues</li>
+                    <li><strong>Team Satisfaction:</strong> Improved visibility and collaboration</li>
+                    <li><strong>Delivery Time:</strong> Reduced feature delivery by 30%</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Best Practices -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💎</div>
+                <h2>Jira Best Practices</h2>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">1. Write Clear Issue Descriptions</div>
+                <p>Include context, acceptance criteria, technical notes, and links to related documentation. Make it easy for anyone to understand the work.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">2. Use Consistent Labels</div>
+                <p>Create a standard set of labels for your team: <code>bug</code>, <code>enhancement</code>, <code>production</code>, <code>technical-debt</code>. Makes filtering and reporting easier.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">3. Keep Issues Atomic</div>
+                <p>Each issue should represent one cohesive piece of work. If it's too large, break it into smaller subtasks.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">4. Estimate Story Points</div>
+                <p>Use story points (Fibonacci: 1, 2, 3, 5, 8, 13) to estimate complexity, not hours. Helps with sprint planning and velocity tracking.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">5. Groom Backlog Regularly</div>
+                <p>Schedule weekly backlog refinement sessions. Prioritize, estimate, and clarify upcoming work before sprint planning.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">6. Link Related Issues</div>
+                <p>Use relationships: Blocks, Blocked by, Related to, Duplicates. Provides context and dependency tracking.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">7. Automate Repetitive Tasks</div>
+                <p>Use automation rules for notifications, transitions, and assignments. Reduces manual work and ensures consistency.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">8. Update Issues Daily</div>
+                <p>Keep issue status current. Add comments on progress, blockers, or questions. Maintains team visibility.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">9. Use Components for Organization</div>
+                <p>Create components for different parts of your system: <code>ingestion</code>, <code>transformation</code>, <code>loading</code>. Helps with filtering and ownership.</p>
+            </div>
+
+            <div class="best-practice">
+                <div class="best-practice-header">10. Close Issues Properly</div>
+                <p>Add resolution comments, link to PRs or documentation, and ensure acceptance criteria are met before closing.</p>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Anti-Patterns to Avoid</span>
+                </div>
+                <ul>
+                    <li><strong>Vague descriptions:</strong> "Fix bug" tells nothing about the issue</li>
+                    <li><strong>Never updating status:</strong> Board becomes inaccurate</li>
+                    <li><strong>Too many open issues:</strong> Reduces focus and clarity</li>
+                    <li><strong>Ignoring blockers:</strong> Creates dependencies and delays</li>
+                    <li><strong>No acceptance criteria:</strong> Unclear definition of done</li>
+                    <li><strong>Overusing custom fields:</strong> Adds complexity without value</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 8: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Summary & Key Takeaways</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 Jira Essentials</h4>
+                <ul>
+                    <li><strong>Project Management:</strong> Track tasks, bugs, and stories in one place</li>
+                    <li><strong>Agile Support:</strong> Built for Scrum and Kanban methodologies</li>
+                    <li><strong>Visual Boards:</strong> Kanban and Scrum boards for workflow visualization</li>
+                    <li><strong>Rich Integrations:</strong> GitHub, Jenkins, Slack, Confluence, Airflow</li>
+                    <li><strong>Automation:</strong> Reduce manual work with powerful automation rules</li>
+                    <li><strong>Reporting:</strong> Burndown, velocity, and custom dashboards</li>
+                    <li><strong>Collaboration:</strong> Comments, mentions, and real-time updates</li>
+                </ul>
+            </div>
+
+            <h3>Quick Reference</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Purpose</th>
+                        <th>Key Feature</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Projects</strong></td>
+                        <td>Container for work</td>
+                        <td>Organize by team or initiative</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Issues</strong></td>
+                        <td>Unit of work</td>
+                        <td>Stories, bugs, tasks, epics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Workflows</strong></td>
+                        <td>Process definition</td>
+                        <td>Customizable transitions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Boards</strong></td>
+                        <td>Visual management</td>
+                        <td>Scrum or Kanban</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sprints</strong></td>
+                        <td>Time-boxed iteration</td>
+                        <td>2-week cycles typical</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dashboards</strong></td>
+                        <td>Metrics visualization</td>
+                        <td>Customizable gadgets</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Automation</strong></td>
+                        <td>Reduce manual work</td>
+                        <td>Triggers and actions</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Jira for Data Engineers</h3>
+            <div class="component-grid">
+                <div class="component-card" style="border-color: var(--accent-green);">
+                    <h4 style="color: var(--accent-green);">✅ Perfect For</h4>
+                    <p>• ETL pipeline task tracking</p>
+                    <p>• Sprint planning for data projects</p>
+                    <p>• Data quality incident management</p>
+                    <p>• Cross-team collaboration</p>
+                    <p>• Pipeline failure tracking</p>
+                    <p>• Backlog prioritization</p>
+                </div>
+                
+                <div class="component-card" style="border-color: var(--accent-blue);">
+                    <h4 style="color: var(--accent-blue);">🔗 Integrations</h4>
+                    <p>• GitHub (version control)</p>
+                    <p>• Jenkins (CI/CD)</p>
+                    <p>• Airflow (orchestration)</p>
+                    <p>• Slack (communication)</p>
+                    <p>• Confluence (docs)</p>
+                    <p>• Databricks (compute)</p>
+                </div>
+            </div>
+
+            <h3>When to Use Jira vs Other Tools</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Best For</th>
+                        <th>Use With Jira?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Jira</strong></td>
+                        <td>Project management, issue tracking</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Confluence</strong></td>
+                        <td>Documentation and knowledge base</td>
+                        <td>✅ Yes (link docs to issues)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Airflow</strong></td>
+                        <td>Data pipeline orchestration</td>
+                        <td>✅ Yes (track pipeline issues)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GitHub</strong></td>
+                        <td>Version control and code review</td>
+                        <td>✅ Yes (link commits to issues)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Slack</strong></td>
+                        <td>Real-time team communication</td>
+                        <td>✅ Yes (notifications and updates)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Jira for Team Success!</span>
+                </div>
+                <p>Jira is the industry standard for Agile project management. Master its features, follow best practices, and you'll improve team collaboration, visibility, and delivery speed across data engineering projects.</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Track, collaborate, and deliver with Jira! 📋🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">📋</div>
+        <p><strong>Jira for Data Engineers — Complete Classroom Notes</strong></p>
+        <p>Project Management & Issue Tracking Mastery</p>
+        <p style="margin-top: 1rem;">© 2025 Data Engineering Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

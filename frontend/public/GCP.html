@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCP for Data Engineers - Classroom Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Google Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 50%, #FBBC04 75%, #EA4335 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: pulse 15s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gcp-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            font-size: 64px;
+            font-weight: bold;
+            display: flex;
+            gap: 3px;
+        }
+
+        .logo-letter {
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .letter-g { color: #4285F4; }
+        .letter-c { color: #EA4335; }
+        .letter-p { color: #FBBC04; }
+
+        .gcp-tagline {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-top: 5px;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            font-size: 32px;
+            color: #202124;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #4285F4;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-number {
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(66, 133, 244, 0.3);
+        }
+
+        .section-content {
+            color: #3c4043;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #E8F0FE 0%, #D2E3FC 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #4285F4;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .service-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #4285F4;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-top-color: #34A853;
+        }
+
+        .service-card h3 {
+            color: #202124;
+            margin-bottom: 15px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .service-card p {
+            color: #5f6368;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .service-card .use-case {
+            background: #E8F5E9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            border-left: 3px solid #34A853;
+        }
+
+        .service-card .example {
+            background: #FFF3E0;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            border-left: 3px solid #FBBC04;
+        }
+
+        .architecture-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .architecture-diagram pre {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #202124;
+            text-align: center;
+        }
+
+        .key-points {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .key-points h3 {
+            color: #1B5E20;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .key-points ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .key-points li {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 12px;
+            color: #34A853;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .steps-container {
+            counter-reset: step-counter;
+        }
+
+        .step {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-left: 80px;
+            counter-increment: step-counter;
+        }
+
+        .step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .step h4 {
+            color: #202124;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .step p {
+            color: #5f6368;
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #202124 0%, #3c4043 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 5px 5px 5px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .badge-blue { background: linear-gradient(135deg, #4285F4 0%, #1967D2 100%); }
+        .badge-green { background: linear-gradient(135deg, #34A853 0%, #137333 100%); }
+        .badge-yellow { background: linear-gradient(135deg, #FBBC04 0%, #F29900 100%); }
+        .badge-red { background: linear-gradient(135deg, #EA4335 0%, #C5221F 100%); }
+
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e8eaed;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .section:hover {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 28px;
+            }
+            .logo-icon {
+                font-size: 48px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <div class="gcp-logo">
+                    <div class="logo-icon">
+                        <span class="logo-letter letter-g">G</span>
+                        <span class="logo-letter letter-c">C</span>
+                        <span class="logo-letter letter-p">P</span>
+                    </div>
+                </div>
+                <div class="gcp-tagline">GOOGLE CLOUD PLATFORM</div>
+            </div>
+            <h1>GCP for Data Engineers</h1>
+            <p>Comprehensive Classroom Notes</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            
+            <!-- Section 1: Working Purpose of GCP -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">1</span>
+                    <span>Working Purpose of GCP</span>
+                </div>
+                <div class="section-content">
+                    <p><strong>Google Cloud Platform (GCP)</strong> is a comprehensive suite of cloud computing services that leverages the same robust infrastructure powering Google's flagship products like Search, YouTube, and Gmail. This ensures exceptional reliability, scalability, and performance for enterprise workloads.</p>
+                    
+                    <div class="highlight-box">
+                        <h3>🎯 Core Mission</h3>
+                        <p>GCP enables organizations to build, deploy, and scale applications and data pipelines without the burden of maintaining on-premises infrastructure. It operates on a <strong>pay-as-you-go</strong> pricing model, ensuring cost efficiency and flexibility.</p>
+                    </div>
+
+                    <h3 style="margin-top: 25px; color: #202124;">Infrastructure Foundation</h3>
+                    <p>GCP is built on virtualized data centers distributed across global <strong>Regions</strong> and <strong>Zones</strong>, providing:</p>
+                    
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>High Availability:</strong> Multi-zone deployments ensure uptime</li>
+                        <li><strong>Low Latency:</strong> Global network with edge locations</li>
+                        <li><strong>Disaster Recovery:</strong> Geographic redundancy for data protection</li>
+                        <li><strong>Compliance:</strong> Regional data residency options</li>
+                    </ul>
+
+                    <h3 style="margin-top: 25px; color: #202124;">Service Categories</h3>
+                    <div class="key-points">
+                        <h3>GCP Service Ecosystem</h3>
+                        <ul>
+                            <li><strong>Compute:</strong> Virtual machines (Compute Engine), Kubernetes (GKE), serverless containers (Cloud Run)</li>
+                            <li><strong>Storage:</strong> Object storage (Cloud Storage), file storage (Filestore)</li>
+                            <li><strong>Databases:</strong> NoSQL (Bigtable, Firestore), relational (Cloud SQL, Spanner)</li>
+                            <li><strong>Networking:</strong> Virtual Private Cloud (VPC), Load Balancers, CDN</li>
+                            <li><strong>Data Analytics:</strong> BigQuery, Dataflow, Dataproc for processing and analysis</li>
+                            <li><strong>AI/ML:</strong> Vertex AI for end-to-end machine learning workflows</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin-top: 25px; color: #202124;">Architectural Philosophy</h3>
+                    <p>GCP's architecture emphasizes three key principles:</p>
+
+                    <div class="service-grid" style="margin-top: 20px;">
+                        <div class="service-card">
+                            <h3>🤖 Automation</h3>
+                            <p>Auto-scaling, managed services, and serverless computing reduce operational overhead and enable teams to focus on innovation rather than infrastructure management.</p>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>🧠 AI/ML Integration</h3>
+                            <p>Native integration of machine learning tools throughout the platform, from data ingestion to model deployment, powered by Google's AI expertise.</p>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>📊 Data-Driven Decision Making</h3>
+                            <p>Powerful analytics and visualization tools enable organizations to extract insights from data at any scale, supporting business intelligence and strategic planning.</p>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 25px;">
+                        <h3>🔒 Security Model</h3>
+                        <p>Security is deeply integrated into every layer of GCP:</p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Identity Management:</strong> Fine-grained access control with Cloud IAM</li>
+                            <li><strong>Encryption:</strong> Data encrypted at rest and in transit by default</li>
+                            <li><strong>Network Security:</strong> VPC Service Controls and firewall rules</li>
+                            <li><strong>Compliance:</strong> SOC 2, ISO 27001, HIPAA, GDPR certifications</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="margin-top: 25px; color: #202124;">Modern Architecture Paradigms</h3>
+                    <p>GCP promotes <strong>serverless</strong> and <strong>container-based architectures</strong> through services like Cloud Run and Kubernetes Engine. This approach allows developers to:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Focus on business logic instead of infrastructure management</li>
+                        <li>Achieve automatic scaling based on demand</li>
+                        <li>Reduce operational costs through efficient resource utilization</li>
+                        <li>Deploy applications faster with standardized container workflows</li>
+                    </ul>
+
+                    <p style="margin-top: 20px;"><strong>Overall Impact:</strong> GCP empowers organizations to modernize their workloads, optimize costs, and deliver data-driven innovations efficiently using Google's advanced cloud ecosystem and decades of experience running planet-scale services.</p>
+                </div>
+            </div>
+
+            <!-- Section 2: How GCP Helps Data Engineers -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">2</span>
+                    <span>How GCP Empowers Data Engineers</span>
+                </div>
+                <div class="section-content">
+                    <p>Google Cloud Platform provides a complete, integrated ecosystem specifically designed for modern data engineering workflows. Let's explore each capability that makes GCP essential for data professionals:</p>
+
+                    <div class="service-grid">
+                        <div class="service-card">
+                            <h3><span class="service-icon">💾</span>Data Storage</h3>
+                            <p>Centralized, scalable storage solutions for all data types:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Cloud Storage:</strong> Object storage for data lakes</li>
+                                <li><strong>BigQuery:</strong> Serverless data warehouse</li>
+                                <li><strong>Cloud SQL:</strong> Managed relational databases</li>
+                                <li><strong>Bigtable:</strong> NoSQL for time-series data</li>
+                                <li><strong>Spanner:</strong> Globally distributed database</li>
+                            </ul>
+                            <div class="highlight-box" style="margin-top: 15px; border-left-color: #4285F4;">
+                                <strong>Key Advantage:</strong> Seamless integration between storage and analytics services
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3><span class="service-icon">🔄</span>Data Integration</h3>
+                            <p>Real-time and batch data integration capabilities:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Dataflow:</strong> Unified stream and batch processing</li>
+                                <li><strong>Pub/Sub:</strong> Real-time messaging and event streaming</li>
+                                <li><strong>Data Fusion:</strong> Visual data pipeline builder</li>
+                            </ul>
+                            <div class="highlight-box" style="margin-top: 15px; border-left-color: #34A853;">
+                                <strong>Key Advantage:</strong> Built on Apache Beam for portable data pipelines
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3><span class="service-icon">⚙️</span>Big Data Processing</h3>
+                            <p>Distributed processing at massive scale:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Dataproc:</strong> Managed Spark and Hadoop clusters</li>
+                                <li><strong>Dataflow:</strong> Serverless parallel data processing</li>
+                                <li><strong>BigQuery:</strong> SQL-based processing of petabytes</li>
+                            </ul>
+                            <div class="highlight-box" style="margin-top: 15px; border-left-color: #FBBC04;">
+                                <strong>Key Advantage:</strong> Auto-scaling eliminates capacity planning
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3><span class="service-icon">🏢</span>Data Warehousing</h3>
+                            <p>Enterprise-grade analytics warehouse:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>BigQuery:</strong> Serverless, scalable data warehouse</li>
+                                <li>Separates storage and compute for cost optimization</li>
+                                <li>Sub-second query performance on petabyte datasets</li>
+                                <li>Built-in machine learning (BQML)</li>
+                            </ul>
+                            <div class="highlight-box" style="margin-top: 15px; border-left-color: #EA4335;">
+                                <strong>Key Advantage:</strong> No cluster management, pay only for queries run
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3><span class="service-icon">🤖</span>Machine Learning</h3>
+                            <p>End-to-end ML workflow integration:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Vertex AI:</strong> Unified ML platform</li>
+                                <li><strong>AutoML:</strong> No-code model training</li>
+                                <li><strong>BigQuery ML:</strong> SQL-based ML model creation</li>
+                                <li><strong>TensorFlow:</strong> Native support for deep learning</li>
+                            </ul>
+                        </div>
+
+                        <div class="service-card">
+                            <h3><span class="service-icon">🎼</span>Orchestration</h3>
+                            <p>Workflow automation and scheduling:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Cloud Composer:</strong> Managed Apache Airflow</li>
+                                <li>DAG-based workflow definition</li>
+                                <li>Complex dependency management</li>
+                                <li>Monitoring and alerting built-in</li>
+                            </ul>
+                        </div>
+
+                        <div class="service-card">
+                            <h3><span class="service-icon">🔒</span>Security</h3>
+                            <p>Enterprise-grade security controls:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Cloud IAM:</strong> Fine-grained access control</li>
+                                <li><strong>Cloud Audit Logs:</strong> Complete activity tracking</li>
+                                <li><strong>VPC Service Controls:</strong> Data perimeter security</li>
+                                <li><strong>Encryption:</strong> Default encryption everywhere</li>
+                            </ul>
+                        </div>
+
+                        <div class="service-card">
+                            <h3><span class="service-icon">📈</span>Scalability</h3>
+                            <p>Elastic resource management:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Auto-scaling for compute resources</li>
+                                <li>Serverless services scale automatically</li>
+                                <li>Cost optimization through efficient scaling</li>
+                                <li>Handle workloads from gigabytes to petabytes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 30px;">
+                        <h3>🌟 Complete Data Platform</h3>
+                        <p><strong>End-to-End Data Lifecycle Coverage:</strong></p>
+                        <p style="margin-top: 10px; font-size: 18px; text-align: center;">
+                            <span class="category-badge badge-blue">Ingestion</span> →
+                            <span class="category-badge badge-green">Storage</span> →
+                            <span class="category-badge badge-yellow">Processing</span> →
+                            <span class="category-badge badge-red">Analysis</span> →
+                            <span class="category-badge badge-blue">Visualization</span> →
+                            <span class="category-badge badge-green">ML/AI</span>
+                        </p>
+                        <p style="margin-top: 15px;">GCP provides an integrated ecosystem that supports every stage of the data engineering workflow, from raw data ingestion through advanced machine learning model deployment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Architecture of GCP -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">3</span>
+                    <span>GCP Architecture Overview</span>
+                </div>
+                <div class="section-content">
+                    <p>Understanding GCP's architecture is fundamental for data engineers. The platform follows a layered, service-oriented design that ensures security, scalability, and seamless integration across services.</p>
+
+                    <div class="architecture-diagram">
+                        <h3 style="text-align: center; color: #202124; margin-bottom: 20px;">GCP Service Architecture</h3>
+                        <pre>
+┌────────────────────────────────────────────────────────────┐
+│              GCP Console / SDK / APIs                       │
+│     (Web UI, gcloud CLI, REST APIs, Client Libraries)      │
+└───────────────────────┬────────────────────────────────────┘
+                        │
+                        ▼
+┌────────────────────────────────────────────────────────────┐
+│   Identity & Access Management (IAM)                       │
+│   Billing | Security | Monitoring | Logging                │
+└────┬──────────┬───────────────┬──────────────┬────────────┘
+     │          │               │              │
+┌────▼─────┐ ┌─▼──────────┐ ┌──▼───────────┐ ┌▼───────────┐
+│ COMPUTE  │ │  STORAGE   │ │  DATABASES   │ │ NETWORKING │
+├──────────┤ ├────────────┤ ├──────────────┤ ├────────────┤
+│ • Compute│ │ • Cloud    │ │ • Cloud SQL  │ │ • VPC      │
+│   Engine │ │   Storage  │ │ • Spanner    │ │ • Load     │
+│ • GKE    │ │ • Filestore│ │ • Bigtable   │ │   Balancer │
+│ • Cloud  │ │ • Persist. │ │ • Firestore  │ │ • Cloud    │
+│   Run    │ │   Disk     │ │              │ │   CDN      │
+└────┬─────┘ └─┬──────────┘ └──┬───────────┘ └┬───────────┘
+     │         │               │              │
+     └─────────┴───────┬───────┴──────────────┘
+                       │
+              ┌────────▼────────┐
+              │ DATA SERVICES   │
+              ├─────────────────┤
+              │  ┌──────────┐   │
+              │  │ Pub/Sub  │   │
+              │  └────┬─────┘   │
+              │       │         │
+              │  ┌────▼─────┐   │
+              │  │ Dataflow │   │
+              │  └────┬─────┘   │
+              │       │         │
+              │  ┌────▼──────┐  │
+              │  │ Dataproc  │  │
+              │  └────┬──────┘  │
+              │       │         │
+              │  ┌────▼──────┐  │
+              │  │ BigQuery  │  │
+              │  └────┬──────┘  │
+              └───────┼─────────┘
+                      │
+              ┌───────▼────────┐
+              │   ANALYTICS    │
+              ├────────────────┤
+              │ • Looker       │
+              │ • Data Studio  │
+              └───────┬────────┘
+                      │
+              ┌───────▼────────┐
+              │ ML/AI PLATFORM │
+              ├────────────────┤
+              │ • Vertex AI    │
+              │ • AutoML       │
+              │ • AI APIs      │
+              └────────────────┘
+                        </pre>
+                    </div>
+
+                    <h3 style="margin-top: 30px; color: #202124;">Architectural Layers Explained</h3>
+
+                    <div class="key-points">
+                        <h3>1. Management & Access Layer</h3>
+                        <ul>
+                            <li><strong>GCP Console:</strong> Web-based graphical interface for resource management</li>
+                            <li><strong>gcloud CLI:</strong> Command-line tool for automation and scripting</li>
+                            <li><strong>Cloud SDK:</strong> Language-specific libraries (Python, Java, Node.js, Go)</li>
+                            <li><strong>REST APIs:</strong> Direct API access for custom integrations</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-points">
+                        <h3>2. Security & Governance Layer</h3>
+                        <ul>
+                            <li><strong>Cloud IAM:</strong> Centralized identity and access management with role-based permissions</li>
+                            <li><strong>Billing:</strong> Cost management, budgets, and billing alerts</li>
+                            <li><strong>Cloud Monitoring:</strong> Performance metrics and dashboards</li>
+                            <li><strong>Cloud Logging:</strong> Centralized log collection and analysis</li>
+                            <li><strong>Security Command Center:</strong> Threat detection and security posture management</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-points">
+                        <h3>3. Core Infrastructure Layer</h3>
+                        <ul>
+                            <li><strong>Compute:</strong> Virtual machines, containers, and serverless computing options</li>
+                            <li><strong>Storage:</strong> Object, block, and file storage with global accessibility</li>
+                            <li><strong>Databases:</strong> Managed relational and NoSQL databases for various use cases</li>
+                            <li><strong>Networking:</strong> Software-defined networking with global reach and edge computing</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-points">
+                        <h3>4. Data Engineering Layer</h3>
+                        <ul>
+                            <li><strong>Ingestion:</strong> Pub/Sub for real-time event streaming and message queuing</li>
+                            <li><strong>Processing:</strong> Dataflow for unified batch/stream processing, Dataproc for Spark/Hadoop</li>
+                            <li><strong>Warehousing:</strong> BigQuery for serverless analytics at scale</li>
+                            <li><strong>Orchestration:</strong> Cloud Composer for workflow automation</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-points">
+                        <h3>5. Analytics & Intelligence Layer</h3>
+                        <ul>
+                            <li><strong>Visualization:</strong> Looker and Data Studio for business intelligence</li>
+                            <li><strong>Machine Learning:</strong> Vertex AI for end-to-end ML workflows</li>
+                            <li><strong>AI Services:</strong> Pre-trained models for vision, language, and speech</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 25px;">
+                        <h3>🏗️ Design Principles</h3>
+                        <p><strong>Separation of Concerns:</strong> Each layer has distinct responsibilities with clear interfaces</p>
+                        <p><strong>Service Integration:</strong> Services are designed to work seamlessly together</p>
+                        <p><strong>Global Scale:</strong> Built on Google's planet-scale infrastructure</p>
+                        <p><strong>Serverless-First:</strong> Emphasis on managed services that eliminate infrastructure concerns</p>
+                        <p><strong>Security by Default:</strong> Security controls embedded at every architectural layer</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: How to Use GCP -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">4</span>
+                    <span>Getting Started with GCP</span>
+                </div>
+                <div class="section-content">
+                    <p>This comprehensive guide will walk you through the essential steps to effectively leverage GCP for data engineering projects, from initial setup to production deployment.</p>
+
+                    <div class="steps-container">
+                        <div class="step">
+                            <h4>Sign Up & Initial Setup</h4>
+                            <p>Visit <strong>cloud.google.com</strong> and create your GCP account. New users receive $300 in free credits to explore services. You can interact with GCP through multiple interfaces:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Cloud Console:</strong> Web-based graphical interface for visual management</li>
+                                <li><strong>gcloud CLI:</strong> Command-line tool for automation and scripting</li>
+                                <li><strong>Cloud SDK:</strong> Programming language libraries for application integration</li>
+                                <li><strong>Cloud Shell:</strong> Browser-based terminal with pre-installed tools</li>
+                            </ul>
+                            <div class="highlight-box" style="margin-top: 15px;">
+                                <strong>💡 Pro Tip:</strong> Enable billing alerts immediately to monitor spending
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <h4>Create a Project</h4>
+                            <p>In GCP, <strong>all resources exist within a project</strong>. Projects provide organizational boundaries and enable resource isolation. Key tasks:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Create a project with a descriptive name (e.g., "data-engineering-prod")</li>
+                                <li>Assign a billing account to enable paid services</li>
+                                <li>Enable required APIs (BigQuery, Compute Engine, Cloud Storage, etc.)</li>
+                                <li>Set up project-level metadata and labels for organization</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>Best Practice:</strong> Use separate projects for development, staging, and production environments.</p>
+                        </div>
+
+                        <div class="step">
+                            <h4>Configure IAM & Security</h4>
+                            <p>Define roles and permissions to control access securely using the principle of least privilege:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Predefined Roles:</strong> Use GCP's built-in roles (BigQuery Data Editor, Dataflow Developer)</li>
+                                <li><strong>Custom Roles:</strong> Create fine-grained roles for specific needs</li>
+                                <li><strong>Service Accounts:</strong> Create identity for applications and services</li>
+                                <li><strong>Workload Identity:</strong> Securely access GCP from Kubernetes workloads</li>
+                            </ul>
+                            <div class="example">
+                                <strong>Example:</strong> Grant data engineers the "BigQuery Data Editor" role while giving analysts only "BigQuery Data Viewer" for read-only access.
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <h4>Deploy Core Resources</h4>
+                            <p>Set up your foundational infrastructure components:</p>
+                            
+                            <div class="service-grid" style="margin-top: 15px;">
+                                <div class="service-card">
+                                    <h3>💻 Compute</h3>
+                                    <p>Launch VMs via Compute Engine for custom workloads, or deploy containerized apps on GKE or Cloud Run for modern architectures.</p>
+                                </div>
+                                
+                                <div class="service-card">
+                                    <h3>💾 Storage</h3>
+                                    <p>Create Cloud Storage buckets organized by data lifecycle: raw, processed, archived. Use appropriate storage classes for cost optimization.</p>
+                                </div>
+                                
+                                <div class="service-card">
+                                    <h3>🗄️ Database</h3>
+                                    <p>Deploy BigQuery datasets for analytics, Cloud SQL for transactional data, or Bigtable for high-throughput NoSQL workloads.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <h4>Build Data Pipelines</h4>
+                            <p>Construct automated, scalable data workflows using GCP's integrated services:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Ingestion:</strong> Use Pub/Sub to capture real-time events from applications, IoT devices, or streaming sources</li>
+                                <li><strong>Processing:</strong> Deploy Dataflow pipelines for ETL transformations, data cleansing, and enrichment</li>
+                                <li><strong>Storage:</strong> Land processed data in Cloud Storage (data lake) or BigQuery (data warehouse)</li>
+                                <li><strong>Orchestration:</strong> Use Cloud Composer to schedule and coordinate pipeline dependencies</li>
+                            </ul>
+                            <div class="example">
+                                <strong>Pipeline Example:</strong> IoT sensors → Pub/Sub → Dataflow (validation & transformation) → BigQuery (analytics) → Looker (dashboards)
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <h4>Implement Orchestration</h4>
+                            <p>Manage complex ETL workflows using <strong>Cloud Composer</strong> (managed Apache Airflow):</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Define DAGs (Directed Acyclic Graphs) for workflow logic</li>
+                                <li>Schedule jobs with cron expressions or event triggers</li>
+                                <li>Handle dependencies between tasks automatically</li>
+                                <li>Monitor execution status and receive failure alerts</li>
+                                <li>Integrate with all GCP services using built-in operators</li>
+                            </ul>
+                            <div class="example">
+                                <strong>Example:</strong> Schedule nightly ETL: Extract from Cloud SQL → Transform with Dataflow → Load to BigQuery → Send completion notification
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <h4>Enable Machine Learning</h4>
+                            <p>Train and deploy ML models using processed data:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Vertex AI:</strong> Complete ML platform for custom model development</li>
+                                <li><strong>BigQuery ML:</strong> Create models using SQL directly in BigQuery</li>
+                                <li><strong>AutoML:</strong> Automated model training for common use cases</li>
+                                <li><strong>Pre-trained APIs:</strong> Vision, Natural Language, Speech-to-Text</li>
+                            </ul>
+                            <div class="example">
+                                <strong>Example:</strong> Use BigQuery ML to create a customer churn prediction model on transaction data, then deploy predictions to production tables for automated alerts.
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <h4>Set Up Monitoring & Logging</h4>
+                            <p>Implement comprehensive observability:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Cloud Monitoring:</strong> Create dashboards for key metrics (job duration, error rates, resource utilization)</li>
+                                <li><strong>Cloud Logging:</strong> Centralize logs from all services for troubleshooting</li>
+                                <li><strong>Alerting Policies:</strong> Set up alerts for pipeline failures, performance degradation, or cost anomalies</li>
+                                <li><strong>Billing Alerts:</strong> Configure budget notifications to prevent cost overruns</li>
+                            </ul>
+                            <div class="highlight-box" style="margin-top: 15px;">
+                                <strong>⚠️ Critical:</strong> Always implement monitoring before going to production
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <h4>Optimize Billing & Costs</h4>
+                            <p>Continuously monitor and optimize your cloud spending:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Billing Dashboard:</strong> Track daily spending and forecast monthly costs</li>
+                                <li><strong>Committed Use Discounts:</strong> Save up to 57% on predictable workloads</li>
+                                <li><strong>Sustained Use Discounts:</strong> Automatic discounts for long-running VMs</li>
+                                <li><strong>BigQuery Slots:</strong> Flat-rate pricing for high-volume query workloads</li>
+                                <li><strong>Storage Class Optimization:</strong> Move infrequently accessed data to Nearline or Coldline</li>
+                                <li><strong>Preemptible VMs:</strong> Use for fault-tolerant batch jobs at 80% discount</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 30px;">
+                        <h3>🎯 Best Practices Summary</h3>
+                        <div class="service-grid" style="margin-top: 15px;">
+                            <div class="service-card">
+                                <h3>🏗️ Infrastructure as Code</h3>
+                                <p>Use Terraform or Deployment Manager to define resources declaratively for reproducibility and version control.</p>
+                            </div>
+                            <div class="service-card">
+                                <h3>🏷️ Resource Organization</h3>
+                                <p>Implement consistent labeling and naming conventions across projects for easy management and cost allocation.</p>
+                            </div>
+                            <div class="service-card">
+                                <h3>🔄 CI/CD Integration</h3>
+                                <p>Automate deployments using Cloud Build, GitHub Actions, or GitLab CI for consistent, reliable releases.</p>
+                            </div>
+                            <div class="service-card">
+                                <h3>📊 Data Governance</h3>
+                                <p>Implement data cataloging, lineage tracking, and quality checks to maintain data trust and compliance.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Components of GCP -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">5</span>
+                    <span>Core GCP Components</span>
+                </div>
+                <div class="section-content">
+                    <p>GCP's architecture is built on a foundation of integrated components that work seamlessly together. Understanding these components is essential for designing effective data engineering solutions.</p>
+
+                    <div class="service-grid" style="margin-top: 25px;">
+                        <div class="service-card">
+                            <h3>☁️ Compute Services</h3>
+                            <p><span class="category-badge badge-blue">Compute Engine</span> <span class="category-badge badge-blue">Cloud Run</span> <span class="category-badge badge-blue">GKE</span> <span class="category-badge badge-blue">App Engine</span></p>
+                            <p style="margin-top: 15px;">Flexible computing options from virtual machines to fully managed serverless containers and Kubernetes orchestration.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Application hosting, batch processing, data transformation workloads, and microservices.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>💾 Storage & Databases</h3>
+                            <p><span class="category-badge badge-green">Cloud Storage</span> <span class="category-badge badge-green">BigQuery</span> <span class="category-badge badge-green">Cloud SQL</span> <span class="category-badge badge-green">Bigtable</span> <span class="category-badge badge-green">Spanner</span></p>
+                            <p style="margin-top: 15px;">Comprehensive data storage solutions covering object storage, data warehousing, relational databases, NoSQL, and globally distributed databases.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Data lakes, analytics, transactional systems, time-series data, and global applications.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>🌐 Networking</h3>
+                            <p><span class="category-badge badge-yellow">VPC</span> <span class="category-badge badge-yellow">Load Balancing</span> <span class="category-badge badge-yellow">Cloud CDN</span> <span class="category-badge badge-yellow">Cloud DNS</span></p>
+                            <p style="margin-top: 15px;">Software-defined networking infrastructure with global reach, low latency, and high security.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Secure resource isolation, traffic distribution, content delivery, and DNS management.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>🔄 Data Integration & Processing</h3>
+                            <p><span class="category-badge badge-red">Pub/Sub</span> <span class="category-badge badge-red">Dataflow</span> <span class="category-badge badge-red">Dataproc</span> <span class="category-badge badge-red">Data Fusion</span></p>
+                            <p style="margin-top: 15px;">Tools for real-time streaming, batch processing, ETL automation, and data pipeline orchestration.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Event streaming, data transformation, big data processing, and pipeline management.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>📊 Analytics & Visualization</h3>
+                            <p><span class="category-badge badge-blue">BigQuery</span> <span class="category-badge badge-blue">Looker</span> <span class="category-badge badge-blue">Data Studio</span> <span class="category-badge badge-blue">Datalab</span></p>
+                            <p style="margin-top: 15px;">End-to-end analytics platform from data warehousing to business intelligence and visualization.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Data analysis, reporting, dashboards, and exploratory data science.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>🤖 Machine Learning</h3>
+                            <p><span class="category-badge badge-green">Vertex AI</span> <span class="category-badge badge-green">AutoML</span> <span class="category-badge badge-green">BigQuery ML</span> <span class="category-badge badge-green">AI APIs</span></p>
+                            <p style="margin-top: 15px;">Comprehensive ML platform with custom training, automated ML, and pre-trained AI services.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Predictive analytics, computer vision, natural language processing, and recommendations.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>🎼 Orchestration</h3>
+                            <p><span class="category-badge badge-yellow">Cloud Composer</span> <span class="category-badge badge-yellow">Workflows</span> <span class="category-badge badge-yellow">Cloud Scheduler</span></p>
+                            <p style="margin-top: 15px;">Workflow automation tools for scheduling, coordinating, and managing complex data pipelines.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> ETL orchestration, job scheduling, and multi-step workflow automation.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>🔒 Security & IAM</h3>
+                            <p><span class="category-badge badge-red">Cloud IAM</span> <span class="category-badge badge-red">KMS</span> <span class="category-badge badge-red">Security Command Center</span> <span class="category-badge badge-red">VPC Service Controls</span></p>
+                            <p style="margin-top: 15px;">Comprehensive security controls for identity, encryption, threat detection, and compliance.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Access control, data encryption, security monitoring, and regulatory compliance.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>📈 Monitoring & Logging</h3>
+                            <p><span class="category-badge badge-blue">Cloud Monitoring</span> <span class="category-badge badge-blue">Cloud Logging</span> <span class="category-badge badge-blue">Cloud Trace</span> <span class="category-badge badge-blue">Cloud Profiler</span></p>
+                            <p style="margin-top: 15px;">Complete observability stack for metrics, logs, traces, and performance profiling.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Performance monitoring, troubleshooting, alerting, and optimization.
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <h3>🛠️ Management Tools</h3>
+                            <p><span class="category-badge badge-green">Cloud SDK</span> <span class="category-badge badge-green">APIs</span> <span class="category-badge badge-green">Billing Console</span> <span class="category-badge badge-green">Deployment Manager</span></p>
+                            <p style="margin-top: 15px;">Tools for infrastructure management, automation, cost control, and resource deployment.</p>
+                            <div class="use-case">
+                                <strong>Primary Use:</strong> Infrastructure as Code, CLI automation, cost management, and API integration.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 30px;">
+                        <h3>🔗 Component Integration Example</h3>
+                        <p style="font-size: 16px; line-height: 1.8;">
+                            A typical data engineering workflow leverages multiple components: <strong>Pub/Sub</strong> captures streaming events, <strong>Dataflow</strong> processes and transforms the data, <strong>Cloud Storage</strong> serves as the data lake, <strong>BigQuery</strong> provides the analytics warehouse, <strong>Looker</strong> visualizes insights, and <strong>Vertex AI</strong> enables predictive modeling—all secured by <strong>Cloud IAM</strong> and monitored by <strong>Cloud Monitoring</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Detailed Service Explanations -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">6</span>
+                    <span>GCP Services Deep Dive</span>
+                </div>
+                <div class="section-content">
+                    <p>Let's explore each core GCP service in detail, understanding their architecture, capabilities, use cases, and practical applications for data engineering workflows.</p>
+
+                    <!-- Compute Services -->
+                    <h2 style="color: #4285F4; margin-top: 30px; margin-bottom: 20px; border-bottom: 3px solid #4285F4; padding-bottom: 10px;">⚡ Compute Services</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🖥️</span>Compute Engine</h3>
+                        <p><strong>What it is:</strong> Compute Engine provides scalable, high-performance virtual machines (VMs) running on Google's infrastructure. It offers complete control over VM configuration, including machine type, operating system, storage, and networking.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Predefined and custom machine types for optimal cost-performance</li>
+                            <li>Sustained use discounts (automatic savings for long-running VMs)</li>
+                            <li>Preemptible VMs (up to 80% discount for fault-tolerant workloads)</li>
+                            <li>Live migration for zero-downtime maintenance</li>
+                            <li>Persistent disks with automatic encryption</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> High-performance ETL processing, custom data transformation scripts, legacy application hosting, and batch processing jobs requiring specific configurations.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> A data engineer deploys a Python ETL job on a Compute Engine VM to extract data from third-party APIs, perform complex transformations using pandas and custom business logic, validate data quality, and upload results to BigQuery for analytics. The VM runs nightly on a scheduled basis.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Best For:</strong> Long-running workloads, applications requiring specific OS or libraries, and batch jobs needing consistent compute resources.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🚀</span>Cloud Run</h3>
+                        <p><strong>What it is:</strong> Cloud Run is a fully managed serverless platform for deploying containerized applications that automatically scale from zero to thousands of instances based on incoming requests.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Automatic scaling including scale-to-zero for cost savings</li>
+                            <li>Pay only for actual request processing time</li>
+                            <li>Built-in load balancing and traffic management</li>
+                            <li>Supports any language or framework via containers</li>
+                            <li>Native integration with Cloud Build for CI/CD</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Event-driven data APIs, microservices, real-time data preprocessing, webhook handlers, and lightweight data transformation services.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Host a REST API in Cloud Run that receives incoming marketing campaign data from various sources. The API validates, cleanses, and enriches the data in real-time, then forwards clean records to Pub/Sub for downstream processing. Cloud Run automatically scales during campaign spikes and scales to zero during quiet periods.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Best For:</strong> Stateless applications, API endpoints, event-driven processing, and workloads with variable traffic patterns.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">⚙️</span>Google Kubernetes Engine (GKE)</h3>
+                        <p><strong>What it is:</strong> GKE provides a managed Kubernetes cluster service for deploying, managing, and scaling containerized applications using Google's Kubernetes orchestration platform.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Autopilot mode for fully managed Kubernetes</li>
+                            <li>Auto-scaling (horizontal pod and cluster autoscaling)</li>
+                            <li>Workload Identity for secure service authentication</li>
+                            <li>Multi-cluster management with GKE Hub</li>
+                            <li>Built-in monitoring and logging</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Distributed data processing, microservices architecture, machine learning model serving, and scalable batch processing pipelines.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Deploy parallelized Apache Spark jobs on GKE to process terabytes of log files stored in Cloud Storage. Multiple Spark workers run concurrently across the cluster, processing data partitions in parallel, performing aggregations and transformations, then writing processed data back to Cloud Storage in optimized Parquet format for BigQuery external tables.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Best For:</strong> Complex distributed applications, microservices requiring orchestration, and teams with Kubernetes expertise.
+                        </div>
+                    </div>
+
+                    <!-- Storage and Database Services -->
+                    <h2 style="color: #34A853; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #34A853; padding-bottom: 10px;">💾 Storage and Database Services</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">📦</span>Cloud Storage</h3>
+                        <p><strong>What it is:</strong> Cloud Storage is a unified object storage service for storing any amount of data with 99.999999999% (11 nines) durability. It serves as the foundation for data lakes and backup storage.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Storage Classes:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Standard:</strong> Frequent access, high-performance ($0.020 per GB/month)</li>
+                            <li><strong>Nearline:</strong> Accessed less than once per month ($0.010 per GB/month)</li>
+                            <li><strong>Coldline:</strong> Accessed less than once per quarter ($0.004 per GB/month)</li>
+                            <li><strong>Archive:</strong> Long-term archival, accessed less than once per year ($0.0012 per GB/month)</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Central data lake for raw and processed data, backup and disaster recovery, data archival, and serving static assets.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Store raw CSV and JSON files uploaded by multiple teams in a "raw-data" bucket using Standard storage class. Use lifecycle policies to automatically move data older than 90 days to Nearline storage, and data older than 1 year to Archive storage. Process files using Dataflow, storing cleaned results in a "processed-data" bucket organized by date partitions for efficient BigQuery external table queries.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Cost Optimization:</strong> Use appropriate storage classes and lifecycle policies to reduce costs by up to 95% for infrequently accessed data.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🏢</span>BigQuery</h3>
+                        <p><strong>What it is:</strong> BigQuery is a fully managed, serverless data warehouse designed for fast SQL analytics on petabyte-scale datasets. It separates storage and compute, enabling independent scaling and cost optimization.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Serverless architecture with automatic scaling</li>
+                            <li>Standard SQL with extensions for arrays, structs, and ML</li>
+                            <li>Columnar storage for fast aggregations</li>
+                            <li>Built-in machine learning (BigQuery ML)</li>
+                            <li>Real-time streaming inserts</li>
+                            <li>Federated queries to external sources</li>
+                            <li>Time travel queries (7-day data history)</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Enterprise data warehousing, real-time analytics, business intelligence, ad-hoc querying, and data science exploration.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Analyze billions of clickstream records from multiple advertising platforms to calculate daily conversion rates, customer attribution, and ROI by channel. Queries complete in seconds despite processing terabytes of data. Use BigQuery ML to create a customer lifetime value prediction model directly in SQL, then export predictions to a table for downstream activation systems.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Pricing Models:</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>On-Demand:</strong> Pay per TB scanned ($5/TB after 1TB free per month)</li>
+                                <li><strong>Flat-Rate:</strong> Reserve slots for predictable pricing (recommended for heavy users)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🗄️</span>Cloud SQL</h3>
+                        <p><strong>What it is:</strong> Cloud SQL is a fully managed relational database service supporting MySQL, PostgreSQL, and SQL Server with automated backups, replication, and patches.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Automatic failover for high availability</li>
+                            <li>Point-in-time recovery</li>
+                            <li>Automatic storage increase</li>
+                            <li>Read replicas for scaling reads</li>
+                            <li>Private IP connectivity for security</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Transactional application databases, user registration data, product catalogs, and ETL staging tables.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Store user registration and profile data in a PostgreSQL Cloud SQL instance. ETL jobs periodically extract this transactional data, aggregate user metrics (registration trends, activity patterns), and load summary tables into BigQuery for business intelligence reporting and customer segmentation analysis.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🌍</span>Cloud Spanner</h3>
+                        <p><strong>What it is:</strong> Spanner is a globally distributed relational database offering horizontal scalability, strong consistency, and ACID transactions across multiple regions.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Global distribution with automatic replication</li>
+                            <li>Strong consistency across regions</li>
+                            <li>Horizontal scaling to handle millions of requests per second</li>
+                            <li>SQL interface with ACID transactions</li>
+                            <li>99.999% availability SLA for multi-region configurations</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Global financial systems, gaming platforms, supply chain applications requiring strong consistency across continents.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Power a global financial trading platform that processes millions of transactions per second across multiple continents. Spanner ensures that all transactions are strongly consistent, preventing double-spending or data anomalies while maintaining sub-10ms latency for users worldwide.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">⚡</span>Cloud Bigtable</h3>
+                        <p><strong>What it is:</strong> Bigtable is a high-performance NoSQL database designed for massive-scale, low-latency workloads, particularly time-series data and real-time analytics.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Consistent sub-10ms latency at any scale</li>
+                            <li>Linear scalability to hundreds of petabytes</li>
+                            <li>Ideal for time-series and key-value data</li>
+                            <li>Integration with Apache HBase API</li>
+                            <li>Automatic replication for availability</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> IoT sensor data storage, financial market data, time-series monitoring, real-time analytics, and recommendation engines.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Store sensor readings from hundreds of thousands of IoT devices deployed worldwide. Bigtable handles millions of writes per second with sub-10ms latency. Dataflow jobs query historical patterns from Bigtable to detect anomalies, identify maintenance needs, and trigger alerts when sensor values exceed thresholds.
+                        </div>
+                    </div>
+
+                    <!-- Networking Services -->
+                    <h2 style="color: #FBBC04; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #FBBC04; padding-bottom: 10px;">🌐 Networking Services</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🔒</span>Virtual Private Cloud (VPC)</h3>
+                        <p><strong>What it is:</strong> VPC provides isolated, secure networking for GCP resources with configurable subnets, firewall rules, and routing tables.</p>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Secure communication between resources, network isolation, hybrid cloud connectivity, and multi-tier application architecture.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Design a secure three-tier architecture where public-facing Cloud Run services exist in a public subnet, application servers (Compute Engine) in a private subnet with outbound internet access via Cloud NAT, and Cloud SQL databases in an isolated subnet with no internet access. Firewall rules enforce strict access controls between tiers.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">⚖️</span>Cloud Load Balancing</h3>
+                        <p><strong>What it is:</strong> Fully distributed, software-defined load balancing that automatically routes traffic across instances for high availability and optimal performance.</p>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Distributing API traffic, ensuring application availability, global traffic management, and SSL termination.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Deploy multiple Compute Engine instances running a data API across different regions. Use HTTP(S) Load Balancer to route user requests to the nearest healthy instance, ensuring low latency and automatic failover if instances become unhealthy.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🌍</span>Cloud CDN</h3>
+                        <p><strong>What it is:</strong> Google's globally distributed Content Delivery Network that caches static and dynamic content at edge locations near users.</p>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Accelerating website delivery, serving dashboard assets, distributing large files, and reducing backend load.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Distribute Looker Studio dashboard assets (JavaScript, CSS, images) globally via Cloud CDN. Users in Asia, Europe, and Americas all experience fast load times as assets are served from the nearest edge location, regardless of where the origin Cloud Storage bucket is located.
+                        </div>
+                    </div>
+
+                    <!-- Data Integration and Processing -->
+                    <h2 style="color: #EA4335; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #EA4335; padding-bottom: 10px;">🔄 Data Integration and Processing</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">📡</span>Cloud Pub/Sub</h3>
+                        <p><strong>What it is:</strong> Pub/Sub is a fully managed messaging service for asynchronous communication between services, supporting at-least-once delivery with ordering guarantees.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Global by default with automatic scaling</li>
+                            <li>Push and pull subscription modes</li>
+                            <li>Message retention up to 7 days</li>
+                            <li>Dead letter topics for error handling</li>
+                            <li>Message filtering and ordering</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Real-time event streaming, decoupling microservices, IoT data ingestion, and event-driven architectures.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Capture clickstream events from web and mobile applications into Pub/Sub topics. Multiple subscribers process the events in parallel: one Dataflow pipeline enriches events with user profile data and loads them into BigQuery for analytics, while another subscriber triggers real-time personalization recommendations via Cloud Functions.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Integration Pattern:</strong> Pub/Sub serves as the central event bus connecting data producers and consumers, enabling loose coupling and independent scaling.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🌊</span>Cloud Dataflow</h3>
+                        <p><strong>What it is:</strong> Dataflow is a fully managed service for stream and batch data processing using Apache Beam. It provides unified programming model for both processing modes.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Unified batch and streaming processing</li>
+                            <li>Auto-scaling workers based on data volume</li>
+                            <li>Windowing and watermarking for event-time processing</li>
+                            <li>Built-in connectors for GCP services</li>
+                            <li>Exactly-once processing semantics</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Complex ETL pipelines, real-time data cleansing, stream analytics, data enrichment, and fraud detection.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Stream data from Pub/Sub topics containing raw customer transaction events. Dataflow pipeline performs real-time validation (checking data types, ranges, business rules), cleanses invalid records, enriches transactions with customer profile data from Bigtable, aggregates metrics in tumbling windows, and loads analytics-ready datasets into BigQuery automatically with exactly-once guarantees.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Apache Beam Advantage:</strong> Write once, run anywhere—Beam pipelines are portable across Dataflow, Spark, and Flink.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">⚙️</span>Cloud Dataproc</h3>
+                        <p><strong>What it is:</strong> Dataproc provides managed Apache Spark and Apache Hadoop clusters that can be created in 90 seconds and deleted when not needed, enabling cost-effective big data processing.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Fast cluster creation (typically under 90 seconds)</li>
+                            <li>Per-second billing (pay only while clusters run)</li>
+                            <li>Preemptible workers for cost savings (up to 80% discount)</li>
+                            <li>Integration with Cloud Storage, BigQuery, and Bigtable</li>
+                            <li>Autoscaling policies for dynamic resource adjustment</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Migrating on-premises Hadoop/Spark workloads, large-scale log processing, machine learning feature engineering, and batch ETL.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Create an ephemeral Dataproc cluster to run distributed Spark jobs for log aggregation. Process hundreds of gigabytes of raw logs stored in Cloud Storage, perform complex transformations and aggregations across the cluster, calculate daily metrics and KPIs, then write results back to Cloud Storage in Parquet format. Cluster automatically deletes after job completion to minimize costs.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Cost Optimization:</strong> Use ephemeral clusters and preemptible workers to reduce costs by up to 90% compared to always-on clusters.
+                        </div>
+                    </div>
+
+                    <!-- Analytics and Visualization -->
+                    <h2 style="color: #4285F4; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #4285F4; padding-bottom: 10px;">📊 Analytics and Visualization</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">📈</span>Looker Studio (Data Studio)</h3>
+                        <p><strong>What it is:</strong> Looker Studio is a free, fully managed data visualization and reporting tool that connects to multiple data sources including BigQuery, Cloud SQL, and external databases.</p>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Creating executive dashboards, KPI monitors, operational reports, and self-service analytics for business users.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Build interactive visual dashboards showing regional sales performance, marketing ROI by channel, and customer engagement trends. Connect directly to BigQuery for real-time data updates. Business users can filter by date range, region, and product category without writing SQL. Dashboards automatically refresh hourly and are shared across the organization.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🔍</span>Looker (Enterprise BI)</h3>
+                        <p><strong>What it is:</strong> Looker is an enterprise business intelligence platform providing a modeling layer (LookML), exploration interface, and embedded analytics capabilities.</p>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Enterprise data governance, semantic layer definition, self-service analytics, and embedded dashboards in applications.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Define business metrics and dimensions in LookML (e.g., "Customer Lifetime Value", "Monthly Active Users"). Analysts explore data using natural language questions. Looker generates optimized SQL, executes queries on BigQuery, and caches results. Embed pre-built dashboards directly into customer-facing applications.
+                        </div>
+                    </div>
+
+                    <!-- Machine Learning -->
+                    <h2 style="color: #34A853; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #34A853; padding-bottom: 10px;">🤖 Machine Learning Services</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🧠</span>Vertex AI</h3>
+                        <p><strong>What it is:</strong> Vertex AI is Google's unified machine learning platform that consolidates all ML tools and workflows, from data preparation through model deployment and monitoring.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Managed Jupyter notebooks for experimentation</li>
+                            <li>AutoML for automated model development</li>
+                            <li>Custom training with popular frameworks (TensorFlow, PyTorch, scikit-learn)</li>
+                            <li>Hyperparameter tuning and neural architecture search</li>
+                            <li>Model deployment to scalable endpoints</li>
+                            <li>Feature Store for managing ML features</li>
+                            <li>Model monitoring and drift detection</li>
+                            <li>Vertex AI Pipelines for MLOps</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Predictive modeling, customer segmentation, demand forecasting, fraud detection, recommendation systems, and natural language processing.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Build a comprehensive customer churn prediction system. Extract features from BigQuery (transaction history, behavior patterns, demographics). Use Vertex AI notebooks for exploratory analysis. Train multiple models (XGBoost, Neural Networks) with automated hyperparameter tuning. Deploy the best model to a managed endpoint that auto-scales based on prediction requests. Model scores new customers daily, storing predictions in BigQuery. Vertex AI monitoring detects feature drift and triggers retraining when model performance degrades.
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 MLOps Integration:</strong> Vertex AI provides end-to-end MLOps with experiment tracking, model versioning, deployment automation, and monitoring.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🎯</span>AutoML</h3>
+                        <p><strong>What it is:</strong> AutoML is a feature within Vertex AI that automates the entire machine learning process, from feature engineering through model selection and hyperparameter tuning.</p>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Rapid prototyping, low-code ML development, and cases where ML expertise is limited but high-quality models are needed.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> A business analyst without deep ML expertise uploads customer feedback data (text reviews with sentiment labels) to AutoML. The system automatically performs text preprocessing, feature extraction, model architecture search, and hyperparameter optimization. Within hours, it produces a production-ready sentiment classification model with 92% accuracy, which can be deployed as an API endpoint or used for batch predictions.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🔢</span>BigQuery ML</h3>
+                        <p><strong>What it is:</strong> BigQuery ML enables data analysts to create and execute machine learning models using standard SQL, without moving data out of BigQuery.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Supported Models:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Linear and logistic regression</li>
+                            <li>K-means clustering</li>
+                            <li>Time-series forecasting (ARIMA)</li>
+                            <li>Matrix factorization for recommendations</li>
+                            <li>Deep neural networks (TensorFlow integration)</li>
+                            <li>Boosted trees (XGBoost)</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> SQL-based predictive analytics, customer segmentation, forecasting, and democratizing ML for SQL-savvy analysts.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Create a product recommendation model entirely in SQL: <code>CREATE MODEL product_recommender OPTIONS(model_type='matrix_factorization') AS SELECT user_id, product_id, purchase_count FROM user_purchases;</code> The model trains on historical purchase data. Analysts generate predictions using SQL: <code>SELECT * FROM ML.RECOMMEND(MODEL product_recommender, TABLE new_users);</code>
+                        </div>
+                    </div>
+
+                    <!-- Orchestration -->
+                    <h2 style="color: #FBBC04; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #FBBC04; padding-bottom: 10px;">🎼 Orchestration Services</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">🎵</span>Cloud Composer</h3>
+                        <p><strong>What it is:</strong> Cloud Composer is a fully managed workflow orchestration service built on Apache Airflow. It schedules, monitors, and manages complex data pipelines with dependencies.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Features:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>DAG (Directed Acyclic Graph) workflow definition</li>
+                            <li>Pre-built operators for GCP services</li>
+                            <li>Flexible scheduling with cron expressions</li>
+                            <li>Dependency management across tasks</li>
+                            <li>Built-in monitoring and alerting</li>
+                            <li>Retry logic and error handling</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Coordinating multi-step ETL processes, scheduling batch jobs, managing cross-service dependencies, and automating data workflows.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Orchestrate a nightly data transformation workflow:
+                            <ol style="margin-left: 20px; margin-top: 10px;">
+                                <li>Extract new data from Cloud SQL (BigQueryOperator)</li>
+                                <li>Trigger Dataflow job to clean and transform (DataflowOperator)</li>
+                                <li>Wait for Dataflow completion with sensor</li>
+                                <li>Load transformed data into BigQuery (BigQueryOperator)</li>
+                                <li>Run data quality checks (PythonOperator)</li>
+                                <li>Send success/failure notification via email or Slack</li>
+                            </ol>
+                            <p style="margin-top: 10px;">Cloud Composer handles dependencies, retries failed tasks, and provides visibility into execution history.</p>
+                        </div>
+
+                        <div class="highlight-box" style="margin-top: 15px;">
+                            <strong>💡 Airflow Advantage:</strong> Use standard Airflow DAGs, benefiting from the large ecosystem of operators and community support.
+                        </div>
+                    </div>
+
+                    <!-- Security and Monitoring -->
+                    <h2 style="color: #EA4335; margin-top: 40px; margin-bottom: 20px; border-bottom: 3px solid #EA4335; padding-bottom: 10px;">🔒 Security, Monitoring & Logging</h2>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">👤</span>Cloud IAM</h3>
+                        <p><strong>What it is:</strong> Cloud IAM (Identity and Access Management) provides fine-grained access control to GCP resources through roles and policies.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Key Concepts:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Principals:</strong> Users, groups, service accounts</li>
+                            <li><strong>Roles:</strong> Collections of permissions (predefined or custom)</li>
+                            <li><strong>Policies:</strong> Bind principals to roles on resources</li>
+                            <li><strong>Conditions:</strong> Time-based or attribute-based access</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Managing team access, securing APIs, enforcing least privilege, and delegating permissions safely.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Configure role-based access: Data engineers receive "BigQuery Data Editor" and "Dataflow Developer" roles for full ETL development access. Data analysts receive only "BigQuery Data Viewer" for read-only query access to production datasets. Service accounts running Dataflow jobs receive specific permissions to read from Cloud Storage and write to BigQuery, but nothing more.
+                        </div>
+                    </div>
+
+                    <div class="service-card" style="margin-bottom: 20px;">
+                        <h3><span class="service-icon">📊</span>Cloud Monitoring & Logging</h3>
+                        <p><strong>What it is:</strong> Integrated observability services for collecting metrics, logs, and traces from all GCP services and applications.</p>
+                        
+                        <p style="margin-top: 15px;"><strong>Capabilities:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Cloud Monitoring:</strong> Real-time metrics, dashboards, and alerts</li>
+                            <li><strong>Cloud Logging:</strong> Centralized log collection and analysis</li>
+                            <li><strong>Cloud Trace:</strong> Distributed tracing for microservices</li>
+                            <li><strong>Cloud Profiler:</strong> Continuous application performance profiling</li>
+                        </ul>
+
+                        <div class="use-case">
+                            <strong>Use Case:</strong> Observability, troubleshooting, performance optimization, and proactive alerting.
+                        </div>
+
+                        <div class="example">
+                            <strong>Real-World Example:</strong> Track Dataflow job execution metrics (elements processed, throughput, errors) in Cloud Monitoring dashboards. Configure alerting policies to send Slack notifications when job failure rate exceeds 5% or processing lag grows beyond 10 minutes. Use Cloud Logging to aggregate error logs from all services, then create log-based metrics to track specific error patterns over time. Set up cost alerts to notify when daily spending exceeds budgeted amounts.
+                        </div>
+                    </div>
+
+                    <div class="highlight-box" style="margin-top: 40px;">
+                        <h3>🔗 Complete Data Pipeline Integration</h3>
+                        <p style="font-size: 18px; margin-top: 15px; text-align: center;">
+                            <strong>End-to-End Workflow:</strong>
+                        </p>
+                        <p style="margin-top: 15px; font-size: 16px; line-height: 1.9;">
+                            <span class="category-badge badge-blue">IoT Devices</span> → 
+                            <span class="category-badge badge-green">Pub/Sub</span> (streaming ingestion) → 
+                            <span class="category-badge badge-yellow">Dataflow</span> (real-time processing) → 
+                            <span class="category-badge badge-red">Cloud Storage</span> (data lake) → 
+                            <span class="category-badge badge-blue">BigQuery</span> (analytics warehouse) → 
+                            <span class="category-badge badge-green">Looker</span> (visualization) → 
+                            <span class="category-badge badge-yellow">Vertex AI</span> (ML predictions)
+                        </p>
+                        <p style="margin-top: 15px;">
+                            All orchestrated by <span class="category-badge badge-red">Cloud Composer</span>, secured by <span class="category-badge badge-blue">Cloud IAM</span>, and monitored by <span class="category-badge badge-green">Cloud Monitoring</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>GCP for Data Engineers - Comprehensive Classroom Notes</strong></p>
+            <p>Google Cloud Platform: Built on Google's infrastructure, designed for data-driven innovation</p>
+            <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">© 2025 | Study Material for Data Engineering Professionals</p>
+        </div>
+    </div>
+</body>
+</html>

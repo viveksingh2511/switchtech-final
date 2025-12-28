@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Loops - Complete Classroom Notes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #7c6fd6;
+            --secondary-purple: #9b8de6;
+            --dark-bg: #0f1419;
+            --card-bg: #1a2332;
+            --card-border: #2d3748;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --code-bg: #2d3748;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+            --accent-pink: #ec4899;
+            --accent-orange: #f97316;
+            --accent-yellow: #fbbf24;
+            --accent-red: #ef4444;
+            --gradient-purple: linear-gradient(135deg, #7c6fd6 0%, #9b8de6 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .header {
+            background: var(--gradient-purple);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .logo-box {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-box svg {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-purple);
+            font-weight: 600;
+        }
+
+        .section-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-size: 0.98rem;
+            line-height: 1.8;
+        }
+
+        .section-card h3 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .section-card h4 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-container {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin: 1.25rem 0;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .badge-blue {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .badge-orange {
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .badge-purple {
+            background: linear-gradient(135deg, #7c6fd6, #9b8de6);
+        }
+
+        .badge-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+
+        .badge-red {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+        }
+
+        .code-container {
+            margin: 1.5rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 0.75rem;
+            right: 1.25rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin: 0;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: var(--secondary-purple);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        .code-comment {
+            color: var(--text-muted);
+        }
+
+        .info-box {
+            background: rgba(124, 111, 214, 0.1);
+            border-left: 3px solid var(--secondary-purple);
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box-header {
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(251, 146, 60, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            color: var(--accent-orange);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-green);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .success-box-header {
+            color: var(--accent-green);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip {
+            background: rgba(236, 72, 153, 0.1);
+            border-left: 3px solid var(--accent-pink);
+            padding: 1.25rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .interview-tip-header {
+            color: var(--accent-pink);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interview-tip-header::before {
+            content: '🎯';
+        }
+
+        ul, ol {
+            margin: 1rem 0 1.25rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(45, 55, 72, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        th {
+            padding: 0.875rem;
+            text-align: left;
+            color: var(--secondary-purple);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.875rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        td code {
+            background: rgba(124, 111, 214, 0.2);
+            color: var(--secondary-purple);
+        }
+
+        tr:hover {
+            background: rgba(124, 111, 214, 0.05);
+        }
+
+        .key-points {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-points h4 {
+            color: var(--accent-green);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .key-points ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .key-points li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .practice-card {
+            background: rgba(236, 72, 153, 0.1);
+            border: 2px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .practice-card h4 {
+            color: var(--accent-pink);
+            font-size: 1.05rem;
+            margin: 0 0 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .practice-card h4::before {
+            content: '💡';
+        }
+
+        .flowchart {
+            background: rgba(45, 55, 72, 0.3);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .flowchart-title {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .flow-box {
+            background: var(--gradient-purple);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem auto;
+            max-width: 300px;
+            font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .flow-arrow {
+            color: var(--accent-green);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-item {
+            background: rgba(124, 111, 214, 0.1);
+            border: 2px solid rgba(124, 111, 214, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-purple);
+            background: rgba(124, 111, 214, 0.2);
+        }
+
+        .comparison-item h4 {
+            color: var(--secondary-purple);
+            margin: 0 0 0.75rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .for-loop-style {
+            border-color: rgba(16, 185, 129, 0.5) !important;
+        }
+
+        .for-loop-style h4 {
+            color: var(--accent-green) !important;
+        }
+
+        .while-loop-style {
+            border-color: rgba(6, 182, 212, 0.5) !important;
+        }
+
+        .while-loop-style h4 {
+            color: var(--accent-cyan) !important;
+        }
+
+        .examples-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-box {
+            background: rgba(45, 55, 72, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .example-header {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-card {
+                padding: 1.75rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-purple);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-box">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3776ab;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4b8bbe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="yellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ffd343;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ffb840;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 30,20 Q 20,20 20,30 L 20,50 Q 20,60 30,60 L 50,60 L 50,45 Q 50,40 45,40 L 35,40" 
+                      fill="url(#blueGrad)" stroke="#2d6d8e" stroke-width="2"/>
+                <circle cx="35" cy="30" r="3" fill="white"/>
+                <path d="M 70,80 Q 80,80 80,70 L 80,50 Q 80,40 70,40 L 50,40 L 50,55 Q 50,60 55,60 L 65,60" 
+                      fill="url(#yellowGrad)" stroke="#d99e27" stroke-width="2"/>
+                <circle cx="65" cy="70" r="3" fill="white"/>
+            </svg>
+        </div>
+        <h1>Python Loops</h1>
+        <p class="subtitle">Complete Classroom Notes — Mastering For & While Loops in Python</p>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Section 1: Introduction -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h2>Introduction to Loops</h2>
+            </div>
+
+            <h3>What is a Loop and Why Do We Need It?</h3>
+            <p>A <strong>loop</strong> is used to repeat a block of code multiple times without writing the same code again and again. Loops make code shorter, cleaner, and more efficient.</p>
+
+            <div class="comparison-grid">
+                <div class="example-box">
+                    <div class="example-header">❌ Without Loop</div>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>print("Hello")
+print("Hello")
+print("Hello")
+print("Hello")
+print("Hello")</pre>
+                        </div>
+                    </div>
+                    <p style="color: var(--accent-red); margin-top: 1rem;">Repetitive and inefficient!</p>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-header">✅ With Loop</div>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <pre>for i in range(5):
+    print("Hello")</pre>
+                        </div>
+                    </div>
+                    <p style="color: var(--accent-green); margin-top: 1rem;">Clean and efficient!</p>
+                </div>
+            </div>
+
+            <h3>Types of Loops in Python</h3>
+            <div class="comparison-grid">
+                <div class="comparison-item for-loop-style">
+                    <h4>🔁 For Loop</h4>
+                    <p><strong>Purpose:</strong> Iterate over a sequence</p>
+                    <p><strong>Iterations:</strong> Fixed/Known</p>
+                    <p><strong>Best For:</strong> Lists, strings, ranges</p>
+                </div>
+                
+                <div class="comparison-item while-loop-style">
+                    <h4>🔃 While Loop</h4>
+                    <p><strong>Purpose:</strong> Repeat based on condition</p>
+                    <p><strong>Iterations:</strong> Unknown/Variable</p>
+                    <p><strong>Best For:</strong> User input, conditions</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span>💡</span>
+                    <span>Key Concept</span>
+                </div>
+                <p>Loops help us automate repetitive tasks, process collections of data, and implement algorithms efficiently. Understanding loops is fundamental to mastering Python programming.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: For vs While Comparison -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">⚖️</div>
+                <h2>For Loop vs While Loop</h2>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>For Loop</th>
+                        <th>While Loop</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Use Case</strong></td>
+                        <td>When we know number of iterations</td>
+                        <td>When we don't know number of iterations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Condition</strong></td>
+                        <td>Uses range() or iterables</td>
+                        <td>Uses a boolean condition</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Traversing collections</td>
+                        <td>Repeating until condition breaks</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Termination</strong></td>
+                        <td>Ends when sequence exhausted</td>
+                        <td>Ends when condition becomes False</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control Variable</strong></td>
+                        <td>Automatically managed</td>
+                        <td>Manually updated</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Risk</strong></td>
+                        <td>Low (less chance of infinite loop)</td>
+                        <td>Higher (if condition never False)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Side-by-Side Example</h3>
+            <div class="comparison-grid">
+                <div class="example-box">
+                    <div class="example-header">🔁 For Loop</div>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <span class="code-label">PYTHON</span>
+                            <pre>for i in range(5):
+    print(i)
+
+<span class="code-comment"># Output:
+# 0
+# 1
+# 2
+# 3
+# 4</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <div class="example-header">🔃 While Loop</div>
+                    <div class="code-container">
+                        <div class="code-block">
+                            <span class="code-label">PYTHON</span>
+                            <pre>i = 0
+while i < 5:
+    print(i)
+    i += 1
+
+<span class="code-comment"># Output:
+# 0
+# 1
+# 2
+# 3
+# 4</span></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>When to Use Which?</span>
+                </div>
+                <ul style="margin-left: 1.5rem;">
+                    <li><strong>Use For Loop:</strong> When iterating over sequences (lists, strings, ranges)</li>
+                    <li><strong>Use While Loop:</strong> When repeating based on conditions (user input, thresholds)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 3: For Loop Deep Dive -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔁</div>
+                <h2>For Loop - Complete Guide</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge badge-green">Fixed Iterations</span>
+                <span class="badge badge-purple">Sequence Traversal</span>
+                <span class="badge badge-cyan">Collection Processing</span>
+            </div>
+
+            <h3>1. Using range()</h3>
+            <p><strong>Concept:</strong> <code>range(start, stop, step)</code> generates a sequence of numbers. Used when we know how many times to loop.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: Basic range</span>
+for i in range(5):
+    print(i)
+<span class="code-comment"># Output: 0 1 2 3 4</span>
+
+<span class="code-comment"># Example 2: Range with start and stop</span>
+for i in range(2, 6):
+    print(i)
+<span class="code-comment"># Output: 2 3 4 5</span>
+
+<span class="code-comment"># Example 3: Range with step</span>
+for i in range(1, 10, 2):
+    print(i)
+<span class="code-comment"># Output: 1 3 5 7 9</span>
+
+<span class="code-comment"># Example 4: Create list from range</span>
+nums = list(range(4))
+print(nums)
+<span class="code-comment"># Output: [0, 1, 2, 3]</span>
+
+<span class="code-comment"># Example 5: Sum using range</span>
+total = sum(range(1, 6))
+print(total)
+<span class="code-comment"># Output: 15 (1+2+3+4+5)</span></pre>
+                </div>
+            </div>
+
+            <div class="flowchart">
+                <div class="flowchart-title">🔄 range() Flow</div>
+                <div class="flow-box">range(1, 6)</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-cyan);">Generates: 1, 2, 3, 4, 5</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-green);">Loop iterates over each</div>
+            </div>
+
+            <h3>2. Using in (Membership Iteration)</h3>
+            <p><strong>Concept:</strong> <code>in</code> lets us loop through iterable items directly without using an index.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: Iterate string</span>
+for ch in "Python":
+    print(ch)
+<span class="code-comment"># Output: P y t h o n</span>
+
+<span class="code-comment"># Example 2: Iterate list</span>
+colors = ["red", "blue", "green"]
+for c in colors:
+    print(c)
+<span class="code-comment"># Output: red blue green</span>
+
+<span class="code-comment"># Example 3: Check membership</span>
+if "blue" in colors:
+    print("Found!")
+<span class="code-comment"># Output: Found!</span>
+
+<span class="code-comment"># Example 4: Square numbers</span>
+for num in [1, 2, 3, 4]:
+    print(num**2)
+<span class="code-comment"># Output: 1 4 9 16</span>
+
+<span class="code-comment"># Example 5: Iterate set</span>
+for word in {"apple", "mango"}:
+    print(word)</pre>
+                </div>
+            </div>
+
+            <h3>3. Using enumerate()</h3>
+            <p><strong>Concept:</strong> <code>enumerate()</code> gives both index and value when iterating over a sequence.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: Basic enumerate</span>
+fruits = ["apple", "banana", "mango"]
+for i, f in enumerate(fruits):
+    print(i, f)
+<span class="code-comment"># Output:
+# 0 apple
+# 1 banana
+# 2 mango</span>
+
+<span class="code-comment"># Example 2: Start index from 1</span>
+for i, f in enumerate(fruits, start=1):
+    print(i, f)
+<span class="code-comment"># Output:
+# 1 apple
+# 2 banana
+# 3 mango</span>
+
+<span class="code-comment"># Example 3: Enumerate string</span>
+for i, ch in enumerate("Python", start=1):
+    print(f"{i}: {ch}")
+
+<span class="code-comment"># Example 4: Student marks</span>
+marks = [90, 85, 80]
+for i, m in enumerate(marks):
+    print(f"Student{i+1} → {m}")
+
+<span class="code-comment"># Example 5: Convert to list of tuples</span>
+data = ["x", "y", "z"]
+indexed = list(enumerate(data))
+print(indexed)
+<span class="code-comment"># Output: [(0, 'x'), (1, 'y'), (2, 'z')]</span></pre>
+                </div>
+            </div>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Interview Tip</div>
+                <p><strong>enumerate() vs range():</strong> Use <code>enumerate()</code> when you need both index and value. Use <code>range(len(list))</code> when you only need the index. <code>enumerate()</code> is more Pythonic!</p>
+            </div>
+
+            <h3>4. Using zip()</h3>
+            <p><strong>Concept:</strong> <code>zip()</code> combines two or more iterables element by element.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: Zip two lists</span>
+names = ["Vanya", "Deepak", "Abhishek"]
+marks = [90, 85, 88]
+for n, m in zip(names, marks):
+    print(f"{n} → {m}")
+<span class="code-comment"># Output:
+# Vanya → 90
+# Deepak → 85
+# Abhishek → 88</span>
+
+<span class="code-comment"># Example 2: Create tuples</span>
+x = [1, 2, 3]
+y = [10, 20, 30]
+print(list(zip(x, y)))
+<span class="code-comment"># Output: [(1,10), (2,20), (3,30)]</span>
+
+<span class="code-comment"># Example 3: Zip string and list</span>
+for a, b in zip("abc", [100, 200, 300]):
+    print(a, b)
+
+<span class="code-comment"># Example 4: Create dictionary</span>
+roll = [101, 102, 103]
+names = ["Vanya", "Deepak", "Amit"]
+print(dict(zip(roll, names)))
+<span class="code-comment"># Output: {101: 'Vanya', 102: 'Deepak', 103: 'Amit'}</span>
+
+<span class="code-comment"># Example 5: Zip three lists</span>
+l1 = [1, 2]
+l2 = [3, 4]
+l3 = [5, 6]
+print(list(zip(l1, l2, l3)))
+<span class="code-comment"># Output: [(1,3,5), (2,4,6)]</span></pre>
+                </div>
+            </div>
+
+            <h3>5. Iterating Collections</h3>
+
+            <h4>List Iteration</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>nums = [10, 20, 30, 40]
+
+<span class="code-comment"># Example 1: Print each</span>
+for n in nums:
+    print(n)
+
+<span class="code-comment"># Example 2: Double each</span>
+for n in nums:
+    print(n * 2)
+<span class="code-comment"># Output: 20 40 60 80</span>
+
+<span class="code-comment"># Example 3: Add 5</span>
+for n in nums:
+    print(n + 5)
+
+<span class="code-comment"># Example 4: Sum</span>
+print(sum(nums))
+<span class="code-comment"># Output: 100</span>
+
+<span class="code-comment"># Example 5: List comprehension</span>
+squares = [n**2 for n in nums]
+print(squares)
+<span class="code-comment"># Output: [100, 400, 900, 1600]</span></pre>
+                </div>
+            </div>
+
+            <h4>Tuple Iteration</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>tpl = (5, 10, 15)
+
+<span class="code-comment"># Example 1: Print each</span>
+for t in tpl:
+    print(t)
+
+<span class="code-comment"># Example 2: Add 1 to each</span>
+for t in tpl:
+    print(t + 1)
+<span class="code-comment"># Output: 6 11 16</span>
+
+<span class="code-comment"># Example 3: Multiply by 10</span>
+for t in tpl:
+    print(t * 10)
+
+<span class="code-comment"># Example 4: Sum tuple</span>
+print(sum(tpl))
+<span class="code-comment"># Output: 30</span>
+
+<span class="code-comment"># Example 5: Tuple comprehension (generator)</span>
+print(tuple(x**2 for x in tpl))
+<span class="code-comment"># Output: (25, 100, 225)</span></pre>
+                </div>
+            </div>
+
+            <h4>Dictionary Iteration</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>student = {
+    "name": "Deepak",
+    "age": 25,
+    "city": "Pune"
+}
+
+<span class="code-comment"># Example 1: Iterate items</span>
+for k, v in student.items():
+    print(f"{k}: {v}")
+<span class="code-comment"># Output:
+# name: Deepak
+# age: 25
+# city: Pune</span>
+
+<span class="code-comment"># Example 2: Iterate keys only</span>
+for key in student.keys():
+    print(key)
+
+<span class="code-comment"># Example 3: Iterate values only</span>
+for value in student.values():
+    print(value)
+
+<span class="code-comment"># Example 4: Default iteration (keys)</span>
+for key in student:
+    print(key, "→", student[key])
+
+<span class="code-comment"># Example 5: Create new dict</span>
+scores = {"math": 90, "sci": 85}
+doubled = {k: v*2 for k, v in scores.items()}
+print(doubled)
+<span class="code-comment"># Output: {'math': 180, 'sci': 170}</span></pre>
+                </div>
+            </div>
+
+            <h4>Set Iteration</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>nums = {2, 4, 6, 8}
+
+<span class="code-comment"># Example 1: Print each (order may vary)</span>
+for n in nums:
+    print(n)
+
+<span class="code-comment"># Example 2: Square each</span>
+for n in nums:
+    print(n**2)
+
+<span class="code-comment"># Example 3: Filter</span>
+for n in nums:
+    if n > 4:
+        print(n)
+
+<span class="code-comment"># Example 4: Set comprehension</span>
+doubled = {n*2 for n in nums}
+print(doubled)
+
+<span class="code-comment"># Example 5: Convert to list</span>
+sorted_nums = sorted(list(nums))
+print(sorted_nums)</pre>
+                </div>
+            </div>
+
+            <h3>6. List Comprehension</h3>
+            <p><strong>Concept:</strong> A compact way to create new lists by applying expressions in a loop.</p>
+
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Example 1: Square numbers</span>
+numbers = [1, 2, 3, 4]
+squares = [n**2 for n in numbers]
+print(squares)
+<span class="code-comment"># Output: [1, 4, 9, 16]</span>
+
+<span class="code-comment"># Example 2: Double values</span>
+doubled = [n*2 for n in numbers]
+print(doubled)
+<span class="code-comment"># Output: [2, 4, 6, 8]</span>
+
+<span class="code-comment"># Example 3: Filter evens</span>
+evens = [n for n in range(10) if n % 2 == 0]
+print(evens)
+<span class="code-comment"># Output: [0, 2, 4, 6, 8]</span>
+
+<span class="code-comment"># Example 4: Uppercase strings</span>
+words = ["hello", "world"]
+upper = [w.upper() for w in words]
+print(upper)
+<span class="code-comment"># Output: ['HELLO', 'WORLD']</span>
+
+<span class="code-comment"># Example 5: Conditional expression</span>
+labels = ["even" if n%2==0 else "odd" for n in range(5)]
+print(labels)
+<span class="code-comment"># Output: ['even', 'odd', 'even', 'odd', 'even']</span></pre>
+                </div>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 For Loop Summary</h4>
+                <ul>
+                    <li><code>range()</code> → generates number sequences</li>
+                    <li><code>in</code> → iterates over sequences directly</li>
+                    <li><code>enumerate()</code> → gives index + value</li>
+                    <li><code>zip()</code> → iterates multiple sequences in parallel</li>
+                    <li><strong>list</strong> → ordered, mutable collection</li>
+                    <li><strong>tuple</strong> → ordered, immutable collection</li>
+                    <li><strong>dict</strong> → key-value pairs (.items(), .keys(), .values())</li>
+                    <li><strong>set</strong> → unordered unique elements</li>
+                    <li><strong>comprehension</strong> → one-liner to build lists</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 4: While Loop Deep Dive -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🔃</div>
+                <h2>While Loop - Complete Guide</h2>
+            </div>
+
+            <div class="badge-container">
+                <span class="badge badge-cyan">Condition-Based</span>
+                <span class="badge badge-blue">Unknown Iterations</span>
+                <span class="badge badge-orange">User Input</span>
+            </div>
+
+            <h3>What is a While Loop?</h3>
+            <p>A <strong>while loop</strong> repeatedly executes a block of code as long as a given condition remains <code>True</code>. When the condition becomes <code>False</code>, the loop stops automatically. It's most useful when the number of iterations is not known in advance.</p>
+
+            <h3>Syntax and Flow</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">SYNTAX</span>
+                    <pre>while condition:
+    # block of code
+    # update condition variable</pre>
+                </div>
+            </div>
+
+            <div class="flowchart">
+                <div class="flowchart-title">🔄 While Loop Flow</div>
+                <div class="flow-box">Test Condition</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-cyan);">If True → Execute Body</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-green);">Update Variable</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box">Check Again</div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-box" style="background: var(--accent-red);">If False → Exit Loop</div>
+            </div>
+
+            <h3>While Loop Examples</h3>
+
+            <h4>Case 1: Countdown (Basic Control Loop)</h4>
+            <p><strong>Concept:</strong> Decrement a number each time until it reaches 0.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>count = 5
+while count > 0:
+    print(count)
+    count -= 1
+print("Blast off!")
+
+<span class="code-comment"># Output:
+# 5
+# 4
+# 3
+# 2
+# 1
+# Blast off!</span></pre>
+                </div>
+            </div>
+
+            <h4>Case 2: User Input Until Quit</h4>
+            <p><strong>Concept:</strong> Keep asking for input repeatedly until the user types a specific keyword.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>word = ""
+while word != "quit":
+    word = input("Enter a word (quit to exit): ")
+    if word != "quit":
+        print(f"You typed: {word}")
+print("Goodbye!")
+
+<span class="code-comment"># Sample interaction:
+# Enter a word (quit to exit): hello
+# You typed: hello
+# Enter a word (quit to exit): python
+# You typed: python
+# Enter a word (quit to exit): quit
+# Goodbye!</span></pre>
+                </div>
+            </div>
+
+            <h4>Case 3: Sum Until Threshold</h4>
+            <p><strong>Concept:</strong> Continuously add numbers until a target value is reached.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>total = 0
+i = 1
+while total < 50:
+    total += i
+    print(f"Added {i}, total now: {total}")
+    i += 1
+print(f"Final total: {total}")
+
+<span class="code-comment"># Output:
+# Added 1, total now: 1
+# Added 2, total now: 3
+# Added 3, total now: 6
+# ...
+# Added 10, total now: 55
+# Final total: 55</span></pre>
+                </div>
+            </div>
+
+            <h4>Case 4: Searching in a List</h4>
+            <p><strong>Concept:</strong> Use while loop to find an element.</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>nums = [10, 20, 30, 40, 50]
+target = 30
+i = 0
+
+while i < len(nums) and nums[i] != target:
+    i += 1
+
+if i < len(nums):
+    print(f"Found {target} at index: {i}")
+else:
+    print(f"{target} not found")
+
+<span class="code-comment"># Output: Found 30 at index: 2</span></pre>
+                </div>
+            </div>
+
+            <h4>Case 5: Menu-Driven Program</h4>
+            <p><strong>Concept:</strong> Keep showing options until user selects "exit".</p>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>def show_menu():
+    print("\n=== Menu ===")
+    print("1. Add")
+    print("2. View")
+    print("3. Delete")
+    print("4. Exit")
+
+choice = ""
+while choice != "4":
+    show_menu()
+    choice = input("Enter choice: ")
+    
+    if choice == "1":
+        print("Adding item...")
+    elif choice == "2":
+        print("Viewing items...")
+    elif choice == "3":
+        print("Deleting item...")
+    elif choice == "4":
+        print("Exiting program...")
+    else:
+        print("Invalid choice!")
+
+<span class="code-comment"># Interactive menu system</span></pre>
+                </div>
+            </div>
+
+            <h3>Advanced While Loop Patterns</h3>
+
+            <h4>1. Infinite Loop with break</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># while True creates endless loop</span>
+while True:
+    word = input("Type 'stop' to exit: ")
+    if word == "stop":
+        break
+    print(f"You typed: {word}")
+print("Loop exited!")</pre>
+                </div>
+            </div>
+
+            <h4>2. Loop with continue</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Skip even numbers</span>
+n = 0
+while n < 10:
+    n += 1
+    if n % 2 == 0:
+        continue
+    print(n)
+
+<span class="code-comment"># Output: 1 3 5 7 9</span></pre>
+                </div>
+            </div>
+
+            <h4>3. Nested While Loop</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>i = 1
+while i <= 3:
+    j = 1
+    while j <= 2:
+        print(f"i={i}, j={j}")
+        j += 1
+    i += 1
+
+<span class="code-comment"># Output:
+# i=1, j=1
+# i=1, j=2
+# i=2, j=1
+# i=2, j=2
+# i=3, j=1
+# i=3, j=2</span></pre>
+                </div>
+            </div>
+
+            <h4>4. Data Validation</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Keep asking until valid input</span>
+num = -1
+while num < 0:
+    num = int(input("Enter positive number: "))
+    if num < 0:
+        print("❌ Must be positive!")
+print(f"✓ You entered: {num}")</pre>
+                </div>
+            </div>
+
+            <h4>5. Loop with else</h4>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># else executes when condition becomes False</span>
+n = 3
+while n > 0:
+    print(n)
+    n -= 1
+else:
+    print("Loop ended normally")
+
+<span class="code-comment"># Output:
+# 3
+# 2
+# 1
+# Loop ended normally</span></pre>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">
+                    <span>⚠️</span>
+                    <span>Common Mistakes</span>
+                </div>
+                <ul>
+                    <li><strong>Infinite loops:</strong> Forgetting to update the variable</li>
+                    <li><strong>Wrong condition:</strong> Condition never becomes False</li>
+                    <li><strong>Off-by-one:</strong> Incorrect initialization or update</li>
+                    <li><strong>Misplaced break:</strong> Breaking at wrong point</li>
+                </ul>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 While Loop Best Practices</h4>
+                <ul>
+                    <li>Always ensure condition will eventually become False</li>
+                    <li>Use <code>break</code> carefully to exit loops early</li>
+                    <li>Prefer For Loops if iterations are known</li>
+                    <li>Use While Loops for user input, conditions, or indefinite processes</li>
+                    <li>Test for infinite loops before deployment</li>
+                </ul>
+            </div>
+
+            <h3>When to Use While Loop</h3>
+            <div class="comparison-grid">
+                <div class="comparison-item while-loop-style">
+                    <h4>✅ Use While When</h4>
+                    <p>• Continuous user input</p>
+                    <p>• Unknown iteration count</p>
+                    <p>• Condition-based repetition</p>
+                    <p>• Menu-driven programs</p>
+                    <p>• Data validation loops</p>
+                    <p>• Background monitoring</p>
+                </div>
+
+                <div class="comparison-item for-loop-style">
+                    <h4>❌ Avoid While When</h4>
+                    <p>• Iterating over collections</p>
+                    <p>• Known number of iterations</p>
+                    <p>• Processing sequences</p>
+                    <p>• Simple counting loops</p>
+                    <p>• Use For Loop instead!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Practical Examples -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Real-World Loop Examples</h2>
+            </div>
+
+            <h3>Example 1: Password Validator</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>max_attempts = 3
+attempts = 0
+
+while attempts < max_attempts:
+    password = input("Enter password: ")
+    
+    <span class="code-comment"># Check password criteria</span>
+    if len(password) < 8:
+        print("❌ Too short (min 8 characters)")
+    elif not any(c.isdigit() for c in password):
+        print("❌ Must contain a number")
+    elif not any(c.isupper() for c in password):
+        print("❌ Must contain uppercase")
+    else:
+        print("✓ Password accepted!")
+        break
+    
+    attempts += 1
+    remaining = max_attempts - attempts
+    if remaining > 0:
+        print(f"Attempts remaining: {remaining}\n")
+else:
+    print("❌ Maximum attempts reached!")</pre>
+                </div>
+            </div>
+
+            <h3>Example 2: Student Grade Processor</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>students = ["Alice", "Bob", "Charlie", "Diana"]
+scores = [92, 78, 85, 95]
+
+<span class="code-comment"># Using zip and enumerate together</span>
+for rank, (name, score) in enumerate(zip(students, scores), 1):
+    if score >= 90:
+        grade = "A"
+    elif score >= 80:
+        grade = "B"
+    elif score >= 70:
+        grade = "C"
+    else:
+        grade = "F"
+    
+    print(f"{rank}. {name}: {score} ({grade})")
+
+<span class="code-comment"># Calculate statistics</span>
+average = sum(scores) / len(scores)
+print(f"\nClass Average: {average:.2f}")
+print(f"Highest Score: {max(scores)}")
+print(f"Lowest Score: {min(scores)}")</pre>
+                </div>
+            </div>
+
+            <h3>Example 3: Shopping Cart System</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>cart = []
+
+while True:
+    print("\n=== Shopping Cart ===")
+    print("1. Add item")
+    print("2. View cart")
+    print("3. Remove item")
+    print("4. Checkout")
+    
+    choice = input("Choice: ")
+    
+    if choice == "1":
+        item = input("Item name: ")
+        price = float(input("Price: "))
+        cart.append({"name": item, "price": price})
+        print(f"✓ Added {item}")
+    
+    elif choice == "2":
+        if not cart:
+            print("Cart is empty")
+        else:
+            print("\nYour Cart:")
+            for i, item in enumerate(cart, 1):
+                print(f"{i}. {item['name']}: ${item['price']:.2f}")
+    
+    elif choice == "3":
+        if cart:
+            for i, item in enumerate(cart, 1):
+                print(f"{i}. {item['name']}")
+            idx = int(input("Remove item #: ")) - 1
+            removed = cart.pop(idx)
+            print(f"✓ Removed {removed['name']}")
+    
+    elif choice == "4":
+        total = sum(item['price'] for item in cart)
+        print(f"\nTotal: ${total:.2f}")
+        print("Thank you for shopping!")
+        break
+    
+    else:
+        print("Invalid choice!")</pre>
+                </div>
+            </div>
+
+            <h3>Example 4: Fibonacci Sequence Generator</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre><span class="code-comment"># Generate Fibonacci numbers until limit</span>
+limit = 100
+a, b = 0, 1
+fibonacci = []
+
+while a <= limit:
+    fibonacci.append(a)
+    a, b = b, a + b
+
+print("Fibonacci sequence up to", limit)
+print(fibonacci)
+
+<span class="code-comment"># Output: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]</span>
+
+<span class="code-comment"># Using for loop alternative</span>
+fib = [0, 1]
+for i in range(10):
+    fib.append(fib[-1] + fib[-2])
+print("First 12 Fibonacci:", fib)</pre>
+                </div>
+            </div>
+
+            <h3>Example 5: Prime Number Finder</h3>
+            <div class="code-container">
+                <div class="code-block">
+                    <span class="code-label">PYTHON</span>
+                    <pre>def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+<span class="code-comment"># Find all primes up to 50</span>
+primes = []
+for num in range(2, 51):
+    if is_prime(num):
+        primes.append(num)
+
+print("Prime numbers up to 50:")
+print(primes)
+
+<span class="code-comment"># Using list comprehension</span>
+primes_compact = [n for n in range(2, 51) if is_prime(n)]
+print("\nUsing comprehension:", primes_compact)</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Practice Exercises -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">💪</div>
+                <h2>Practice Exercises</h2>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 1: Multiplication Table</h4>
+                <p>Write a program using for loop to print the multiplication table of a number (1-10). Example: For 5, print 5×1=5, 5×2=10, ... 5×10=50</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 2: Pattern Printing</h4>
+                <p>Use nested for loops to print this pattern:</p>
+                <pre style="background: rgba(45, 55, 72, 0.5); padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">*
+**
+***
+****
+*****</pre>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 3: Sum of Digits</h4>
+                <p>Write a while loop that takes a number and calculates the sum of its digits. Example: 1234 → 1+2+3+4 = 10</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 4: List Filtering</h4>
+                <p>Given a list of numbers, use a for loop with enumerate() to create a new list containing only even numbers along with their original indices.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 5: ATM Simulator</h4>
+                <p>Create an ATM program using while loop with menu options: Check Balance, Deposit, Withdraw, Exit. Keep looping until user selects Exit.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 6: Dictionary Processing</h4>
+                <p>Create a dictionary of products and prices. Use for loop with .items() to: 1) Display all items, 2) Calculate total value, 3) Find most expensive item.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 7: Guess the Number</h4>
+                <p>Implement a number guessing game using while loop. Generate random number 1-100, let user guess, give hints (higher/lower), count attempts.</p>
+            </div>
+
+            <div class="practice-card">
+                <h4>Exercise 8: Data Cleaning</h4>
+                <p>Given a list with numbers and None values, use list comprehension to create a clean list with only valid numbers doubled.</p>
+            </div>
+        </div>
+
+        <!-- Section 7: Summary -->
+        <div class="section-card">
+            <div class="section-header">
+                <div class="section-icon">🎓</div>
+                <h2>Complete Summary</h2>
+            </div>
+
+            <div class="key-points">
+                <h4>🎯 For Loop Essentials</h4>
+                <ul>
+                    <li><strong>range()</strong> → Generate number sequences (start, stop, step)</li>
+                    <li><strong>in</strong> → Direct iteration over sequences</li>
+                    <li><strong>enumerate()</strong> → Get both index and value</li>
+                    <li><strong>zip()</strong> → Iterate multiple sequences together</li>
+                    <li><strong>Collections:</strong> Lists, tuples, dicts, sets</li>
+                    <li><strong>Comprehensions:</strong> One-line list creation</li>
+                    <li><strong>Use when:</strong> Number of iterations is known</li>
+                </ul>
+            </div>
+
+            <div class="key-points" style="border-color: var(--accent-cyan);">
+                <h4 style="color: var(--accent-cyan);">🎯 While Loop Essentials</h4>
+                <ul>
+                    <li><strong>Condition-based:</strong> Repeats while condition is True</li>
+                    <li><strong>Manual control:</strong> Must update loop variable</li>
+                    <li><strong>Flexible:</strong> Unknown number of iterations</li>
+                    <li><strong>break:</strong> Exit loop early</li>
+                    <li><strong>continue:</strong> Skip current iteration</li>
+                    <li><strong>else:</strong> Executes after normal completion</li>
+                    <li><strong>Use when:</strong> Iterations depend on conditions</li>
+                </ul>
+            </div>
+
+            <h3>Quick Comparison</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>For Loop</th>
+                        <th>While Loop</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Syntax</strong></td>
+                        <td><code>for item in sequence:</code></td>
+                        <td><code>while condition:</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Sequences, collections</td>
+                        <td>Conditions, user input</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Iterations</strong></td>
+                        <td>Fixed/Known</td>
+                        <td>Unknown/Variable</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control</strong></td>
+                        <td>Automatic</td>
+                        <td>Manual update needed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Risk</strong></td>
+                        <td>Low (finite)</td>
+                        <td>Higher (can be infinite)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Common Use</strong></td>
+                        <td>Data processing</td>
+                        <td>Interactive programs</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="interview-tip">
+                <div class="interview-tip-header">Final Interview Tips</div>
+                <ul>
+                    <li><strong>Loop Choice:</strong> Always prefer for loop when possible (more Pythonic)</li>
+                    <li><strong>Enumerate:</strong> Use instead of range(len(list)) for cleaner code</li>
+                    <li><strong>Zip:</strong> Perfect for parallel iteration of multiple sequences</li>
+                    <li><strong>Comprehensions:</strong> More efficient than traditional loops</li>
+                    <li><strong>While risks:</strong> Always ensure termination condition</li>
+                    <li><strong>Break/Continue:</strong> Know when and how to control loop flow</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <div class="success-box-header">
+                    <span>✅</span>
+                    <span>Master Loops, Master Python!</span>
+                </div>
+                <p>Loops are fundamental to programming. Master both for and while loops to write efficient, clean, and Pythonic code. Practice with real-world examples to build strong programming fundamentals!</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; font-size: 1.15rem; color: var(--secondary-purple); font-weight: 600;">Keep practicing loops — they're the backbone of programming! 🚀</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-emoji">🐍</div>
+        <p><strong>Python Loops — Complete Classroom Notes</strong></p>
+        <p>Mastering For & While Loops in Python</p>
+        <p style="margin-top: 1rem;">© 2025 Python Education | Professional Training Materials</p>
+    </footer>
+</body>
+</html>

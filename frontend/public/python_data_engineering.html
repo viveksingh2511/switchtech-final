@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python for Data Engineering – Analysis and Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #3776ab 0%, #ffd43b 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.05) 10px,
+                rgba(255,255,255,0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .python-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .intro-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            border-left: 5px solid #3776ab;
+        }
+        
+        h2 {
+            color: #3776ab;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ffd43b;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2::before {
+            content: '🐍';
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+        
+        h3 {
+            color: #5a67d8;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        h3::before {
+            content: '▶';
+            margin-right: 10px;
+            color: #ffd43b;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+        
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .module-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #3776ab;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .module-card h4 {
+            color: #3776ab;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        .topics-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .topics-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .topics-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .topics-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 5px;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .topics-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .pros, .cons {
+            padding: 25px;
+            border-radius: 10px;
+        }
+        
+        .pros {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border-left: 5px solid #4caf50;
+        }
+        
+        .cons {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-left: 5px solid #f39c12;
+        }
+        
+        .pros h3, .cons h3 {
+            margin-top: 0;
+        }
+        
+        .pros ul, .cons ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .pros li::before {
+            content: '👍 ';
+            margin-right: 8px;
+        }
+        
+        .cons li::before {
+            content: '⚠️ ';
+            margin-right: 8px;
+        }
+        
+        .installation-steps {
+            background: #fff3cd;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .installation-steps ol {
+            padding-left: 25px;
+        }
+        
+        .installation-steps li {
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        
+        .ide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .ide-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .ide-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .ide-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .workflow-diagram {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .workflow-step {
+            background: linear-gradient(135deg, #3776ab 0%, #5a67d8 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #3776ab;
+            margin: 0 10px;
+        }
+        
+        .contact-cta {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        
+        .contact-cta h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .contact-cta::before {
+            content: '📧';
+            font-size: 3em;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .workflow-steps {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="python-logo">
+                <svg viewBox="0 0 256 255" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient1" x1="12.959%" y1="12.039%" x2="79.639%" y2="78.201%">
+                            <stop offset="0%" style="stop-color:#387EB8"/>
+                            <stop offset="100%" style="stop-color:#366994"/>
+                        </linearGradient>
+                        <linearGradient id="logoGradient2" x1="19.128%" y1="20.579%" x2="90.742%" y2="88.429%">
+                            <stop offset="0%" style="stop-color:#FFE052"/>
+                            <stop offset="100%" style="stop-color:#FFC331"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M126.916.072c-64.832 0-60.784 28.115-60.784 28.115l.072 29.128h61.868v8.745H41.631S.145 61.355.145 126.77c0 65.417 36.21 63.097 36.21 63.097h21.61v-30.356s-1.165-36.21 35.632-36.21h61.362s34.475.557 34.475-33.319V33.97S194.67.072 126.916.072zM92.802 19.66a11.12 11.12 0 0 1 11.13 11.13 11.12 11.12 0 0 1-11.13 11.13 11.12 11.12 0 0 1-11.13-11.13 11.12 11.12 0 0 1 11.13-11.13z" fill="url(#logoGradient1)"/>
+                    <path d="M128.757 254.126c64.832 0 60.784-28.115 60.784-28.115l-.072-29.127H127.6v-8.745h86.441s41.486 4.705 41.486-60.712c0-65.416-36.21-63.096-36.21-63.096h-21.61v30.355s1.165 36.21-35.632 36.21h-61.362s-34.475-.557-34.475 33.32v56.013s-5.235 33.897 62.518 33.897zm34.114-19.586a11.12 11.12 0 0 1-11.13-11.13 11.12 11.12 0 0 1 11.13-11.131 11.12 11.12 0 0 1 11.13 11.13 11.12 11.12 0 0 1-11.13 11.13z" fill="url(#logoGradient2)"/>
+                </svg>
+            </div>
+            <h1>Python for Data Engineering</h1>
+            <p class="subtitle">Analysis and Development</p>
+        </header>
+
+        <div class="content">
+            <div class="intro-section">
+                <h2>Introduction to Python</h2>
+                <p>Python is a powerful yet beginner-friendly programming language that bridges the gap between human thought and machine execution. Its clean and readable syntax makes it ideal for both aspiring programmers and professionals. Python is used everywhere — from web development and data science to machine learning, automation, and AI-driven analytics.</p>
+                <p>In the world of data engineering, Python acts as a glue connecting systems, APIs, and databases. With libraries like Pandas, NumPy, and PySpark, it simplifies complex data transformations and ETL workflows. Whether you are analyzing data, developing applications, or building scalable pipelines, Python remains the backbone of modern analytics and automation.</p>
+            </div>
+
+            <h2>Topics Covered in Python</h2>
+            <div class="topics-list">
+                <ul>
+                    <li><strong>Basics:</strong> Variables, Data Types, Operators, Input/Output</li>
+                    <li><strong>Control Structures:</strong> if, for, while, break, continue</li>
+                    <li><strong>Functions & Modules</strong></li>
+                    <li><strong>Data Structures:</strong> Lists, Tuples, Sets, Dictionaries</li>
+                    <li><strong>File Handling and Exception Management</strong></li>
+                    <li><strong>Object-Oriented Programming (OOP)</strong></li>
+                    <li><strong>Libraries for Data Engineering:</strong> Pandas, NumPy, PySpark</li>
+                    <li><strong>API Integration and Automation</strong></li>
+                    <li><strong>Database Connectivity:</strong> MySQL, Snowflake, PostgreSQL</li>
+                    <li><strong>Real-time ETL & Workflow Automation</strong></li>
+                </ul>
+            </div>
+
+            <div class="workflow-diagram">
+                <h3 style="color: #3776ab; border: none;">Python in Data Engineering Workflow</h3>
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div style="font-size: 2em;">📥</div>
+                        <div><strong>Data Ingestion</strong></div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="workflow-step">
+                        <div style="font-size: 2em;">⚙️</div>
+                        <div><strong>Transform</strong></div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="workflow-step">
+                        <div style="font-size: 2em;">🔄</div>
+                        <div><strong>Automate</strong></div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="workflow-step">
+                        <div style="font-size: 2em;">💾</div>
+                        <div><strong>Load & Query</strong></div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #666;">Use Python to automate data ingestion, write transformation logic with Pandas/PySpark, manage workflows with Airflow, and connect to databases using SQL</p>
+            </div>
+
+            <h2>Course Modules Overview</h2>
+            <div class="module-grid">
+                <div class="module-card">
+                    <h4>Module 1: Introduction to Python</h4>
+                    <p>Learn Python's history, features, and why it's preferred for data engineering. Set up your environment and write efficient scripts.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 2: Variables</h4>
+                    <p>Master variable creation, assignment, and manipulation. Understand naming conventions and dynamic typing for ETL operations.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 3: Data Types</h4>
+                    <p>Explore built-in types: integers, floats, strings, lists, tuples, sets, and dictionaries. Learn type conversions for data transformation.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 4: Strings</h4>
+                    <p>Master string operations, slicing, and formatting. Essential for text data cleaning and processing in data pipelines.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 5: Conditional Statements</h4>
+                    <p>Learn decision-making with if, elif, and else. Vital for data validation, filtering, and automation scripts.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 6 & 6.1: Lists & Advanced Operations</h4>
+                    <p>Handle sequences efficiently. Master list comprehension and nested lists for ETL transformations.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 7: Loops (for & while)</h4>
+                    <p>Automate repetitive tasks. Iterate over data collections and optimize performance in large-scale transformations.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 7.2: Break, Continue, Pass</h4>
+                    <p>Control loop execution effectively. Handle complex validation logic and error flows in automation scripts.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 7.3: Shallow vs Deep Copy</h4>
+                    <p>Understand copy mechanics to avoid data reference issues with mutable objects during ETL transformations.</p>
+                </div>
+                <div class="module-card">
+                    <h4>Module 10: Functions</h4>
+                    <p>Create modular, reusable code. Structure data engineering scripts and build reusable transformation logic.</p>
+                </div>
+            </div>
+
+            <h2>What Makes Python Special</h2>
+            <p>Python stands apart because of its simplicity and flexibility. Unlike verbose languages such as Java or C++, Python code reads like plain English. It reduces development time and improves productivity. Python's dynamic typing, vast library ecosystem, and strong community make it suitable for nearly every domain — from AI to automation.</p>
+            <p>Its ability to integrate seamlessly with other languages (like Java, C, and SQL) and platforms enhances its versatility. The fact that top companies like Google, Netflix, and NASA rely on Python is proof of its robustness and scalability.</p>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>Advantages of Python</h3>
+                    <ul>
+                        <li><strong>Readable and Concise:</strong> Code looks almost like natural language</li>
+                        <li><strong>Open Source:</strong> Completely free with community-driven enhancements</li>
+                        <li><strong>Cross-Platform:</strong> Works on Windows, macOS, and Linux</li>
+                        <li><strong>Extensive Libraries:</strong> Built-in and external libraries for analytics, AI, and data processing</li>
+                        <li><strong>Integration Friendly:</strong> Connects easily with databases, APIs, and cloud platforms</li>
+                        <li><strong>Strong Community Support:</strong> Millions of contributors and ready solutions online</li>
+                        <li><strong>Fast Prototyping:</strong> Ideal for startups and research-driven projects</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>Disadvantages of Python</h3>
+                    <ul>
+                        <li><strong>Slower Execution:</strong> Interpreted nature makes it slower than compiled languages</li>
+                        <li><strong>High Memory Consumption:</strong> Can impact large-scale systems</li>
+                        <li><strong>Limited Mobile Support:</strong> Not ideal for mobile app development</li>
+                        <li><strong>GIL Restriction:</strong> Multi-threading limited by Global Interpreter Lock</li>
+                        <li><strong>Runtime Errors:</strong> Dynamic typing can lead to bugs if not carefully managed</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><em>Note: For data engineering, automation, and AI, Python's benefits far outweigh these drawbacks, making it a top-choice language globally.</em></p>
+                </div>
+            </div>
+
+            <h2>Python Installation Guide</h2>
+            <div class="installation-steps">
+                <ol>
+                    <li><strong>Download:</strong> Visit python.org/downloads and choose the latest version for your OS</li>
+                    <li><strong>Run Installer:</strong> Double-click the setup file</li>
+                    <li><strong>Select 'Add Python to PATH':</strong> Crucial step for running Python from the terminal</li>
+                    <li><strong>Choose Installation Type:</strong> Install Now (Quick) or Customize Installation (Advanced)</li>
+                    <li><strong>Wait for Setup Completion</strong></li>
+                    <li><strong>Verify Installation:</strong> Open Command Prompt → type <code>python --version</code></li>
+                    <li><strong>Test in IDLE:</strong> Type <code>print('Hello, Python!')</code></li>
+                </ol>
+            </div>
+
+            <h2>Popular IDEs for Python</h2>
+            <div class="ide-grid">
+                <div class="ide-card">
+                    <h4>IDLE</h4>
+                    <p>Pre-installed with Python. Simple and perfect for beginners.</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><strong>Install:</strong> Comes with Python</p>
+                </div>
+                <div class="ide-card">
+                    <h4>PyCharm</h4>
+                    <p>Professional IDE for large projects with advanced features.</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><strong>Install:</strong> Download from jetbrains.com/pycharm</p>
+                </div>
+                <div class="ide-card">
+                    <h4>Visual Studio Code</h4>
+                    <p>Lightweight yet powerful with extensive extensions.</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><strong>Install:</strong> code.visualstudio.com + Python extension</p>
+                </div>
+                <div class="ide-card">
+                    <h4>Jupyter Notebook</h4>
+                    <p>Ideal for data analysis, visualization, and interactive coding.</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><strong>Install:</strong> Via Anaconda or pip install jupyter</p>
+                </div>
+                <div class="ide-card">
+                    <h4>Spyder</h4>
+                    <p>Great for scientific computing and data science.</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><strong>Install:</strong> pip install spyder or via Anaconda</p>
+                </div>
+                <div class="ide-card">
+                    <h4>Anaconda Navigator</h4>
+                    <p>Manages environments, packages, and multiple tools in one place.</p>
+                    <p style="font-size: 0.9em; margin-top: 10px;"><strong>Install:</strong> Download from anaconda.com</p>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h3>Want Complete Course Information?</h3>
+                <p style="font-size: 1.2em; margin-top: 10px;">Contact us to learn about all the detailed areas covered in this comprehensive Python for Data Engineering course!</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Python for Data Engineering Course | Empowering Future Data Engineers</p>
+        </footer>
+    </div>
+</body>
+</html>
